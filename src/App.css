@@ -38,6 +38,9 @@
     --bloom-x: 20%;
     --bloom-y: 25%;
   }
+
+  .ambient-bloom-glow        { opacity: 0.22; }
+  .dark .ambient-bloom-glow  { opacity: 0.18; }
 }
 
 /* ─── Skip link ───────────────────────────────────────── */
