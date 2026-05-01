@@ -10,6 +10,7 @@ const SECTION_COLORS: Record<string, string> = {
 
 function useSectionColor() {
   const ratios = useRef<Map<string, number>>(new Map())
+  const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,6 +33,7 @@ function useSectionColor() {
           '--accent',
           active === 'hero' ? 'var(--accent-neutral)' : SECTION_COLORS[active]
         )
+        setActiveSection(active)
       },
       { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
     )
@@ -39,6 +41,8 @@ function useSectionColor() {
     document.querySelectorAll('[data-section]').forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
+
+  return activeSection
 }
 
 function useParallax() {
@@ -95,6 +99,8 @@ function useBloomFollow() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    const hoverMq = window.matchMedia('(hover: none)')
+
     let targetX = 0.65
     let targetY = 0.36
     let currentX = 0.65
@@ -116,12 +122,27 @@ function useBloomFollow() {
       rafId = requestAnimationFrame(tick)
     }
 
-    rafId = requestAnimationFrame(tick)
-    window.addEventListener('mousemove', onMouseMove, { passive: true })
+    const start = () => {
+      rafId = requestAnimationFrame(tick)
+      window.addEventListener('mousemove', onMouseMove, { passive: true })
+    }
 
-    return () => {
+    const stop = () => {
       cancelAnimationFrame(rafId)
       window.removeEventListener('mousemove', onMouseMove)
+    }
+
+    const onHoverChange = (e: MediaQueryListEvent) => {
+      e.matches ? stop() : start()
+    }
+
+    if (!hoverMq.matches) start()
+
+    hoverMq.addEventListener('change', onHoverChange)
+
+    return () => {
+      stop()
+      hoverMq.removeEventListener('change', onHoverChange)
     }
   }, [])
 }
@@ -198,7 +219,7 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false)
   const [toggleAnim, setToggleAnim] = useState(false)
 
-  useSectionColor()
+  const activeSection = useSectionColor()
   useScrollReveal()
   useParallax()
   useBloomFollow()
@@ -231,14 +252,25 @@ export default function App() {
         <div className="ambient-bloom-glow" />
       </div>
 
+      <a href="#about" className="skip-link">Skip to content</a>
+
       <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
-        <span className="nav-logo">CC</span>
+        <a href="#" className="nav-logo" aria-label="Back to top">CC</a>
+        <nav className="nav-links" aria-label="Page sections">
+          {(['about', 'experience', 'skills', 'contact'] as const).map((s) => (
+            <a key={s} href={`#${s}`} className={`nav-link${activeSection === s ? ' is-active' : ''}`}>
+              {s}
+            </a>
+          ))}
+        </nav>
         <button
-          className={`theme-toggle${toggleAnim ? ' is-spinning' : ''}`}
+          className="theme-toggle"
           onClick={handleThemeToggle}
           aria-label="Toggle dark mode"
         >
-          {dark ? '○' : '●'}
+          <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">
+            ●
+          </span>
         </button>
       </header>
 
@@ -285,7 +317,7 @@ export default function App() {
       </section>
 
       {/* ── About ── */}
-      <section data-section="about" className="section section-about">
+      <section id="about" data-section="about" className="section section-about">
         <div className="section-inner">
           <p className="section-label reveal">
             <span className="section-num">01</span>
@@ -320,7 +352,7 @@ export default function App() {
       </section>
 
       {/* ── Experience ── */}
-      <section data-section="experience" className="section section-experience">
+      <section id="experience" data-section="experience" className="section section-experience">
         <div className="section-inner">
           <p className="section-label reveal">
             <span className="section-num">02</span>
@@ -366,7 +398,7 @@ export default function App() {
       </section>
 
       {/* ── Skills ── */}
-      <section data-section="skills" className="section section-skills">
+      <section id="skills" data-section="skills" className="section section-skills">
         <div className="section-inner">
           <p className="section-label reveal">
             <span className="section-num">03</span>
@@ -405,7 +437,7 @@ export default function App() {
       </section>
 
       {/* ── Contact ── */}
-      <section data-section="contact" className="section section-contact">
+      <section id="contact" data-section="contact" className="section section-contact">
         <div className="section-inner">
           <p className="section-label reveal">
             <span className="section-num">04</span>
