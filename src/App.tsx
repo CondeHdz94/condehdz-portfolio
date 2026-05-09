@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useLenis } from './hooks/useLenis'
 import './App.css'
 
 const SECTION_COLORS: Record<string, string> = {
@@ -224,6 +226,7 @@ export default function App() {
   useParallax()
   useBloomFollow()
   useMobileScrollActive()
+  useLenis()
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
@@ -373,6 +376,7 @@ export default function App() {
                 period: '2018 – 2021',
                 tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium', 'COBOL'],
                 desc: 'Modernized a COBOL banking core from legacy 5250 green-screen interfaces to web using Fresche Solutions\' Presto. Built parametric document generation with JsPDF, digital signature integration with TOPAZ devices, and test automation with Python and Selenium.',
+                caseStudy: { href: '/case/presto', label: 'Presto — COBOL modernization' },
               },
               {
                 company: 'Sistel',
@@ -381,7 +385,7 @@ export default function App() {
                 tags: ['HTML5', 'CSS', 'Articulate', 'UX Design'],
                 desc: 'Designed and built interactive e-learning experiences in HTML5 and Articulate, combining interactivity, ludic design and andragogy to drive engagement across corporate training programs.',
               },
-            ].map(({ company, role, period, tags, desc }, i) => (
+            ].map(({ company, role, period, tags, desc, caseStudy }, i) => (
               <div key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
                 <span className="timeline-num">0{i + 1}</span>
                 <div className="timeline-header">
@@ -391,6 +395,12 @@ export default function App() {
                 <p className="timeline-role">{role}</p>
                 <p className="timeline-tags">{tags.join(' · ')}</p>
                 <p className="timeline-desc">{desc}</p>
+                {caseStudy && (
+                  <Link to={caseStudy.href} className="timeline-case-link">
+                    {caseStudy.label}
+                    <span className="timeline-case-arrow" aria-hidden="true">→</span>
+                  </Link>
+                )}
               </div>
             ))}
           </div>

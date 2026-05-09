@@ -509,6 +509,38 @@
   max-width: 65ch;
 }
 
+.timeline-case-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.timeline-case-arrow {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-item:hover .timeline-case-link {
+  color: var(--text);
+}
+
+.timeline-case-link:hover {
+  color: var(--accent);
+}
+
+.timeline-case-link:hover .timeline-case-arrow {
+  transform: translateX(4px);
+}
+
 /* ─── Skills ──────────────────────────────────────────── */
 
 .skills-stack {
@@ -614,10 +646,11 @@
 
 /* Only on elements that navigate or act — tap has a purpose */
 @media (hover: none) {
-  .hero-link:active    { color: var(--text-strong); border-color: var(--text-strong); }
-  .theme-toggle:active { color: var(--accent); border-color: var(--accent); }
-  .contact-link:active { color: var(--accent); border-color: var(--accent); }
-  .social-link:active  { color: var(--accent); }
+  .hero-link:active         { color: var(--text-strong); border-color: var(--text-strong); }
+  .theme-toggle:active      { color: var(--accent); border-color: var(--accent); }
+  .contact-link:active      { color: var(--accent); border-color: var(--accent); }
+  .social-link:active       { color: var(--accent); }
+  .timeline-case-link:active { color: var(--accent); }
 }
 
 /* Scroll-driven hover — mirrors desktop hover, triggered by scroll center */

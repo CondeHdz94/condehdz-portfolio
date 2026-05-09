@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-08T00:00:00Z",
+  "title": "Design System: Camilo Conde — Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "first-draft":      { "role": "neutral",   "displayName": "First Draft",      "canonical": "#FAFAF9", "tonalRamp": ["#1a1a18","#2e2e2b","#47463f","#625f57","#7d7a6f","#9b9789","#bab6ab","#d5d2cc","#FAFAF9"] },
+      "pale-parchment":   { "role": "neutral",   "displayName": "Pale Parchment",   "canonical": "#F2F0EB", "tonalRamp": ["#191815","#2d2b25","#464338","#605d4d","#7a7764","#97947e","#b6b2a0","#d3d0c5","#F2F0EB"] },
+      "stone-border":     { "role": "neutral",   "displayName": "Stone Border",     "canonical": "#E4E2DC", "tonalRamp": ["#161513","#292720","#3f3d33","#565347","#6e6b5c","#888475","#a5a292","#c2bfb0","#E4E2DC"] },
+      "worn-stone":       { "role": "neutral",   "displayName": "Worn Stone",       "canonical": "#736D67", "tonalRamp": ["#0f0e0d","#201e1b","#342f2c","#49433f","#5e5752","#736D67","#8e8780","#aaa49e","#cbc6bf"] },
+      "warm-slate":       { "role": "neutral",   "displayName": "Warm Slate",       "canonical": "#57534E", "tonalRamp": ["#0c0b0a","#1b1a17","#2b2924","#3c3933","#4c4843","#57534E","#726d66","#8e897f","#ada89e"] },
+      "obsidian-stone":   { "role": "neutral",   "displayName": "Obsidian Stone",   "canonical": "#1C1917", "tonalRamp": ["#1C1917","#2d2926","#413d38","#56514b","#6c6660","#837d75","#9e9890","#bab4ac","#d6d1ca"] },
+      "quiet-ash":        { "role": "neutral",   "displayName": "Quiet Ash",        "canonical": "#D4D0CA", "tonalRamp": ["#19180f","#2e2c22","#464338","#5e5b4e","#757264","#8e8b7b","#a9a596","#c3bfb2","#D4D0CA"] },
+      "amber-ember":      { "role": "primary",   "displayName": "Amber Ember",      "canonical": "#B45309", "tonalRamp": ["#1a0c01","#301601","#4d2202","#6b3003","#8a4005","#B45309","#d46b12","#e8922a","#f5b96a"] },
+      "conviction-blue":  { "role": "secondary", "displayName": "Conviction Blue",  "canonical": "#2563EB", "tonalRamp": ["#010a1a","#021230","#03214d","#05326e","#0d46a0","#2563EB","#4b82f4","#7da5f7","#b8cffb"] },
+      "growth-green":     { "role": "tertiary",  "displayName": "Growth Green",     "canonical": "#15803D", "tonalRamp": ["#011008","#02200f","#033318","#054d22","#0a6830","#15803D","#1ea850","#28d165","#6ee89b"] },
+      "electric-violet":  { "role": "tertiary",  "displayName": "Electric Violet",  "canonical": "#9333EA", "tonalRamp": ["#0f0118","#1d0330","#2e064f","#420b72","#61189e","#9333EA","#aa5cf0","#c28af5","#dbbefa"] }
+    },
+    "typographyMeta": {
+      "display":  { "displayName": "Display",   "purpose": "Hero name only. The single largest element on any page." },
+      "headline": { "displayName": "Headline",  "purpose": "Section entry headlines and contact CTA." },
+      "title":    { "displayName": "Title",     "purpose": "Company names, card titles, subheadings." },
+      "body":     { "displayName": "Body",      "purpose": "Prose. Max 65ch." },
+      "label":    { "displayName": "Label",     "purpose": "Section numbers, eyebrows, nav links, role titles. Always uppercase." }
+    },
+    "shadows": [
+      { "name": "panel-lift",    "value": "0 30px 80px -20px rgba(28,25,23,0.35)",  "purpose": "Case study register only. Floating animation panels." },
+      { "name": "panel-border",  "value": "0 0 0 1px #1a2818",                      "purpose": "Case study register only. Terminal panel edge on dark backgrounds." },
+      { "name": "modern-panel",  "value": "0 30px 80px -30px rgba(28,25,23,0.18)",  "purpose": "Case study register only. Web-modernized panels, lighter lift." },
+      { "name": "phosphor-glow", "value": "0 0 6px rgba(74,222,128,0.85), 0 0 14px rgba(74,222,128,0.45), 0 0 28px rgba(74,222,128,0.18)", "purpose": "Case study register only. CRT terminal phosphor text radiation." }
+    ],
+    "motion": [
+      { "name": "ease-standard",  "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Every transition in the system. One curve, no exceptions." },
+      { "name": "duration-state", "value": "400ms",  "purpose": "Hover, color, border transitions." },
+      { "name": "duration-reveal","value": "700ms",  "purpose": "Scroll reveal animations." },
+      { "name": "duration-hero",  "value": "900ms",  "purpose": "Hero name entrance." },
+      { "name": "duration-fast",  "value": "350ms",  "purpose": "Transform on hover (timeline company name)." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "768px", "purpose": "Nav collapses, section padding reduces, about-grid goes single column." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Skill Tag",
+      "kind": "chip",
+      "refersTo": "skill-tag",
+      "description": "Pill-shaped label for skills. Border only, no fill. Accent on hover.",
+      "html": "<span class=\"ds-skill-tag\">TypeScript</span>",
+      "css": ".ds-skill-tag { display: inline-block; font-family: 'Epilogue', system-ui, sans-serif; font-size: 0.75rem; font-weight: 400; color: #57534E; padding: 8px 16px 6px; border: 1px solid #E4E2DC; border-radius: 100px; line-height: 1; transition: border-color 300ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms cubic-bezier(0.16, 1, 0.3, 1); cursor: default; } .ds-skill-tag:hover { color: var(--accent, #D4D0CA); border-color: var(--accent, #D4D0CA); }"
+    },
+    {
+      "name": "Hero Link",
+      "kind": "button",
+      "refersTo": "hero-link",
+      "description": "Pill link in the hero section. Same shape as skill tag, slightly larger padding.",
+      "html": "<a class=\"ds-hero-link\" href=\"#\">GitHub</a>",
+      "css": ".ds-hero-link { display: inline-block; font-family: 'Epilogue', system-ui, sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; color: #57534E; padding: 13px 24px 11px; border: 1px solid #E4E2DC; border-radius: 100px; line-height: 1; text-decoration: none; transition: border-color 400ms cubic-bezier(0.16, 1, 0.3, 1), color 400ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-hero-link:hover { border-color: #1C1917; color: #1C1917; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Navigation link. Uppercase micro-label, muted at rest, accent on hover/active.",
+      "html": "<a class=\"ds-nav-link\" href=\"#\">Experience</a>",
+      "css": ".ds-nav-link { font-family: 'Epilogue', system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #736D67; text-decoration: none; transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-nav-link:hover, .ds-nav-link.is-active { color: var(--accent, #D4D0CA); }"
+    },
+    {
+      "name": "Theme Toggle",
+      "kind": "button",
+      "refersTo": null,
+      "description": "Circle icon button. Border only, accent on hover. Spins on click.",
+      "html": "<button class=\"ds-theme-toggle\"><span class=\"ds-toggle-icon\">☀</span></button>",
+      "css": ".ds-theme-toggle { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #E4E2DC; background: transparent; color: #736D67; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; transition: border-color 500ms cubic-bezier(0.16, 1, 0.3, 1), color 500ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-theme-toggle:hover { border-color: var(--accent, #D4D0CA); color: var(--accent, #D4D0CA); } @keyframes ds-toggle-spin { 0% { transform: scale(1) rotate(0deg); } 45% { transform: scale(0.4) rotate(180deg); } 100% { transform: scale(1) rotate(360deg); } } .ds-toggle-icon.is-spinning { animation: ds-toggle-spin 0.5s cubic-bezier(0.16, 1, 0.3, 1); }"
+    },
+    {
+      "name": "Timeline Item",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Experience entry. Flat list item separated by border-top. Company name slides on hover.",
+      "html": "<div class=\"ds-timeline-item\"><span class=\"ds-timeline-num\">01</span><div class=\"ds-timeline-header\"><span class=\"ds-timeline-company\">Taylor &amp; Johnson</span><span class=\"ds-timeline-period\">2018–2021</span></div><div class=\"ds-timeline-role\">Multimedia Engineer</div><p class=\"ds-timeline-desc\">Modernización de interfaces AS-400 con Presto.</p></div>",
+      "css": ".ds-timeline-item { padding: 36px 0; border-top: 1px solid transparent; transition: border-color 400ms cubic-bezier(0.16,1,0.3,1); cursor: default; } .ds-timeline-item + .ds-timeline-item { border-top-color: #E4E2DC; } .ds-timeline-num { display: block; font-size: 0.6875rem; font-weight: 400; color: var(--accent, #D4D0CA); letter-spacing: 0.04em; font-variant-numeric: tabular-nums; margin-bottom: 12px; transition: color 600ms cubic-bezier(0.16,1,0.3,1); } .ds-timeline-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; } .ds-timeline-company { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.03em; color: #1C1917; transition: color 400ms cubic-bezier(0.16,1,0.3,1), transform 350ms cubic-bezier(0.16,1,0.3,1); } .ds-timeline-period { font-size: 0.6875rem; color: #736D67; letter-spacing: 0.06em; font-variant-numeric: tabular-nums; } .ds-timeline-role { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #736D67; margin-bottom: 10px; } .ds-timeline-desc { font-size: 0.875rem; line-height: 1.75; color: #57534E; max-width: 65ch; } .ds-timeline-item:hover .ds-timeline-company { color: var(--accent, #D4D0CA); transform: translateX(6px); }"
+    },
+    {
+      "name": "Case Study Entry Link",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Text link at the bottom of a timeline item that leads to a case study route. Silent at rest, accent on hover.",
+      "html": "<a class=\"ds-case-link\" href=\"/case/presto\">Modernización de interfaces bancarias →</a>",
+      "css": ".ds-case-link { display: inline-block; font-family: 'Epilogue', system-ui, sans-serif; font-size: 0.875rem; color: #736D67; text-decoration: none; transition: color 400ms cubic-bezier(0.16,1,0.3,1); margin-top: 16px; } .ds-case-link:hover { color: var(--accent, #2563EB); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Selective Reveal",
+    "overview": "This system gives nothing away unprompted. Color is earned by scroll. Hierarchy is earned by attention. The ambient bloom exists only where something is active. The design operates on a single principle: everything is conditional on context, and that conditionality is the craft.\n\nThe palette begins in monochrome and unlocks section by section. This is not a scroll animation gimmick. It is the argument: a Design Engineer who can build a system where the interface itself demonstrates taste without announcing it.\n\nTwo visual registers coexist. The CV register is flat, editorial, typographically driven. The case study register is cinematic — deep shadows, phosphor glow, glass panels — because the work being shown demands immersion.",
+    "keyCharacteristics": [
+      "Monochromatic at rest, chromatic in context",
+      "Typography carries hierarchy; components stay silent",
+      "Flat in the CV register, cinematic in case studies",
+      "One easing curve everywhere: cubic-bezier(0.16, 1, 0.3, 1)",
+      "Warm stone undertones throughout; never pure black or pure white"
+    ],
+    "rules": [
+      { "name": "The One Voice Rule",        "body": "Only one accent is active at a time. --accent on :root is the single source of truth. Components reference var(--accent), never a hardcoded section color. Rarity is the point.",  "section": "colors" },
+      { "name": "The Warmth Rule",           "body": "Every neutral leans warm. No cool grays, no pure blacks, no optical whites. The undertone is always toward stone and amber, never toward blue or green.",                          "section": "colors" },
+      { "name": "The Atmospheric Exception", "body": "The ambient bloom is the only permitted depth element in the CV register. It is not an elevation token. It is climate.",                                                           "section": "elevation" },
+      { "name": "The Single Family Rule",    "body": "Epilogue handles every weight. Never introduce a second display face. The hero name at weight 900 and a label at weight 600 are the same font — that coherence is visible.",       "section": "typography" }
+    ],
+    "dos": [
+      "Do reference var(--accent) for all interactive color states. Never hardcode a section color in a component.",
+      "Do use cubic-bezier(0.16, 1, 0.3, 1) for every transition. One curve, everywhere.",
+      "Do enforce 65ch max line length on body text.",
+      "Do keep the CV register flat. Introduce shadows only in case study routes.",
+      "Do use prefers-reduced-motion to disable transform-based animations while preserving opacity and color transitions.",
+      "Do lean warm on every neutral. Tint toward stone and amber, never toward blue or green.",
+      "Do treat the ambient bloom as climate, not structure."
+    ],
+    "donts": [
+      "Don't use gradient text. Prohibited. Use var(--text-strong) or var(--accent) as a solid color.",
+      "Don't use glassmorphism decoratively in the CV register. Glass belongs exclusively in case study immersive contexts.",
+      "Don't create hero-metric layouts outside of the About section stats.",
+      "Don't use identical card grids. If items look the same, question whether they need to be cards.",
+      "Don't animate keyboard-initiated actions.",
+      "Don't use transition: all. Specify exact properties.",
+      "Don't introduce a second display typeface.",
+      "Don't add decorative side-stripe borders (border-left > 1px as accent).",
+      "Don't bring case study visual language into the CV register. The contrast between registers is the design."
+    ]
+  }
+}
