@@ -51,38 +51,6 @@
   color: var(--case-muted);
 }
 
-/* ─── Shared section structure ────────────────────────── */
-
-.case-section {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 48px;
-}
-
-.case-section-inner {
-  padding: 96px 0;
-  border-top: 1px solid var(--case-border);
-}
-
-.case-label {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 52px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--case-muted);
-}
-
-.case-label-num {
-  color: var(--case-accent);
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  transition: color 0.4s ease;
-}
-
 /* ─── Hero ────────────────────────────────────────────── */
 
 .case-hero {
@@ -128,7 +96,38 @@
   max-width: 560px;
 }
 
-/* ─── Overview ────────────────────────────────────────── */
+/* ─── Shared section structure ────────────────────────── */
+
+.case-section {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.case-section-inner {
+  padding: 96px 0;
+  border-top: 1px solid var(--case-border);
+}
+
+.case-label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 52px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+}
+
+.case-label-num {
+  color: var(--case-accent);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Context / Overview ──────────────────────────────── */
 
 .case-overview-grid {
   display: grid;
@@ -185,25 +184,44 @@
   color: var(--case-text);
 }
 
-/* ─── Showcase ────────────────────────────────────────── */
+/* ─── Case chapter body ───────────────────────────────── */
 
-.case-showcase {
-  padding: 0 48px 0;
-  max-width: 860px;
-  margin: 0 auto;
+.case-chapter-body {
+  font-size: 0.9375rem;
+  line-height: 1.85;
+  color: var(--case-muted);
+  max-width: 65ch;
 }
 
-.case-showcase-header {
-  padding-top: 96px;
-  border-top: 1px solid var(--case-border);
+/* ─── Placeholder ─────────────────────────────────────── */
+
+.case-placeholder {
+  margin-top: 48px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px dashed var(--case-border);
+  border-radius: 4px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  justify-content: center;
 }
 
-.case-showcase-header .case-label {
-  margin-bottom: 0;
+.case-placeholder-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+  opacity: 0.4;
+}
+
+/* ─── Scene switcher / Stage ──────────────────────────── */
+
+.case-stage-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  margin-top: 48px;
 }
 
 .case-scene-switcher {
@@ -232,6 +250,7 @@
 }
 
 .case-stage-wrap {
+  position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 1px solid var(--case-border);
@@ -239,62 +258,16 @@
   overflow: hidden;
 }
 
-/* ─── Work ────────────────────────────────────────────── */
+/* ─── Skill tags ──────────────────────────────────────── */
 
-.case-work-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.case-work-item {
-  display: grid;
-  grid-template-columns: 32px 1fr;
-  gap: 24px;
-  padding: 32px 0;
-  border-top: 1px solid var(--case-border);
-}
-
-.case-work-item:last-child {
-  border-bottom: 1px solid var(--case-border);
-}
-
-.case-work-num {
-  font-size: 0.6875rem;
-  font-weight: 400;
-  color: var(--case-accent);
-  font-variant-numeric: tabular-nums;
-  padding-top: 3px;
-  opacity: 0.7;
-}
-
-.case-work-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--case-text);
-  margin-bottom: 10px;
-  letter-spacing: -0.01em;
-}
-
-.case-work-desc {
-  font-size: 0.875rem;
-  line-height: 1.75;
-  color: var(--case-muted);
-  max-width: 65ch;
-}
-
-/* ─── Stack ───────────────────────────────────────────── */
-
-.case-section--stack .case-section-inner {
-  padding-bottom: 96px;
-}
-
-.case-stack-tags {
+.case-skill-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 24px;
 }
 
-.case-stack-tag {
+.case-skill-tag {
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--case-muted);
@@ -306,7 +279,7 @@
   cursor: default;
 }
 
-.case-stack-tag:hover {
+.case-skill-tag:hover {
   color: var(--case-accent);
   border-color: rgba(74, 222, 128, 0.3);
 }
@@ -336,27 +309,16 @@
 /* ─── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  .case-nav     { padding: 16px 24px; }
-  .case-section { padding: 0 24px; }
-  .case-hero    { padding-bottom: 64px; }
+  .case-nav       { padding: 16px 24px; }
+  .case-section   { padding: 0 24px; }
+  .case-hero      { padding-bottom: 64px; }
   .case-hero-inner { padding: 0 24px; }
-  .case-showcase   { padding: 0 24px; }
-  .case-footer     { padding: 32px 24px 56px; }
+  .case-footer    { padding: 32px 24px 56px; }
 
-  .case-section-inner  { padding: 64px 0; }
-  .case-showcase-header { padding-top: 64px; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .case-section-inner { padding: 64px 0; }
 
   .case-overview-grid {
     grid-template-columns: 1fr;
     gap: 40px;
-  }
-
-  .case-work-item {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .case-work-num {
-    padding-top: 0;
   }
 }

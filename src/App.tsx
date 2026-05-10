@@ -375,8 +375,8 @@ export default function App() {
                 role: 'Multimedia Engineer',
                 period: '2018 – 2021',
                 tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium', 'COBOL'],
-                desc: 'Modernized a COBOL banking core from legacy 5250 green-screen interfaces to web using Fresche Solutions\' Presto. Built parametric document generation with JsPDF, digital signature integration with TOPAZ devices, and test automation with Python and Selenium.',
-                caseStudy: { href: '/case/presto', label: 'Presto — COBOL modernization' },
+                desc: "Modernized a COBOL banking core from legacy 5250 green-screen interfaces to web using Fresche Solutions' Presto. Built parametric document generation with JsPDF, digital signature integration with TOPAZ devices, and process automation with Python and Selenium.",
+                caseStudy: { href: '/case/taylor-johnson', label: 'T&J — COBOL modernization' },
               },
               {
                 company: 'Sistel',

@@ -3,14 +3,14 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
-import PrestoCase from './cases/presto/PrestoCase.tsx'
+import TJCase from './cases/taylor-johnson/TJCase.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/case/presto" element={<PrestoCase />} />
+        <Route path="/case/taylor-johnson" element={<TJCase />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
