@@ -15,6 +15,11 @@ dist-ssr
 # Skills (reinstall with npx skills)
 .agents
 
+# Working reference & validation artifacts
+animation/
+audit/
+scripts/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
