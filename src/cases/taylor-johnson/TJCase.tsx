@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
+import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import './TJCase.css'
 
@@ -53,7 +54,15 @@ function SkillTags({ skills }: { skills: string[] }) {
 export default function TJCase() {
   const [active, setActive] = useState<SceneKey>('M1')
   const scene = SCENES.find((s) => s.key === active)!
+  const { toggle: toggleDark } = useDarkMode()
+  const [toggleAnim, setToggleAnim] = useState(false)
   useLenis()
+
+  const handleThemeToggle = () => {
+    toggleDark()
+    setToggleAnim(true)
+    setTimeout(() => setToggleAnim(false), 420)
+  }
 
   return (
     <div className="case-page">
@@ -62,6 +71,13 @@ export default function TJCase() {
       <header className="case-nav">
         <Link to="/" className="case-nav-back">← Camilo Conde</Link>
         <span className="case-nav-title">Taylor &amp; Johnson · 2018–2021</span>
+        <button
+          className="theme-toggle"
+          onClick={handleThemeToggle}
+          aria-label="Toggle dark mode"
+        >
+          <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">●</span>
+        </button>
       </header>
 
       {/* Hero */}
@@ -146,6 +162,7 @@ export default function TJCase() {
             duration={scene.dur}
             background="#0A1408"
             persistKey={`presto-${active}`}
+            initialTime={0}
           >
             <Sprite start={0} end={scene.dur} keepMounted>
               <scene.comp />

@@ -16,9 +16,9 @@ dist-ssr
 .agents
 
 # Working reference & validation artifacts
-animation/
-audit/
-scripts/
+/animation/
+/audit/
+/scripts/
 
 # Editor directories and files
 .vscode/*

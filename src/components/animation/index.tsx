@@ -417,13 +417,15 @@ interface PlaybackBarProps {
   time: number
   duration: number
   playing: boolean
+  isFullscreen: boolean
   onPlayPause: () => void
   onReset: () => void
   onSeek: (t: number) => void
   onHover: (t: number | null) => void
+  onFullscreen: () => void
 }
 
-function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, onHover }: PlaybackBarProps) {
+function PlaybackBar({ time, duration, playing, isFullscreen, onPlayPause, onReset, onSeek, onHover, onFullscreen }: PlaybackBarProps) {
   const trackRef = React.useRef<HTMLDivElement>(null)
   const [dragging, setDragging] = React.useState(false)
 
@@ -555,6 +557,18 @@ function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, on
       }}>
         {fmt(duration)}
       </div>
+
+      <IconButton onClick={onFullscreen} title={isFullscreen ? 'Exit fullscreen (f)' : 'Fullscreen (f)'}>
+        {isFullscreen ? (
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M5 2v3H2M9 2v3h3M5 12v-3H2M9 12v-3h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ) : (
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 5V2h3M9 2h3v3M2 9v3h3M12 9v3H9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+      </IconButton>
     </div>
   )
 }
@@ -569,6 +583,7 @@ interface StageProps {
   loop?: boolean
   autoplay?: boolean
   persistKey?: string
+  initialTime?: number
   children?: React.ReactNode
 }
 
@@ -580,9 +595,11 @@ export function Stage({
   loop = true,
   autoplay = true,
   persistKey = 'animstage',
+  initialTime,
   children,
 }: StageProps) {
   const [time, setTime] = React.useState(() => {
+    if (initialTime !== undefined) return clamp(initialTime, 0, duration)
     try {
       const v = parseFloat(localStorage.getItem(persistKey + ':t') ?? '0')
       return isFinite(v) ? clamp(v, 0, duration) : 0
@@ -591,6 +608,9 @@ export function Stage({
   const [playing, setPlaying] = React.useState(autoplay)
   const [hoverTime, setHoverTime] = React.useState<number | null>(null)
   const [scale, setScale] = React.useState(1)
+  const [nativeFull, setNativeFull] = React.useState(false)
+  const [fakeFull, setFakeFull] = React.useState(false)
+  const isFullscreen = nativeFull || fakeFull
 
   const stageRef = React.useRef<HTMLDivElement>(null)
   const rafRef = React.useRef<number>(0)
@@ -601,12 +621,34 @@ export function Stage({
   }, [time, persistKey])
 
   React.useEffect(() => {
+    const onChange = () => setNativeFull(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', onChange)
+    return () => document.removeEventListener('fullscreenchange', onChange)
+  }, [])
+
+  const handleFullscreen = React.useCallback(async () => {
+    if (isFullscreen) {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen()
+      } else {
+        setFakeFull(false)
+      }
+      return
+    }
+    try {
+      await stageRef.current?.requestFullscreen()
+    } catch {
+      setFakeFull(true)
+    }
+  }, [isFullscreen])
+
+  React.useLayoutEffect(() => {
     if (!stageRef.current) return
     const el = stageRef.current
     const measure = () => {
       const barH = 44
       const s = Math.min(el.clientWidth / width, (el.clientHeight - barH) / height)
-      setScale(Math.max(0.05, s))
+      setScale(Math.max(0.05, s + 5e-5))
     }
     measure()
     const ro = new ResizeObserver(measure)
@@ -648,11 +690,15 @@ export function Stage({
         setTime((t) => clamp(t + (e.shiftKey ? 1 : 0.1), 0, duration))
       } else if (e.key === '0' || e.code === 'Home') {
         setTime(0)
+      } else if (e.key === 'f' || e.key === 'F') {
+        handleFullscreen()
+      } else if (e.code === 'Escape') {
+        setFakeFull(false)
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [duration])
+  }, [duration, handleFullscreen])
 
   const displayTime = hoverTime != null ? hoverTime : time
 
@@ -665,7 +711,9 @@ export function Stage({
     <div
       ref={stageRef}
       style={{
-        position: 'absolute', inset: 0,
+        position: fakeFull ? 'fixed' : 'absolute',
+        inset: 0,
+        zIndex: fakeFull ? 9999 : undefined,
         display: 'flex', flexDirection: 'column',
         alignItems: 'center',
         background: '#0a0a0a',
@@ -676,6 +724,7 @@ export function Stage({
         flex: 1, width: '100%',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden', minHeight: 0,
+        background,
       }}>
         <div style={{
           width, height,
@@ -697,10 +746,12 @@ export function Stage({
         time={displayTime}
         duration={duration}
         playing={playing}
+        isFullscreen={isFullscreen}
         onPlayPause={() => setPlaying((p) => !p)}
         onReset={() => setTime(0)}
         onSeek={(t) => setTime(t)}
         onHover={(t) => setHoverTime(t)}
+        onFullscreen={handleFullscreen}
       />
     </div>
   )

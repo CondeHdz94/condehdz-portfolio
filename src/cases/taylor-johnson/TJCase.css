@@ -1,17 +1,30 @@
 /* ─── Variables ───────────────────────────────────────── */
 
 .case-page {
-  --case-bg:      #0D0D0B;
-  --case-surface: #141412;
-  --case-text:    #F2F0EB;
-  --case-muted:   rgba(242, 240, 235, 0.48);
-  --case-border:  rgba(242, 240, 235, 0.09);
-  --case-accent:  #4ADE80;
+  --case-bg:             #FAFAF9;
+  --case-surface:        #F2F0EB;
+  --case-text:           #1C1917;
+  --case-muted:          rgba(28, 25, 23, 0.5);
+  --case-border:         #E4E2DC;
+  --case-accent:         #166534;
+  --case-accent-border:  rgba(22, 101, 52, 0.25);
+  --case-accent-bg:      rgba(22, 101, 52, 0.06);
 
   background-color: var(--case-bg);
   color: var(--case-text);
   font-family: 'Epilogue', system-ui, sans-serif;
   min-height: 100svh;
+}
+
+.dark .case-page {
+  --case-bg:             #0D0D0B;
+  --case-surface:        #141412;
+  --case-text:           #F2F0EB;
+  --case-muted:          rgba(242, 240, 235, 0.48);
+  --case-border:         rgba(242, 240, 235, 0.09);
+  --case-accent:         #4ADE80;
+  --case-accent-border:  rgba(74, 222, 128, 0.3);
+  --case-accent-bg:      rgba(74, 222, 128, 0.05);
 }
 
 /* ─── Nav ─────────────────────────────────────────────── */
@@ -49,6 +62,13 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--case-muted);
+}
+
+/* ─── Theme toggle (override hover accent for case context) ── */
+
+.case-page .theme-toggle:hover {
+  border-color: var(--case-accent-border);
+  color: var(--case-accent);
 }
 
 /* ─── Hero ────────────────────────────────────────────── */
@@ -244,15 +264,16 @@
 
 .case-scene-btn.is-active,
 .case-scene-btn:hover {
-  border-color: rgba(74, 222, 128, 0.3);
+  border-color: var(--case-accent-border);
   color: var(--case-text);
-  background-color: rgba(74, 222, 128, 0.05);
+  background-color: var(--case-accent-bg);
 }
 
 .case-stage-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 0;
+  padding-bottom: calc(56.25% + 44px);
   border: 1px solid var(--case-border);
   border-radius: 4px;
   overflow: hidden;
@@ -281,7 +302,7 @@
 
 .case-skill-tag:hover {
   color: var(--case-accent);
-  border-color: rgba(74, 222, 128, 0.3);
+  border-color: var(--case-accent-border);
 }
 
 /* ─── Footer ──────────────────────────────────────────── */

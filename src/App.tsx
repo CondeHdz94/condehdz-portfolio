@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDarkMode } from './hooks/useDarkMode'
 import { useLenis } from './hooks/useLenis'
 import './App.css'
 
@@ -215,9 +216,7 @@ function StatCounter({ target, label }: { target: number; label: string }) {
 }
 
 export default function App() {
-  const [dark, setDark] = useState(() =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-  )
+  const { toggle: toggleDark } = useDarkMode()
   const [scrolled, setScrolled] = useState(false)
   const [toggleAnim, setToggleAnim] = useState(false)
 
@@ -228,18 +227,10 @@ export default function App() {
   useMobileScrollActive()
   useLenis()
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark)
-  }, [dark])
-
   const handleThemeToggle = () => {
-    document.documentElement.classList.add('dark-transitioning')
-    setDark(d => !d)
+    toggleDark()
     setToggleAnim(true)
-    setTimeout(() => {
-      document.documentElement.classList.remove('dark-transitioning')
-      setToggleAnim(false)
-    }, 420)
+    setTimeout(() => setToggleAnim(false), 420)
   }
 
   useEffect(() => {
