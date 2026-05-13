@@ -437,12 +437,10 @@ function PlaybackBar({ time, duration, playing, isFullscreen, onPlayPause, onRes
   }, [duration])
 
   const onTrackMove = (e: React.MouseEvent) => {
-    if (!trackRef.current) return
+    if (!dragging || !trackRef.current) return
     const rect = trackRef.current.getBoundingClientRect()
     const x = clamp((e.clientX - rect.left) / rect.width, 0, 1)
-    const t = x * duration
-    if (dragging) onSeek(t)
-    else onHover(t)
+    onSeek(x * duration)
   }
 
   const onTrackDown = (e: React.MouseEvent) => {
@@ -486,9 +484,6 @@ function PlaybackBar({ time, duration, playing, isFullscreen, onPlayPause, onRes
       background: 'rgba(20,20,20,0.92)',
       borderTop: '1px solid rgba(255,255,255,0.08)',
       width: '100%',
-      maxWidth: 680,
-      alignSelf: 'center',
-      borderRadius: 8,
       color: '#f6f4ef',
       fontFamily: 'Inter, system-ui, sans-serif',
       userSelect: 'none',
@@ -716,7 +711,7 @@ export function Stage({
         zIndex: fakeFull ? 9999 : undefined,
         display: 'flex', flexDirection: 'column',
         alignItems: 'center',
-        background: '#0a0a0a',
+        background,
         fontFamily: 'Inter, system-ui, sans-serif',
       }}
     >
@@ -733,7 +728,6 @@ export function Stage({
           transform: `scale(${scale})`,
           transformOrigin: 'center',
           flexShrink: 0,
-          boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
           overflow: 'hidden',
         }}>
           <TimelineContext.Provider value={ctxValue}>
