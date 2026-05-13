@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
 import { SceneAS400toPDF, SchemaAS400 } from './scenesCase02'
+import { SceneTopaz } from './scenesCase03'
+import { SceneSelenium } from './scenesCase04'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import './TJCase.css'
@@ -31,14 +33,6 @@ function CaseLabel({ num, children }: { num: string; children: ReactNode }) {
       <span className="case-label-num">{num}</span>
       {children}
     </p>
-  )
-}
-
-function Placeholder() {
-  return (
-    <div className="case-placeholder">
-      <span className="case-placeholder-label">Visual coming soon</span>
-    </div>
   )
 }
 
@@ -215,7 +209,20 @@ export default function TJCase() {
           replacing a paper-based process and anchoring signature integrity to the banking
           operation in the ERP.
         </p>
-        <Placeholder />
+        <div className="case-stage-wrap">
+          <Stage
+            width={1920}
+            height={1080}
+            duration={18}
+            background="#0A0A0A"
+            persistKey="topaz-sign"
+            initialTime={0}
+          >
+            <Sprite start={0} end={18} keepMounted>
+              <SceneTopaz />
+            </Sprite>
+          </Stage>
+        </div>
         <SkillTags skills={['Presto', 'TOPAZ LCD', 'ERP Integration']} />
       </CaseSection>
 
@@ -228,7 +235,20 @@ export default function TJCase() {
           data source, allowing any batch size to be fed programmatically — replacing a
           manual, error-prone data entry operation for each client integration.
         </p>
-        <Placeholder />
+        <div className="case-stage-wrap">
+          <Stage
+            width={1920}
+            height={1080}
+            duration={28}
+            background="#0A0A0A"
+            persistKey="selenium-migration"
+            initialTime={0}
+          >
+            <Sprite start={0} end={28} keepMounted>
+              <SceneSelenium />
+            </Sprite>
+          </Stage>
+        </div>
         <SkillTags skills={['Python', 'Selenium', 'Web Services']} />
       </CaseSection>
 
