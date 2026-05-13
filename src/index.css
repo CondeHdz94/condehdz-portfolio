@@ -11,6 +11,9 @@
   --accent: #D4D0CA;
   --accent-neutral: #D4D0CA;
 
+  --nav-height: 74px;
+  --nav-height-mobile: 66px;
+
   --bloom-x: 65%;
   --bloom-y: 36%;
 
@@ -84,6 +87,11 @@ ul { list-style: none; margin: 0; padding: 0; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes nav-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(20px);
@@ -116,6 +124,8 @@ ul { list-style: none; margin: 0; padding: 0; }
     transition: none;
   }
 
+  .nav,
+  .case-nav,
   .hero-eyebrow,
   .hero-meta,
   .scroll-hint {

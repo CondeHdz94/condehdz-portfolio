@@ -75,10 +75,12 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 20px 48px;
+  height: var(--nav-height);
+  padding: 0 48px;
   background-color: var(--bg);
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s ease, background-color 0.4s ease;
+  animation: nav-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .nav.scrolled {
@@ -669,7 +671,8 @@
 
 @media (max-width: 768px) {
   .nav {
-    padding: 16px 24px;
+    height: var(--nav-height-mobile);
+    padding: 0 24px;
     display: flex;
     justify-content: space-between;
   }

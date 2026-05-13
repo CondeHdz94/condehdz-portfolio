@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
+import { SceneAS400toPDF, SchemaAS400 } from './scenesCase02'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import './TJCase.css'
@@ -183,7 +184,24 @@ export default function TJCase() {
           A client-facing layer, exposing that same control through a Presto-modernized
           interface, was in late stages of development at departure.
         </p>
-        <Placeholder />
+        <div className="case-schema-wrap">
+          <SchemaAS400 />
+        </div>
+        <p className="case-caption">Ejemplo ilustrativo · PDFP001 · columnas y datos ajustados para claridad · la pantalla real no era visible para el usuario final</p>
+        <div className="case-stage-wrap" style={{ marginTop: 32 }}>
+          <Stage
+            width={1920}
+            height={1080}
+            duration={19.5}
+            background="#0A0A14"
+            persistKey="as400-pdf"
+            initialTime={0}
+          >
+            <Sprite start={0} end={19.5} keepMounted>
+              <SceneAS400toPDF />
+            </Sprite>
+          </Stage>
+        </div>
         <SkillTags skills={['JsPDF.js', 'SQL', 'Web Services', 'AS/400']} />
       </CaseSection>
 

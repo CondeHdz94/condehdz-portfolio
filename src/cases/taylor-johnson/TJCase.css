@@ -38,9 +38,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 48px;
+  height: var(--nav-height);
+  padding: 0 48px;
   background-color: var(--case-bg);
   border-bottom: 1px solid var(--case-border);
+  animation: nav-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .case-nav-back {
@@ -279,6 +281,25 @@
   overflow: hidden;
 }
 
+/* ─── Schema wrapper ─────────────────────────────────────── */
+
+.case-schema-wrap {
+  margin-top: 48px;
+  border: 1px solid var(--case-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.case-caption {
+  margin-top: 10px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+  opacity: 0.5;
+}
+
 /* ─── Skill tags ──────────────────────────────────────── */
 
 .case-skill-tags {
@@ -330,7 +351,7 @@
 /* ─── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  .case-nav       { padding: 16px 24px; }
+  .case-nav       { height: var(--nav-height-mobile); padding: 0 24px; }
   .case-section   { padding: 0 24px; }
   .case-hero      { padding-bottom: 64px; }
   .case-hero-inner { padding: 0 24px; }
