@@ -15,6 +15,10 @@ dist-ssr
 # Skills (reinstall with npx skills)
 .agents
 
+# Claude Code local config
+.claude/settings.local.json
+.claude/skills/
+
 # Working reference & validation artifacts
 /animation/
 /audit/
