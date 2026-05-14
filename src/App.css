@@ -671,6 +671,160 @@
   color: var(--accent);
 }
 
+/* ─── Floating pill — mobile nav ─────────────────────── */
+
+.nav-pill {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .nav-pill { display: block; }
+}
+
+.pill-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1C1917;
+  border: none;
+  border-radius: 100px;
+  padding: 11px 16px 11px 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), 0 1px 4px rgba(0, 0, 0, 0.15);
+  font-family: 'Epilogue', system-ui, sans-serif;
+  white-space: nowrap;
+}
+
+.dark .pill-trigger {
+  background: #E8E5E0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  pointer-events: none;
+  transition: background-color 0.6s ease;
+}
+
+.pill-name {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 249, 0.55);
+  pointer-events: none;
+  min-width: 64px;
+}
+
+.dark .pill-name { color: rgba(28, 25, 23, 0.55); }
+
+.pill-chevron {
+  font-size: 8px;
+  color: rgba(250, 250, 249, 0.25);
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  line-height: 1;
+  user-select: none;
+}
+
+.dark .pill-chevron { color: rgba(28, 25, 23, 0.25); }
+
+.pill-trigger[aria-expanded="true"] .pill-chevron { transform: rotate(180deg); }
+
+.pill-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px) scale(0.97);
+  background: #1C1917;
+  border-radius: 16px;
+  padding: 6px;
+  min-width: 176px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark .pill-menu {
+  background: #E8E5E0;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pill-menu.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.pill-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.pill-item:hover         { background: rgba(255, 255, 255, 0.06); }
+.dark .pill-item:hover   { background: rgba(0,   0,   0,   0.06); }
+.pill-item.is-active     { background: rgba(255, 255, 255, 0.09); }
+.dark .pill-item.is-active { background: rgba(0,   0,   0,   0.09); }
+
+.pill-item-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.pill-item.is-active .pill-item-dot { opacity: 1; }
+
+.pill-item-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 249, 0.3);
+  transition: color 0.2s ease;
+}
+
+.dark .pill-item-label { color: rgba(28, 25, 23, 0.3); }
+
+.pill-item.is-active .pill-item-label      { color: rgba(250, 250, 249, 0.85); }
+.dark .pill-item.is-active .pill-item-label { color: rgba(28,  25,  23,  0.85); }
+
+.pill-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 100px;
+}
+
+.pill-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: 10px;
+}
+
 /* ─── Touch active states ─────────────────────────────── */
 
 /* Only on elements that navigate or act — tap has a purpose */

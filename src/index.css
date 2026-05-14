@@ -144,4 +144,9 @@ ul { list-style: none; margin: 0; padding: 0; }
   .hero-bg-text {
     transform: none !important;
   }
+
+  .pill-menu {
+    transition: opacity 0.15s ease;
+    transform: translateX(-50%) !important;
+  }
 }

@@ -12,6 +12,27 @@ const SECTION_COLORS: Record<string, string> = {
   contact:    'var(--color-contact)',
 }
 
+const SECTION_LABELS: Record<string, string> = {
+  hero: 'top', about: 'about', experience: 'experience',
+  skills: 'skills', contact: 'contact',
+}
+
+const PILL_COLORS: Record<string, string> = {
+  hero:       'var(--accent-neutral)',
+  about:      'var(--color-about)',
+  experience: 'var(--color-experience)',
+  skills:     'var(--color-skills)',
+  contact:    'var(--color-contact)',
+}
+
+const PILL_SECTIONS = [
+  { key: 'hero',       label: 'Top'        },
+  { key: 'about',      label: 'About'      },
+  { key: 'experience', label: 'Experience' },
+  { key: 'skills',     label: 'Skills'     },
+  { key: 'contact',    label: 'Contact'    },
+] as const
+
 function useSectionColor() {
   const ratios = useRef<Map<string, number>>(new Map())
   const [activeSection, setActiveSection] = useState('hero')
@@ -199,6 +220,8 @@ export default function App() {
   const { toggle: toggleDark } = useDarkMode()
   const [scrolled, setScrolled] = useState(false)
   const [toggleAnim, setToggleAnim] = useState(false)
+  const [pillOpen, setPillOpen] = useState(false)
+  const pillRef = useRef<HTMLDivElement>(null)
 
   const activeSection = useSectionColor()
   useScrollReveal()
@@ -219,11 +242,49 @@ export default function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (pillRef.current && !pillRef.current.contains(e.target as Node)) {
+        setPillOpen(false)
+      }
+    }
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [])
+
   return (
     <div className="app">
 
       <div className="ambient-bloom" aria-hidden="true">
         <div className="ambient-bloom-glow" />
+      </div>
+
+      <div className="nav-pill" ref={pillRef}>
+        <button
+          className="pill-trigger"
+          onClick={() => setPillOpen(o => !o)}
+          aria-haspopup="true"
+          aria-expanded={pillOpen}
+          aria-label="Navigate to section"
+        >
+          <span className="pill-dot" />
+          <span className="pill-name">{SECTION_LABELS[activeSection]}</span>
+          <span className="pill-chevron" aria-hidden="true">▲</span>
+        </button>
+        <div className={`pill-menu${pillOpen ? ' is-open' : ''}`} role="menu">
+          {PILL_SECTIONS.map(({ key, label }) => (
+            <a
+              key={key}
+              href={key === 'hero' ? '#' : `#${key}`}
+              className={`pill-item${activeSection === key ? ' is-active' : ''}`}
+              role="menuitem"
+              onClick={() => setPillOpen(false)}
+            >
+              <span className="pill-item-dot" style={{ background: PILL_COLORS[key] }} />
+              <span className="pill-item-label">{label}</span>
+            </a>
+          ))}
+        </div>
       </div>
 
       <a href="#about" className="skip-link">Skip to content</a>
