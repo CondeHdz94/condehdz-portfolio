@@ -455,7 +455,8 @@
   color: var(--text-muted);
   line-height: 1.75;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--accent);
+  transition: border-color 0.6s ease;
 }
 
 .about-text p {
@@ -552,12 +553,12 @@
   gap: 8px;
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--accent);
   font-size: var(--text-xs);
   letter-spacing: 0.08em;
   color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease;
   cursor: pointer;
 }
 

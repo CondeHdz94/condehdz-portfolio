@@ -46,11 +46,11 @@
 }
 
 .dark {
-  --bg: #0A0A0A;
-  --surface: #141414;
-  --border: #262626;
+  --bg: #0D0A08;
+  --surface: #171310;
+  --border: #2B2420;
   --text-muted: #7E7872;
-  --text: #A3A3A3;
+  --text: #A89E98;
   --text-strong: #F5F5F4;
   --accent: #333333;
   --accent-neutral: #333333;
