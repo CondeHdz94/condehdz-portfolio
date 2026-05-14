@@ -359,12 +359,12 @@ export default function App() {
             <span className="section-name">About</span>
           </p>
           <div className="about-grid">
-            <div className="about-stats reveal reveal-delay-1">
-              <StatCounter target={5}  label="Years of experience" />
-              <StatCounter target={20} label="Completed projects" />
-              <StatCounter target={3}  label="Companies worked" />
+            <div className="about-stats">
+              <div className="reveal"><StatCounter target={5}  label="Years of experience" /></div>
+              <div className="reveal reveal-delay-1"><StatCounter target={20} label="Completed projects" /></div>
+              <div className="reveal reveal-delay-2"><StatCounter target={3}  label="Companies worked" /></div>
             </div>
-            <div className="about-text reveal reveal-delay-2">
+            <div className="about-text reveal reveal-delay-3">
               <p className="about-quote">
                 "The best way to face challenges is with an open mind and an insatiable curiosity."
               </p>
@@ -429,7 +429,7 @@ export default function App() {
                 <p className="timeline-tags">{tags.join(' · ')}</p>
                 <p className="timeline-desc">{desc}</p>
                 {caseStudy && (
-                  <Link to={caseStudy.href} className="timeline-case-link">
+                  <Link to={caseStudy.href} viewTransition className="timeline-case-link">
                     {caseStudy.label}
                     <span className="timeline-case-arrow" aria-hidden="true">→</span>
                   </Link>

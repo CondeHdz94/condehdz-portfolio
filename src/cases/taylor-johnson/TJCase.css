@@ -70,11 +70,12 @@
   letter-spacing: 0.04em;
   color: var(--case-muted);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .case-nav-back:hover {
   color: var(--case-text);
+  transform: translateX(-4px);
 }
 
 .case-nav-title {
@@ -351,11 +352,12 @@
   letter-spacing: 0.04em;
   color: var(--case-muted);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .case-footer-back:hover {
   color: var(--case-text);
+  transform: translateX(-4px);
 }
 
 /* ─── Responsive ──────────────────────────────────────── */

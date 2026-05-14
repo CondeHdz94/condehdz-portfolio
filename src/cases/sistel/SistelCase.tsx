@@ -23,7 +23,7 @@ export default function SistelCase() {
 
       {/* Nav */}
       <header className="case-nav">
-        <Link to="/" className="case-nav-back">← Camilo Conde</Link>
+        <Link to="/" viewTransition className="case-nav-back">← Camilo Conde</Link>
         <span className="case-nav-title">Sistel · 2017–2018</span>
         <button
           className="theme-toggle"
@@ -114,7 +114,7 @@ export default function SistelCase() {
 
       {/* Footer */}
       <footer className="case-footer">
-        <Link to="/" className="case-footer-back">← Back to CV</Link>
+        <Link to="/" viewTransition className="case-footer-back">← Back to CV</Link>
       </footer>
 
     </div>

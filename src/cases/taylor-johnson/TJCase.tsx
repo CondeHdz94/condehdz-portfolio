@@ -38,7 +38,7 @@ export default function TJCase() {
 
       {/* Nav */}
       <header className="case-nav">
-        <Link to="/" className="case-nav-back">← Camilo Conde</Link>
+        <Link to="/" viewTransition className="case-nav-back">← Camilo Conde</Link>
         <span className="case-nav-title">Taylor &amp; Johnson · 2018–2021</span>
         <button
           className="theme-toggle"
