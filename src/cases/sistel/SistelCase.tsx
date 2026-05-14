@@ -1,10 +1,49 @@
-import { useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { CaseSection, CaseLabel, SkillTags } from '../CaseLayout'
 import './SistelCase.css'
+
+const WORKFLOW_STEPS = [
+  {
+    num: '01',
+    label: 'Source Brief',
+    items: ['Learning objectives', 'Regulations & procedures', 'Domain expert brief'],
+  },
+  {
+    num: '02',
+    label: 'Storyboard',
+    items: ['Decision point mapping', 'Branching architecture', 'Ludic structure'],
+  },
+  {
+    num: '03',
+    label: 'Published Module',
+    items: ['Branching scenarios', 'Animated feedback', 'Progressive disclosure'],
+  },
+]
+
+function WorkflowDiagram() {
+  return (
+    <div className="sistel-workflow" role="img" aria-label="Design pipeline: source brief to published module">
+      {WORKFLOW_STEPS.map(({ num, label, items }, i) => (
+        <Fragment key={num}>
+          <div className="sistel-workflow-step">
+            <span className="sistel-workflow-num">{num}</span>
+            <span className="sistel-workflow-label">{label}</span>
+            <ul className="sistel-workflow-items">
+              {items.map(item => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+          {i < WORKFLOW_STEPS.length - 1 && (
+            <span className="sistel-workflow-sep" aria-hidden="true">→</span>
+          )}
+        </Fragment>
+      ))}
+    </div>
+  )
+}
 
 export default function SistelCase() {
   const { toggle: toggleDark } = useDarkMode()
@@ -18,8 +57,14 @@ export default function SistelCase() {
     setTimeout(() => setToggleAnim(false), 420)
   }
 
+  useEffect(() => {
+    document.getElementById('case-main')?.focus({ preventScroll: true })
+  }, [])
+
   return (
     <div className="case-page case-page--sistel">
+
+      <a href="#case-main" className="case-skip-link">Skip to content</a>
 
       {/* Nav */}
       <header className="case-nav">
@@ -35,7 +80,7 @@ export default function SistelCase() {
       </header>
 
       {/* Hero */}
-      <section className="case-hero">
+      <section id="case-main" tabIndex={-1} className="case-hero">
         <div className="case-hero-inner">
           <p className="case-eyebrow reveal">
             Sistel Ltda. · Web Course Developer · 2017–2018
@@ -103,9 +148,10 @@ export default function SistelCase() {
           Ludic design principles — progression, feedback loops, small wins — were embedded in
           the structure from the storyboard stage, not applied at the end.
         </p>
-        <div className="case-placeholder reveal reveal-delay-2" style={{ marginTop: 48 }}>
-          <span className="case-placeholder-label">Animation — Script to Interaction</span>
+        <div className="case-schema-wrap reveal reveal-delay-2" style={{ marginTop: 48 }}>
+          <WorkflowDiagram />
         </div>
+        <p className="case-caption reveal reveal-delay-2">Design pipeline · from source content to published interactive module</p>
         <SkillTags
           skills={['HTML5', 'CSS', 'JavaScript', 'Articulate Storyline', 'Flash', 'UX Design', 'Storyboarding']}
           className="reveal reveal-delay-3"

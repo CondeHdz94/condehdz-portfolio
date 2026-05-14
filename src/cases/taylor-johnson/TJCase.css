@@ -23,6 +23,27 @@
   --case-accent-bg:     rgba(74, 222, 128, 0.05);
 }
 
+/* ─── Skip link ───────────────────────────────────────── */
+
+.case-skip-link {
+  position: fixed;
+  top: -100%;
+  left: 24px;
+  z-index: 200;
+  padding: 8px 16px;
+  background: var(--case-bg);
+  color: var(--case-text);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border: 1px solid var(--case-border);
+  border-radius: 4px;
+  transition: top 0.2s ease;
+}
+
+.case-skip-link:focus { top: 24px; }
+
+#case-main:focus:not(:focus-visible) { outline: none; }
+
 /* ─── Focus visible ───────────────────────────────────── */
 
 .case-page :focus-visible {
@@ -365,6 +386,7 @@
 
 @media (max-width: 768px) {
   .case-nav       { height: var(--nav-height-mobile); padding: 0 24px; }
+  .case-nav-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .case-section   { padding: 0 24px; }
   .case-hero      { padding-bottom: 64px; }
   .case-hero-inner { padding: 0 24px; }

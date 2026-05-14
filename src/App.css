@@ -35,12 +35,12 @@
 
 @media (hover: none) {
   :root {
-    --bloom-x: 20%;
-    --bloom-y: 25%;
+    --bloom-x: 50%;
+    --bloom-y: 30%;
   }
 
-  .ambient-bloom-glow        { opacity: 0.22; }
-  .dark .ambient-bloom-glow  { opacity: 0.18; }
+  .ambient-bloom-glow        { opacity: 0.26; }
+  .dark .ambient-bloom-glow  { opacity: 0.20; }
 }
 
 /* ─── Focus visible ───────────────────────────────────── */
@@ -876,6 +876,11 @@
 
   .skill-group.is-scroll-active .skill-group-title {
     color: var(--accent);
+  }
+
+  .skill-group.is-scroll-active .skill-tag {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 }
 

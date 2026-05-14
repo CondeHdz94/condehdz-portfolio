@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
@@ -33,8 +33,14 @@ export default function TJCase() {
     setTimeout(() => setToggleAnim(false), 420)
   }
 
+  useEffect(() => {
+    document.getElementById('case-main')?.focus({ preventScroll: true })
+  }, [])
+
   return (
     <div className="case-page">
+
+      <a href="#case-main" className="case-skip-link">Skip to content</a>
 
       {/* Nav */}
       <header className="case-nav">
@@ -50,7 +56,7 @@ export default function TJCase() {
       </header>
 
       {/* Hero */}
-      <section className="case-hero">
+      <section id="case-main" tabIndex={-1} className="case-hero">
         <div className="case-hero-inner">
           <p className="case-eyebrow reveal">
             Taylor &amp; Johnson International · Multimedia Engineer · 2018–2021
