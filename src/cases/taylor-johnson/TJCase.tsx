@@ -228,7 +228,7 @@ export default function TJCase() {
 
       {/* Footer */}
       <footer className="case-footer">
-        <Link to="/" className="case-footer-back">← Back to CV</Link>
+        <Link to="/" viewTransition className="case-footer-back">← Back to CV</Link>
       </footer>
 
     </div>

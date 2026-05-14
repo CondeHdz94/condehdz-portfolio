@@ -328,13 +328,14 @@
   border: 1px solid var(--case-border);
   border-radius: 100px;
   line-height: 1;
-  transition: border-color 0.3s ease, color 0.3s ease;
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
 }
 
 .case-skill-tag:hover {
   color: var(--case-accent);
   border-color: var(--case-accent-border);
+  transform: translateY(-2px);
 }
 
 /* ─── Footer ──────────────────────────────────────────── */
