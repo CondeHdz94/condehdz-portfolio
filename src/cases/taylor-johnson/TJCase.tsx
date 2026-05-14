@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
@@ -7,6 +7,8 @@ import { SceneTopaz } from './scenesCase03'
 import { SceneSelenium } from './scenesCase04'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
+import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { CaseSection, CaseLabel, SkillTags } from '../CaseLayout'
 import './TJCase.css'
 
 const SCENES = [
@@ -17,41 +19,13 @@ const SCENES = [
 
 type SceneKey = typeof SCENES[number]['key']
 
-function CaseSection({ children }: { children: ReactNode }) {
-  return (
-    <section className="case-section">
-      <div className="case-section-inner">
-        {children}
-      </div>
-    </section>
-  )
-}
-
-function CaseLabel({ num, children }: { num: string; children: ReactNode }) {
-  return (
-    <p className="case-label">
-      <span className="case-label-num">{num}</span>
-      {children}
-    </p>
-  )
-}
-
-function SkillTags({ skills }: { skills: string[] }) {
-  return (
-    <div className="case-skill-tags">
-      {skills.map((s) => (
-        <span key={s} className="case-skill-tag">{s}</span>
-      ))}
-    </div>
-  )
-}
-
 export default function TJCase() {
   const [active, setActive] = useState<SceneKey>('M1')
   const scene = SCENES.find((s) => s.key === active)!
   const { toggle: toggleDark } = useDarkMode()
   const [toggleAnim, setToggleAnim] = useState(false)
   useLenis()
+  useScrollReveal()
 
   const handleThemeToggle = () => {
     toggleDark()
@@ -78,13 +52,13 @@ export default function TJCase() {
       {/* Hero */}
       <section className="case-hero">
         <div className="case-hero-inner">
-          <p className="case-eyebrow">
+          <p className="case-eyebrow reveal">
             Taylor &amp; Johnson International · Multimedia Engineer · 2018–2021
           </p>
-          <h1 className="case-headline">
+          <h1 className="case-headline reveal reveal-delay-1">
             Bridging 40 years of COBOL banking infrastructure to the modern web.
           </h1>
-          <p className="case-subhead">
+          <p className="case-subhead reveal reveal-delay-2">
             A legacy 5250 green-screen core — still processing real transactions daily — modernized
             to responsive web interfaces without touching the business logic underneath.
           </p>
@@ -95,7 +69,7 @@ export default function TJCase() {
       <CaseSection>
         <CaseLabel num="00">Context</CaseLabel>
         <div className="case-overview-grid">
-          <div>
+          <div className="reveal reveal-delay-1">
             <h2 className="case-section-title">The system that couldn't stop.</h2>
             <p className="case-body">
               The banking core ran on IBM AS/400 hardware with 5250 terminals — a technology
@@ -110,7 +84,7 @@ export default function TJCase() {
               from scratch.
             </p>
           </div>
-          <div className="case-meta-block">
+          <div className="case-meta-block reveal reveal-delay-2">
             {[
               { label: 'Company',  value: 'Taylor & Johnson International' },
               { label: 'Role',     value: 'Multimedia Engineer' },
@@ -129,14 +103,14 @@ export default function TJCase() {
       {/* Case 01 — Interface Modernization */}
       <CaseSection>
         <CaseLabel num="01">Interface Modernization</CaseLabel>
-        <p className="case-chapter-body">
+        <p className="case-body reveal reveal-delay-1">
           Translated legacy 5250 terminal screens into responsive web UIs via Presto — every
           workflow rebuilt in HTML, JavaScript, and CSS while the COBOL business logic
           underneath stayed untouched. Operators went from memorizing keyboard shortcuts on
           green-screen menus to navigating purpose-built interfaces with proper hierarchy,
           feedback, and visual consistency.
         </p>
-        <div className="case-stage-header">
+        <div className="case-stage-header reveal reveal-delay-2">
           <div className="case-scene-switcher">
             {SCENES.map((s) => (
               <button
@@ -149,7 +123,7 @@ export default function TJCase() {
             ))}
           </div>
         </div>
-        <div className="case-stage-wrap">
+        <div className="case-stage-wrap reveal reveal-delay-2">
           <Stage
             key={active}
             width={1920}
@@ -164,13 +138,13 @@ export default function TJCase() {
             </Sprite>
           </Stage>
         </div>
-        <SkillTags skills={['HTML', 'CSS', 'JavaScript', 'jQuery', 'Presto']} />
+        <SkillTags skills={['HTML', 'CSS', 'JavaScript', 'jQuery', 'Presto']} className="reveal reveal-delay-3" />
       </CaseSection>
 
       {/* Case 02 — Parametric Document Generation */}
       <CaseSection>
         <CaseLabel num="02">Parametric Document Generation</CaseLabel>
-        <p className="case-chapter-body">
+        <p className="case-body reveal reveal-delay-1">
           Built a document engine — jointly defined with the COBOL team — that generated
           banking documents from SQL queries and web service calls. Every parameter
           (typography, spacing, colors, logo, signature placement) was configurable from a
@@ -178,11 +152,11 @@ export default function TJCase() {
           A client-facing layer, exposing that same control through a Presto-modernized
           interface, was in late stages of development at departure.
         </p>
-        <div className="case-schema-wrap">
+        <div className="case-schema-wrap reveal reveal-delay-2">
           <SchemaAS400 />
         </div>
-        <p className="case-caption">Ejemplo ilustrativo · PDFP001 · columnas y datos ajustados para claridad · la pantalla real no era visible para el usuario final</p>
-        <div className="case-stage-wrap" style={{ marginTop: 32 }}>
+        <p className="case-caption reveal reveal-delay-2">Illustrative example · PDFP001 · columns and data adjusted for clarity · the actual screen was not visible to the end user</p>
+        <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 32 }}>
           <Stage
             width={1920}
             height={1080}
@@ -196,20 +170,20 @@ export default function TJCase() {
             </Sprite>
           </Stage>
         </div>
-        <SkillTags skills={['JsPDF.js', 'SQL', 'Web Services', 'AS/400']} />
+        <SkillTags skills={['JsPDF.js', 'SQL', 'Web Services', 'AS/400']} className="reveal reveal-delay-4" />
       </CaseSection>
 
       {/* Case 03 — Digital Signature Integration */}
       <CaseSection>
         <CaseLabel num="03">Digital Signature Integration</CaseLabel>
-        <p className="case-chapter-body">
+        <p className="case-body reveal reveal-delay-1">
           Integrated TOPAZ LCD signature pads directly into the Presto layer, enabling
           in-branch document signing without leaving the web interface. Once captured, the
           signature surfaced in the Presto screen and flowed into the corresponding document —
           replacing a paper-based process and anchoring signature integrity to the banking
           operation in the ERP.
         </p>
-        <div className="case-stage-wrap">
+        <div className="case-stage-wrap reveal reveal-delay-2">
           <Stage
             width={1920}
             height={1080}
@@ -223,19 +197,19 @@ export default function TJCase() {
             </Sprite>
           </Stage>
         </div>
-        <SkillTags skills={['Presto', 'TOPAZ LCD', 'ERP Integration']} />
+        <SkillTags skills={['Presto', 'TOPAZ LCD', 'ERP Integration']} className="reveal reveal-delay-3" />
       </CaseSection>
 
       {/* Case 04 — Process Automation */}
       <CaseSection>
         <CaseLabel num="04">Process Automation</CaseLabel>
-        <p className="case-chapter-body">
+        <p className="case-body reveal reveal-delay-1">
           Built a Selenium-based automation to migrate records from our system into a
           third-party client's platform. The process was parameterized against a web service
           data source, allowing any batch size to be fed programmatically — replacing a
           manual, error-prone data entry operation for each client integration.
         </p>
-        <div className="case-stage-wrap">
+        <div className="case-stage-wrap reveal reveal-delay-2">
           <Stage
             width={1920}
             height={1080}
@@ -249,7 +223,7 @@ export default function TJCase() {
             </Sprite>
           </Stage>
         </div>
-        <SkillTags skills={['Python', 'Selenium', 'Web Services']} />
+        <SkillTags skills={['Python', 'Selenium', 'Web Services']} className="reveal reveal-delay-3" />
       </CaseSection>
 
       {/* Footer */}

@@ -8,8 +8,8 @@
   --text: #57534E;
   --text-strong: #1C1917;
 
-  --accent: #D4D0CA;
-  --accent-neutral: #D4D0CA;
+  --accent: #9E9891;
+  --accent-neutral: #9E9891;
 
   --nav-height: 74px;
   --nav-height-mobile: 66px;
@@ -23,9 +23,11 @@
   --color-contact:    #9333EA;
 
   /* ── Type scale ──────────────────────────────────── */
+  --text-micro:     0.625rem;                            /* 10px — captions, meta-labels    */
   --text-xs:        0.6875rem;                           /* 11px — micro-labels, eyebrows  */
   --text-sm:        0.75rem;                             /* 12px — UI elements, pills, tags */
   --text-secondary: 0.875rem;                            /* 14px — secondary prose          */
+  --text-body-sm:   0.9375rem;                           /* 15px — case body text           */
   --text-body:      1rem;                                /* 16px — body                     */
   --text-lead:      clamp(0.9375rem, 1.8vw, 1.1875rem); /* 15–19px — hero subtitle         */
   --text-title:     1.375rem;                            /* 22px — subheadings              */

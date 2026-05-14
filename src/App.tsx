@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDarkMode } from './hooks/useDarkMode'
 import { useLenis } from './hooks/useLenis'
+import { useScrollReveal } from './hooks/useScrollReveal'
 import './App.css'
 
 const SECTION_COLORS: Record<string, string> = {
@@ -147,27 +148,6 @@ function useBloomFollow() {
       stop()
       hoverMq.removeEventListener('change', onHoverChange)
     }
-  }, [])
-}
-
-function useScrollReveal() {
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
-    )
-
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
   }, [])
 }
 
@@ -470,14 +450,6 @@ export default function App() {
               className="social-link"
             >
               LinkedIn
-            </a>
-            <a
-              href="https://behance.net"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              Behance
             </a>
           </div>
         </div>

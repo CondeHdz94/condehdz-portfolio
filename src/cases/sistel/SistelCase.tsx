@@ -1,40 +1,16 @@
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
+import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { CaseSection, CaseLabel, SkillTags } from '../CaseLayout'
 import './SistelCase.css'
-
-function CaseSection({ children }: { children: ReactNode }) {
-  return (
-    <section className="case-section">
-      <div className="case-section-inner">{children}</div>
-    </section>
-  )
-}
-
-function CaseLabel({ num, children }: { num: string; children: ReactNode }) {
-  return (
-    <p className="case-label">
-      <span className="case-label-num">{num}</span>
-      {children}
-    </p>
-  )
-}
-
-function SkillTags({ skills }: { skills: string[] }) {
-  return (
-    <div className="case-skill-tags">
-      {skills.map((s) => (
-        <span key={s} className="case-skill-tag">{s}</span>
-      ))}
-    </div>
-  )
-}
 
 export default function SistelCase() {
   const { toggle: toggleDark } = useDarkMode()
   const [toggleAnim, setToggleAnim] = useState(false)
   useLenis()
+  useScrollReveal()
 
   const handleThemeToggle = () => {
     toggleDark()
@@ -61,13 +37,13 @@ export default function SistelCase() {
       {/* Hero */}
       <section className="case-hero">
         <div className="case-hero-inner">
-          <p className="case-eyebrow">
+          <p className="case-eyebrow reveal">
             Sistel Ltda. · Web Course Developer · 2017–2018
           </p>
-          <h1 className="case-headline">
+          <h1 className="case-headline reveal reveal-delay-1">
             Turning training scripts into interactive learning experiences.
           </h1>
-          <p className="case-subhead">
+          <p className="case-subhead reveal reveal-delay-2">
             Corporate knowledge that lived in slide decks and procedure manuals — rebuilt as
             HTML5 modules with branching scenarios, animated feedback, and visual design
             calibrated to how adults actually learn.
@@ -79,7 +55,7 @@ export default function SistelCase() {
       <CaseSection>
         <CaseLabel num="00">Context</CaseLabel>
         <div className="case-overview-grid">
-          <div>
+          <div className="reveal reveal-delay-1">
             <h2 className="case-section-title">When the content exists but the experience doesn't.</h2>
             <p className="case-body">
               Corporate training at Sistel always started the same way: subject matter experts
@@ -95,7 +71,7 @@ export default function SistelCase() {
               ludic design to drive engagement.
             </p>
           </div>
-          <div className="case-meta-block">
+          <div className="case-meta-block reveal reveal-delay-2">
             {[
               { label: 'Company',  value: 'Sistel Ltda.' },
               { label: 'Role',     value: 'Web Course Developer' },
@@ -114,23 +90,26 @@ export default function SistelCase() {
       {/* 01 From Script to Interaction */}
       <CaseSection>
         <CaseLabel num="01">From Script to Interaction</CaseLabel>
-        <p className="case-chapter-body">
+        <p className="case-body reveal reveal-delay-1">
           Every course started as a content brief — objectives, procedures, regulations —
           formatted for a classroom or a static presentation. The design process reversed the
           delivery: identify the decisions the learner needs to make, then build interactions
           around those decision points. A regulatory compliance module became a branching scenario.
           A product training became a guided simulation. What was passive became active.
         </p>
-        <p className="case-chapter-body" style={{ marginTop: 20 }}>
+        <p className="case-body reveal reveal-delay-1">
           Articulate Storyline handled branching logic and state tracking; HTML5 and CSS extended
           the visual layer with custom animations beyond what the platform alone could produce.
           Ludic design principles — progression, feedback loops, small wins — were embedded in
           the structure from the storyboard stage, not applied at the end.
         </p>
-        <div className="case-placeholder" style={{ marginTop: 48 }}>
+        <div className="case-placeholder reveal reveal-delay-2" style={{ marginTop: 48 }}>
           <span className="case-placeholder-label">Animation — Script to Interaction</span>
         </div>
-        <SkillTags skills={['HTML5', 'CSS', 'JavaScript', 'Articulate Storyline', 'Flash', 'UX Design', 'Storyboarding']} />
+        <SkillTags
+          skills={['HTML5', 'CSS', 'JavaScript', 'Articulate Storyline', 'Flash', 'UX Design', 'Storyboarding']}
+          className="reveal reveal-delay-3"
+        />
       </CaseSection>
 
       {/* Footer */}
