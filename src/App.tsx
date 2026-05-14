@@ -375,6 +375,7 @@ export default function App() {
                 period: '2017 – 2018',
                 tags: ['HTML5', 'CSS', 'Articulate', 'UX Design'],
                 desc: 'Designed and built interactive e-learning experiences in HTML5 and Articulate, combining interactivity, ludic design and andragogy to drive engagement across corporate training programs.',
+                caseStudy: { href: '/case/sistel', label: 'Sistel — E-learning design' },
               },
             ].map(({ company, role, period, tags, desc, caseStudy }, i) => (
               <div key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>

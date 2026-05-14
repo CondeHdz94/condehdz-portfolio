@@ -1,0 +1,14 @@
+@import '../taylor-johnson/TJCase.css';
+
+/* Sistel accent — creative / education context */
+.case-page--sistel {
+  --case-accent:        #EA580C;
+  --case-accent-border: rgba(234, 88, 12, 0.25);
+  --case-accent-bg:     rgba(234, 88, 12, 0.06);
+}
+
+.dark .case-page--sistel {
+  --case-accent:        #FB923C;
+  --case-accent-border: rgba(251, 146, 60, 0.3);
+  --case-accent-bg:     rgba(251, 146, 60, 0.05);
+}
