@@ -1,32 +1,34 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { CaseSection, CaseLabel, SkillTags } from '../CaseLayout'
+import { SceneSistel } from './sceneSistel'
 import './SistelCase.css'
 
 const WORKFLOW_STEPS = [
   {
     num: '01',
-    label: 'Source Brief',
-    items: ['Learning objectives', 'Regulations & procedures', 'Domain expert brief'],
+    label: 'Source Script',
+    items: ['Client brief & objectives', 'Domain expert content', 'Slide-by-slide material'],
   },
   {
     num: '02',
-    label: 'Storyboard',
-    items: ['Decision point mapping', 'Branching architecture', 'Ludic structure'],
+    label: 'Analysis',
+    items: ['Decision point mapping', 'Interaction opportunities', 'Branching architecture'],
   },
   {
     num: '03',
-    label: 'Published Module',
-    items: ['Branching scenarios', 'Animated feedback', 'Progressive disclosure'],
+    label: 'Interactive Module',
+    items: ['UX/UI visual design', 'Animated feedback', 'Branching scenarios'],
   },
 ]
 
 function WorkflowDiagram() {
   return (
-    <div className="sistel-workflow" role="img" aria-label="Design pipeline: source brief to published module">
+    <div className="sistel-workflow" role="img" aria-label="Design pipeline: source script to interactive module">
       {WORKFLOW_STEPS.map(({ num, label, items }, i) => (
         <Fragment key={num}>
           <div className="sistel-workflow-step">
@@ -44,6 +46,7 @@ function WorkflowDiagram() {
     </div>
   )
 }
+
 
 export default function SistelCase() {
   const { toggle: toggleDark } = useDarkMode()
@@ -151,7 +154,19 @@ export default function SistelCase() {
         <div className="case-schema-wrap reveal reveal-delay-2" style={{ marginTop: 48 }}>
           <WorkflowDiagram />
         </div>
-        <p className="case-caption reveal reveal-delay-2">Design pipeline · from source content to published interactive module</p>
+        <p className="case-caption reveal reveal-delay-2">Design pipeline · from source script to published interactive module</p>
+        <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 48 }}>
+          <Stage
+            width={1920}
+            height={1080}
+            duration={28}
+            background="#F8F3E6"
+            persistKey="sistel-anim"
+            initialTime={0}
+          >
+            <SceneSistel />
+          </Stage>
+        </div>
         <SkillTags
           skills={['HTML5', 'CSS', 'JavaScript', 'Articulate Storyline', 'Flash', 'UX Design', 'Storyboarding']}
           className="reveal reveal-delay-3"
