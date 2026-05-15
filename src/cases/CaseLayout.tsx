@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { getCaseNav } from './cases.config'
 
 export function CaseSection({ children }: { children: ReactNode }) {
   return (
@@ -24,5 +26,28 @@ export function SkillTags({ skills, className }: { skills: string[]; className?:
         <span key={s} className="case-skill-tag">{s}</span>
       ))}
     </div>
+  )
+}
+
+export function CaseFooterNav() {
+  const { pathname } = useLocation()
+  const { prev, next } = getCaseNav(pathname)
+  return (
+    <nav className="case-footer-nav">
+      <div>
+        {prev && (
+          <Link to={prev.path} viewTransition className="case-footer-nav-link case-footer-nav-link--prev">
+            ← {prev.title}
+          </Link>
+        )}
+      </div>
+      <div>
+        {next && (
+          <Link to={next.path} viewTransition className="case-footer-nav-link case-footer-nav-link--next">
+            {next.title} →
+          </Link>
+        )}
+      </div>
+    </nav>
   )
 }

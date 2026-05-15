@@ -8,7 +8,7 @@ import { SceneSelenium } from './scenesCase04'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
-import { CaseSection, CaseLabel, SkillTags } from '../CaseLayout'
+import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import './TJCase.css'
 
 const SCENES = [
@@ -234,7 +234,7 @@ export default function TJCase() {
 
       {/* Footer */}
       <footer className="case-footer">
-        <Link to="/" viewTransition className="case-footer-back">← Back to CV</Link>
+        <CaseFooterNav />
       </footer>
 
     </div>

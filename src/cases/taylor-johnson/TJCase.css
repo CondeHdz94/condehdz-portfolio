@@ -371,7 +371,13 @@
   border-top: 1px solid var(--case-border);
 }
 
-.case-footer-back {
+.case-footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.case-footer-nav-link {
   font-size: var(--text-sm);
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -380,9 +386,14 @@
   transition: color 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.case-footer-back:hover {
+.case-footer-nav-link--prev:hover {
   color: var(--case-text);
   transform: translateX(-4px);
+}
+
+.case-footer-nav-link--next:hover {
+  color: var(--case-text);
+  transform: translateX(4px);
 }
 
 /* ─── Touch active states ─────────────────────────────── */
@@ -400,7 +411,7 @@
   }
 
   .case-nav-back:active,
-  .case-footer-back:active {
+  .case-footer-nav-link:active {
     color: var(--case-text);
   }
 }

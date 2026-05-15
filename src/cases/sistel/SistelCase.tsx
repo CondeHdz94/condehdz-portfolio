@@ -4,7 +4,7 @@ import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
-import { CaseSection, CaseLabel, SkillTags } from '../CaseLayout'
+import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import { SceneSistel, type GuideStyle } from './sceneSistel'
 import './SistelCase.css'
 
@@ -232,7 +232,7 @@ export default function SistelCase() {
 
       {/* Footer */}
       <footer className="case-footer">
-        <Link to="/" viewTransition className="case-footer-back">← Back to CV</Link>
+        <CaseFooterNav />
       </footer>
 
     </div>
