@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
@@ -19,11 +19,16 @@ const SCENES = [
 
 type SceneKey = typeof SCENES[number]['key']
 
+const CASE_IDS     = ['case-01', 'case-02', 'case-03', 'case-04']
+const CASE_LABELS  = ['Interface', 'Documents', 'Signature', 'Automation']
+
 export default function TJCase() {
   const [active, setActive] = useState<SceneKey>('M1')
   const scene = SCENES.find((s) => s.key === active)!
   const { toggle: toggleDark } = useDarkMode()
   const [toggleAnim, setToggleAnim] = useState(false)
+  const [activeCaseIdx, setActiveCaseIdx] = useState(0)
+  const caseRatios = useRef<number[]>([0, 0, 0, 0])
   useLenis()
   useScrollReveal()
 
@@ -35,6 +40,25 @@ export default function TJCase() {
 
   useEffect(() => {
     document.getElementById('case-main')?.focus({ preventScroll: true })
+  }, [])
+
+  useEffect(() => {
+    const thresholds = Array.from({ length: 21 }, (_, i) => i / 20)
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        const idx = CASE_IDS.indexOf((entry.target as HTMLElement).id)
+        if (idx >= 0) caseRatios.current[idx] = entry.intersectionRatio
+      }
+      const max = Math.max(...caseRatios.current)
+      if (max > 0) setActiveCaseIdx(caseRatios.current.indexOf(max))
+    }, { threshold: thresholds })
+
+    CASE_IDS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -106,131 +130,151 @@ export default function TJCase() {
         </div>
       </CaseSection>
 
-      {/* Case 01 — Interface Modernization */}
-      <CaseSection>
-        <CaseLabel num="01">Interface Modernization</CaseLabel>
-        <p className="case-body reveal reveal-delay-1">
-          Translated legacy 5250 terminal screens into responsive web UIs via Presto — every
-          workflow rebuilt in HTML, JavaScript, and CSS while the COBOL business logic
-          underneath stayed untouched. Operators went from memorizing keyboard shortcuts on
-          green-screen menus to navigating purpose-built interfaces with proper hierarchy,
-          feedback, and visual consistency.
-        </p>
-        <div className="case-stage-header reveal reveal-delay-2">
-          <div className="case-scene-switcher">
-            {SCENES.map((s) => (
-              <button
-                key={s.key}
-                onClick={() => setActive(s.key)}
-                className={`case-scene-btn${active === s.key ? ' is-active' : ''}`}
-              >
-                {s.label}
-              </button>
-            ))}
+      {/* Cases 01–04 with sticky sidebar */}
+      <div className="cases-region">
+        <nav className="cases-sidebar" aria-label="Case navigator">
+          {CASE_LABELS.map((label, i) => (
+            <a
+              key={label}
+              href={`#case-0${i + 1}`}
+              className={`cases-sidebar-item${activeCaseIdx === i ? ' is-active' : ''}`}
+              aria-label={`Case 0${i + 1}: ${label}`}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+
+        {/* Case 01 — Interface Modernization */}
+        <CaseSection id="case-01">
+          <CaseLabel num="01">Interface Modernization</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">
+            Translated legacy 5250 terminal screens into responsive web UIs via Presto — every
+            workflow rebuilt in HTML, JavaScript, and CSS while the COBOL business logic
+            underneath stayed untouched. Operators went from memorizing keyboard shortcuts on
+            green-screen menus to navigating purpose-built interfaces with proper hierarchy,
+            feedback, and visual consistency.
+          </p>
+          <div className="case-stage-header reveal reveal-delay-2">
+            <div className="case-scene-switcher">
+              {SCENES.map((s) => (
+                <button
+                  key={s.key}
+                  onClick={() => setActive(s.key)}
+                  className={`case-scene-btn${active === s.key ? ' is-active' : ''}`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="case-stage-wrap reveal reveal-delay-2">
-          <Stage
-            key={active}
-            width={1920}
-            height={1080}
-            duration={scene.dur}
-            background="#0A1408"
-            persistKey={`presto-${active}`}
-            initialTime={0}
-          >
-            <Sprite start={0} end={scene.dur} keepMounted>
-              <scene.comp />
-            </Sprite>
-          </Stage>
-        </div>
-        <SkillTags skills={['HTML', 'CSS', 'JavaScript', 'jQuery', 'Presto']} className="reveal reveal-delay-3" />
-      </CaseSection>
+          <div className="case-stage-wrap reveal reveal-delay-2">
+            <Stage
+              key={active}
+              width={1920}
+              height={1080}
+              duration={scene.dur}
+              background="#0A1408"
+              persistKey={`presto-${active}`}
+              initialTime={0}
+              forcePlay={activeCaseIdx === 0}
+            >
+              <Sprite start={0} end={scene.dur} keepMounted>
+                <scene.comp />
+              </Sprite>
+            </Stage>
+          </div>
+          <SkillTags skills={['HTML', 'CSS', 'JavaScript', 'jQuery', 'Presto']} className="reveal reveal-delay-3" />
+        </CaseSection>
 
-      {/* Case 02 — Parametric Document Generation */}
-      <CaseSection>
-        <CaseLabel num="02">Parametric Document Generation</CaseLabel>
-        <p className="case-body reveal reveal-delay-1">
-          Built a document engine — jointly defined with the COBOL team — that generated
-          banking documents from SQL queries and web service calls. Every parameter
-          (typography, spacing, colors, logo, signature placement) was configurable from a
-          table in AS/400, so any document type could be restyled without touching code.
-          A client-facing layer, exposing that same control through a Presto-modernized
-          interface, was in late stages of development at departure.
-        </p>
-        <div className="case-schema-wrap reveal reveal-delay-2">
-          <SchemaAS400 />
-        </div>
-        <p className="case-caption reveal reveal-delay-2">Illustrative example · PDFP001 · columns and data adjusted for clarity · the actual screen was not visible to the end user</p>
-        <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 32 }}>
-          <Stage
-            width={1920}
-            height={1080}
-            duration={19.5}
-            background="#0A0A14"
-            persistKey="as400-pdf"
-            initialTime={0}
-          >
-            <Sprite start={0} end={19.5} keepMounted>
-              <SceneAS400toPDF />
-            </Sprite>
-          </Stage>
-        </div>
-        <SkillTags skills={['JsPDF.js', 'SQL', 'Web Services', 'AS/400']} className="reveal reveal-delay-4" />
-      </CaseSection>
+        {/* Case 02 — Parametric Document Generation */}
+        <CaseSection id="case-02">
+          <CaseLabel num="02">Parametric Document Generation</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">
+            Built a document engine — jointly defined with the COBOL team — that generated
+            banking documents from SQL queries and web service calls. Every parameter
+            (typography, spacing, colors, logo, signature placement) was configurable from a
+            table in AS/400, so any document type could be restyled without touching code.
+            A client-facing layer, exposing that same control through a Presto-modernized
+            interface, was in late stages of development at departure.
+          </p>
+          <div className="case-schema-wrap reveal reveal-delay-2">
+            <SchemaAS400 />
+          </div>
+          <p className="case-caption reveal reveal-delay-2">Illustrative example · PDFP001 · columns and data adjusted for clarity · the actual screen was not visible to the end user</p>
+          <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 32 }}>
+            <Stage
+              width={1920}
+              height={1080}
+              duration={19.5}
+              background="#0A0A14"
+              persistKey="as400-pdf"
+              initialTime={0}
+              forcePlay={activeCaseIdx === 1}
+            >
+              <Sprite start={0} end={19.5} keepMounted>
+                <SceneAS400toPDF />
+              </Sprite>
+            </Stage>
+          </div>
+          <SkillTags skills={['JsPDF.js', 'SQL', 'Web Services', 'AS/400']} className="reveal reveal-delay-4" />
+        </CaseSection>
 
-      {/* Case 03 — Digital Signature Integration */}
-      <CaseSection>
-        <CaseLabel num="03">Digital Signature Integration</CaseLabel>
-        <p className="case-body reveal reveal-delay-1">
-          Integrated TOPAZ LCD signature pads directly into the Presto layer, enabling
-          in-branch document signing without leaving the web interface. Once captured, the
-          signature surfaced in the Presto screen and flowed into the corresponding document —
-          replacing a paper-based process and anchoring signature integrity to the banking
-          operation in the ERP.
-        </p>
-        <div className="case-stage-wrap reveal reveal-delay-2">
-          <Stage
-            width={1920}
-            height={1080}
-            duration={18}
-            background="#0A0A0A"
-            persistKey="topaz-sign"
-            initialTime={0}
-          >
-            <Sprite start={0} end={18} keepMounted>
-              <SceneTopaz />
-            </Sprite>
-          </Stage>
-        </div>
-        <SkillTags skills={['Presto', 'TOPAZ LCD', 'ERP Integration']} className="reveal reveal-delay-3" />
-      </CaseSection>
+        {/* Case 03 — Digital Signature Integration */}
+        <CaseSection id="case-03">
+          <CaseLabel num="03">Digital Signature Integration</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">
+            Integrated TOPAZ LCD signature pads directly into the Presto layer, enabling
+            in-branch document signing without leaving the web interface. Once captured, the
+            signature surfaced in the Presto screen and flowed into the corresponding document —
+            replacing a paper-based process and anchoring signature integrity to the banking
+            operation in the ERP.
+          </p>
+          <div className="case-stage-wrap reveal reveal-delay-2">
+            <Stage
+              width={1920}
+              height={1080}
+              duration={18}
+              background="#0A0A0A"
+              persistKey="topaz-sign"
+              initialTime={0}
+              forcePlay={activeCaseIdx === 2}
+            >
+              <Sprite start={0} end={18} keepMounted>
+                <SceneTopaz />
+              </Sprite>
+            </Stage>
+          </div>
+          <SkillTags skills={['Presto', 'TOPAZ LCD', 'ERP Integration']} className="reveal reveal-delay-3" />
+        </CaseSection>
 
-      {/* Case 04 — Process Automation */}
-      <CaseSection>
-        <CaseLabel num="04">Process Automation</CaseLabel>
-        <p className="case-body reveal reveal-delay-1">
-          Built a Selenium-based automation to migrate records from our system into a
-          third-party client's platform. The process was parameterized against a web service
-          data source, allowing any batch size to be fed programmatically — replacing a
-          manual, error-prone data entry operation for each client integration.
-        </p>
-        <div className="case-stage-wrap reveal reveal-delay-2">
-          <Stage
-            width={1920}
-            height={1080}
-            duration={28}
-            background="#0A0A0A"
-            persistKey="selenium-migration"
-            initialTime={0}
-          >
-            <Sprite start={0} end={28} keepMounted>
-              <SceneSelenium />
-            </Sprite>
-          </Stage>
-        </div>
-        <SkillTags skills={['Python', 'Selenium', 'Web Services']} className="reveal reveal-delay-3" />
-      </CaseSection>
+        {/* Case 04 — Process Automation */}
+        <CaseSection id="case-04">
+          <CaseLabel num="04">Process Automation</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">
+            Built a Selenium-based automation to migrate records from our system into a
+            third-party client's platform. The process was parameterized against a web service
+            data source, allowing any batch size to be fed programmatically — replacing a
+            manual, error-prone data entry operation for each client integration.
+          </p>
+          <div className="case-stage-wrap reveal reveal-delay-2">
+            <Stage
+              width={1920}
+              height={1080}
+              duration={28}
+              background="#0A0A0A"
+              persistKey="selenium-migration"
+              initialTime={0}
+              forcePlay={activeCaseIdx === 3}
+            >
+              <Sprite start={0} end={28} keepMounted>
+                <SceneSelenium />
+              </Sprite>
+            </Stage>
+          </div>
+          <SkillTags skills={['Python', 'Selenium', 'Web Services']} className="reveal reveal-delay-3" />
+        </CaseSection>
+      </div>
 
       {/* Footer */}
       <footer className="case-footer">
