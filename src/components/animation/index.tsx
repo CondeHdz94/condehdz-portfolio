@@ -588,7 +588,7 @@ export function Stage({
   duration = 10,
   background = '#f6f4ef',
   loop = true,
-  autoplay = true,
+  autoplay = false,
   persistKey = 'animstage',
   initialTime,
   children,
