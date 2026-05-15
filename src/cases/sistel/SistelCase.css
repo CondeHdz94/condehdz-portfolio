@@ -106,8 +106,8 @@
   gap: 0;
   margin-top: 10px;
   padding: 14px 20px;
-  border: 1px solid var(--case-border);
-  background: var(--case-accent-bg);
+  border: 1px solid var(--case-accent-border);
+  background: var(--case-bg);
 }
 
 .sistel-tweaks-group {
@@ -120,7 +120,7 @@
 .sistel-tweaks-sep {
   width: 1px;
   height: 28px;
-  background: var(--case-border);
+  background: var(--case-accent-border);
   margin: 0 20px;
   flex-shrink: 0;
 }
@@ -145,8 +145,8 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: conic-gradient(from 135deg, var(--sw-p) 0deg 180deg, var(--sw-a) 180deg 360deg);
-  border: 2px solid transparent;
+  background: var(--sw-p);
+  border: 3px solid var(--sw-a);
   outline: none;
   cursor: pointer;
   transition: transform 0.14s ease, box-shadow 0.14s ease;
