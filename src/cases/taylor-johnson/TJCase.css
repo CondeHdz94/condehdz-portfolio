@@ -284,11 +284,14 @@
 }
 
 .case-scene-btn {
-  padding: 7px 16px;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
   border-radius: 4px;
   font-family: 'Epilogue', system-ui, sans-serif;
   font-size: var(--text-sm);
   font-weight: 500;
+  line-height: 1;
   cursor: pointer;
   border: 1px solid var(--case-border);
   background: transparent;
