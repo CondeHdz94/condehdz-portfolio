@@ -1,4 +1,4 @@
-import { StrictMode, useLayoutEffect } from 'react'
+import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './index.css'
@@ -8,7 +8,7 @@ import SistelCase from './cases/sistel/SistelCase.tsx'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
-  useLayoutEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [pathname])
   return null
 }
 
