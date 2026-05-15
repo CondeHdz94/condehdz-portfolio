@@ -610,10 +610,29 @@ export function Stage({
   const stageRef = React.useRef<HTMLDivElement>(null)
   const rafRef = React.useRef<number>(0)
   const lastTsRef = React.useRef<number | null>(null)
+  const hasAutoplayed = React.useRef(false)
 
   React.useEffect(() => {
     try { localStorage.setItem(persistKey + ':t', String(time)) } catch {}
   }, [time, persistKey])
+
+  React.useEffect(() => {
+    if (autoplay) return
+    const el = stageRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAutoplayed.current) {
+          setPlaying(true)
+          hasAutoplayed.current = true
+          io.disconnect()
+        }
+      },
+      { threshold: 0.3 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [autoplay])
 
   React.useEffect(() => {
     const onChange = () => setNativeFull(!!document.fullscreenElement)
