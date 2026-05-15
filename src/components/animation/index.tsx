@@ -577,6 +577,7 @@ interface StageProps {
   background?: string
   loop?: boolean
   autoplay?: boolean
+  forcePlay?: boolean
   persistKey?: string
   initialTime?: number
   children?: React.ReactNode
@@ -589,6 +590,7 @@ export function Stage({
   background = '#f6f4ef',
   loop = true,
   autoplay = false,
+  forcePlay,
   persistKey = 'animstage',
   initialTime,
   children,
@@ -617,7 +619,12 @@ export function Stage({
   }, [time, persistKey])
 
   React.useEffect(() => {
+    if (forcePlay !== undefined) setPlaying(forcePlay)
+  }, [forcePlay])
+
+  React.useEffect(() => {
     if (autoplay) return
+    if (forcePlay !== undefined) return
     const el = stageRef.current
     if (!el) return
     const io = new IntersectionObserver(
@@ -633,7 +640,7 @@ export function Stage({
     )
     io.observe(el)
     return () => io.disconnect()
-  }, [autoplay])
+  }, [autoplay, forcePlay])
 
   React.useEffect(() => {
     const onChange = () => setNativeFull(!!document.fullscreenElement)

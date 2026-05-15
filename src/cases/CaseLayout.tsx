@@ -2,9 +2,9 @@ import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { getCaseNav } from './cases.config'
 
-export function CaseSection({ children }: { children: ReactNode }) {
+export function CaseSection({ children, id }: { children: ReactNode; id?: string }) {
   return (
-    <section className="case-section">
+    <section id={id} className="case-section">
       <div className="case-section-inner">{children}</div>
     </section>
   )
