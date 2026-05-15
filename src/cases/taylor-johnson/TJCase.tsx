@@ -100,7 +100,7 @@ export default function TJCase() {
         <CaseLabel num="00">Context</CaseLabel>
         <div className="case-overview-grid">
           <div className="reveal reveal-delay-1">
-            <h2 className="case-section-title">The system that couldn't stop.</h2>
+            <h3 className="case-section-title">The system that couldn't stop.</h3>
             <p className="case-body">
               The banking core ran on IBM AS/400 hardware with 5250 terminals — a technology
               stack from the 1980s still processing transactions daily. Operators navigated
@@ -202,7 +202,7 @@ export default function TJCase() {
             <SchemaAS400 />
           </div>
           <p className="case-caption reveal reveal-delay-2">Illustrative example · PDFP001 · columns and data adjusted for clarity · the actual screen was not visible to the end user</p>
-          <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 32 }}>
+          <div className="case-stage-wrap reveal reveal-delay-3">
             <Stage
               width={1920}
               height={1080}

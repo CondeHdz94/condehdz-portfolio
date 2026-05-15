@@ -452,7 +452,7 @@
 }
 
 .cases-sidebar-item {
-  font-size: 9px;
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
