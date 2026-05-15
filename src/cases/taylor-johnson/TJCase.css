@@ -382,6 +382,26 @@
   transform: translateX(-4px);
 }
 
+/* ─── Touch active states ─────────────────────────────── */
+
+@media (hover: none) {
+  .case-skill-tag:active {
+    color: var(--case-accent);
+    border-color: var(--case-accent-border);
+  }
+
+  .case-scene-btn:active {
+    border-color: var(--case-accent-border);
+    color: var(--case-text);
+    background-color: var(--case-accent-bg);
+  }
+
+  .case-nav-back:active,
+  .case-footer-back:active {
+    color: var(--case-text);
+  }
+}
+
 /* ─── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 768px) {
