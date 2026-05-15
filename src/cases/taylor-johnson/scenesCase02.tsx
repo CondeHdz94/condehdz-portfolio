@@ -115,7 +115,6 @@ function ModernUI({ localTime, buttonState = 'idle', shineT = 0 }: ModernUIProps
   const tBtn   = clamp((localTime - 0.45) / 0.4, 0, 1)
 
   const btnBg = buttonState === 'press' ? '#1D4ED8' : shineT > 0.05 ? '#1E40AF' : C.accent
-  const pulse  = 0.5 + 0.5 * Math.sin(localTime * Math.PI * 2.4)
   const rippleSpeed = 0.8
   const ripples = [0, 0.5].map((phase) => {
     const c = (localTime * rippleSpeed + phase) % 1.0
@@ -125,7 +124,7 @@ function ModernUI({ localTime, buttonState = 'idle', shineT = 0 }: ModernUIProps
   const btnShadow = buttonState === 'press'
     ? '0 1px 2px rgba(37,99,235,0.4)'
     : shineT > 0.05
-    ? `0 0 ${36 + pulse * 32}px ${6 + pulse * 8}px rgba(59,130,246,${(0.7 * shineT).toFixed(2)}), 0 0 0 ${3 + pulse * 2}px rgba(147,197,253,${(0.6 * shineT).toFixed(2)}), 0 6px 18px -6px rgba(37,99,235,0.5)`
+    ? '0 0 52px 10px rgba(59,130,246,0.55), 0 0 0 4px rgba(147,197,253,0.5), 0 6px 18px -6px rgba(37,99,235,0.5)'
     : '0 6px 18px -6px rgba(37,99,235,0.5)'
 
   const cards = [
@@ -924,7 +923,7 @@ export function SceneAS400toPDF() {
       {/* Modern bank UI — blurs/scales slightly when modal is open */}
       <div style={{
         position: 'absolute', inset: 0,
-        filter: modalT > 0.01 ? `blur(${modalT * 2}px)` : 'none',
+        opacity: 1 - modalT * 0.45,
         transform: `scale(${1 - modalT * 0.02})`,
         transformOrigin: 'center',
       }}>
