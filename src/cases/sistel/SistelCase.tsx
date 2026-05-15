@@ -1,12 +1,28 @@
-import { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { CaseSection, CaseLabel, SkillTags } from '../CaseLayout'
-import { SceneSistel } from './sceneSistel'
+import { SceneSistel, type GuideStyle } from './sceneSistel'
 import './SistelCase.css'
+
+const PALETTES = [
+  { primary: '#E63946', accent: '#1D3557', label: 'Rojo · Navy' },
+  { primary: '#2E3FFF', accent: '#0F172A', label: 'Azul · Ink' },
+  { primary: '#FF6033', accent: '#26303A', label: 'Coral · Carbón' },
+  { primary: '#00B894', accent: '#16302C', label: 'Mint · Verde' },
+  { primary: '#7A5AE0', accent: '#2B1F18', label: 'Violeta · Chocolate' },
+  { primary: '#F4B400', accent: '#1F2438', label: 'Ámbar · Medianoche' },
+]
+
+const GUIDE_OPTIONS: { value: GuideStyle; label: string }[] = [
+  { value: 'geometric', label: 'Geometric' },
+  { value: 'riso',      label: 'Riso' },
+  { value: 'line',      label: 'Line' },
+  { value: 'mascot',    label: 'Mascot' },
+]
 
 const WORKFLOW_STEPS = [
   {
@@ -51,6 +67,8 @@ function WorkflowDiagram() {
 export default function SistelCase() {
   const { toggle: toggleDark } = useDarkMode()
   const [toggleAnim, setToggleAnim] = useState(false)
+  const [paletteIdx, setPaletteIdx] = useState(0)
+  const [guide, setGuide] = useState<GuideStyle>('geometric')
   useLenis()
   useScrollReveal()
 
@@ -164,9 +182,48 @@ export default function SistelCase() {
             persistKey="sistel-anim"
             initialTime={0}
           >
-            <SceneSistel />
+            <SceneSistel
+              primary={PALETTES[paletteIdx].primary}
+              accent={PALETTES[paletteIdx].accent}
+              guide={guide}
+            />
           </Stage>
         </div>
+
+        <div className="sistel-tweaks reveal reveal-delay-3">
+          <div className="sistel-tweaks-group">
+            <span className="sistel-tweaks-label">Brand color</span>
+            <div className="sistel-tweaks-palettes" role="group" aria-label="Brand color palette">
+              {PALETTES.map((p, i) => (
+                <button
+                  key={i}
+                  className={`sistel-palette-swatch${paletteIdx === i ? ' is-active' : ''}`}
+                  style={{ '--sw-p': p.primary, '--sw-a': p.accent } as React.CSSProperties}
+                  onClick={() => setPaletteIdx(i)}
+                  aria-label={p.label}
+                  aria-pressed={paletteIdx === i}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="sistel-tweaks-sep" aria-hidden="true" />
+          <div className="sistel-tweaks-group">
+            <span className="sistel-tweaks-label">Character style</span>
+            <div className="sistel-tweaks-guides" role="group" aria-label="Character style">
+              {GUIDE_OPTIONS.map(({ value, label }) => (
+                <button
+                  key={value}
+                  className={`sistel-guide-btn${guide === value ? ' is-active' : ''}`}
+                  onClick={() => setGuide(value)}
+                  aria-pressed={guide === value}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <SkillTags
           skills={['HTML5', 'CSS', 'JavaScript', 'Articulate Storyline', 'Flash', 'UX Design', 'Storyboarding']}
           className="reveal reveal-delay-3"
