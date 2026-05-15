@@ -191,7 +191,7 @@
 .sistel-guide-btn.is-active {
   background: var(--case-accent);
   border-color: var(--case-accent);
-  color: #fff;
+  color: var(--case-bg);
 }
 
 @media (max-width: 768px) {

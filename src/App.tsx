@@ -345,7 +345,7 @@ export default function App() {
             </a>
           </div>
         </div>
-        <div className="scroll-hint">
+        <div className="scroll-hint" aria-hidden="true">
           <span>Scroll</span>
           <div className="scroll-line" />
         </div>
@@ -354,10 +354,10 @@ export default function App() {
       {/* ── About ── */}
       <section id="about" data-section="about" className="section section-about">
         <div className="section-inner">
-          <p className="section-label reveal">
+          <h2 className="section-label reveal">
             <span className="section-num">01</span>
             <span className="section-name">About</span>
-          </p>
+          </h2>
           <div className="about-grid">
             <div className="about-stats">
               <div className="reveal"><StatCounter target={5}  label="Years of experience" /></div>
@@ -389,10 +389,10 @@ export default function App() {
       {/* ── Experience ── */}
       <section id="experience" data-section="experience" className="section section-experience">
         <div className="section-inner">
-          <p className="section-label reveal">
+          <h2 className="section-label reveal">
             <span className="section-num">02</span>
             <span className="section-name">Experience</span>
-          </p>
+          </h2>
           <div className="timeline">
             {[
               {
@@ -443,10 +443,10 @@ export default function App() {
       {/* ── Skills ── */}
       <section id="skills" data-section="skills" className="section section-skills">
         <div className="section-inner">
-          <p className="section-label reveal">
+          <h2 className="section-label reveal">
             <span className="section-num">03</span>
             <span className="section-name">Skills</span>
-          </p>
+          </h2>
           <div className="skills-stack">
             {[
               {
@@ -482,10 +482,10 @@ export default function App() {
       {/* ── Contact ── */}
       <section id="contact" data-section="contact" className="section section-contact">
         <div className="section-inner">
-          <p className="section-label reveal">
+          <h2 className="section-label reveal">
             <span className="section-num">04</span>
             <span className="section-name">Contact</span>
-          </p>
+          </h2>
           <p className="contact-headline reveal reveal-delay-1">Let's build something together.</p>
           <div className="contact-links reveal reveal-delay-2">
             <a href="mailto:condeher94@gmail.com" className="contact-link">

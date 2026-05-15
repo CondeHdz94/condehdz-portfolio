@@ -12,10 +12,10 @@ export function CaseSection({ children, id }: { children: ReactNode; id?: string
 
 export function CaseLabel({ num, children }: { num: string; children: ReactNode }) {
   return (
-    <p className="case-label reveal">
+    <h2 className="case-label reveal">
       <span className="case-label-num">{num}</span>
       {children}
-    </p>
+    </h2>
   )
 }
 
