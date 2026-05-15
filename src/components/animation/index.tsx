@@ -622,13 +622,14 @@ export function Stage({
     if (!el) return
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAutoplayed.current) {
-          setPlaying(true)
+        if (entry.intersectionRatio >= 0.3) {
           hasAutoplayed.current = true
-          io.disconnect()
+          setPlaying(true)
+        } else if (!entry.isIntersecting && hasAutoplayed.current) {
+          setPlaying(false)
         }
       },
-      { threshold: 0.3 },
+      { threshold: [0, 0.3] },
     )
     io.observe(el)
     return () => io.disconnect()
