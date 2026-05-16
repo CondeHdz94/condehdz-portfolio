@@ -107,7 +107,7 @@ export default function SistelCase() {
             Sistel Ltda. · Web Course Developer · 2017–2018
           </p>
           <h1 className="case-headline reveal reveal-delay-1">
-            Turning training scripts into interactive learning experiences.
+            Turning scripts into interactive learning experiences.
           </h1>
           <p className="case-subhead reveal reveal-delay-2">
             Corporate knowledge that lived in slide decks and procedure manuals — rebuilt as

@@ -14,6 +14,18 @@
   --case-accent-bg:     rgba(251, 146, 60, 0.05);
 }
 
+/* Sistel hero has a taller subhead (~1 extra line) vs Taylor & Johnson;
+   reduce padding-bottom to keep the eyebrow at the same visual height */
+.case-page--sistel .case-hero {
+  padding-bottom: 60px;
+}
+
+@media (max-width: 768px) {
+  .case-page--sistel .case-hero {
+    padding-bottom: 40px;
+  }
+}
+
 /* ─── Workflow pipeline diagram ──────────────────────── */
 
 .sistel-workflow {

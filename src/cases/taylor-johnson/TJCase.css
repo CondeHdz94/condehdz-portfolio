@@ -42,7 +42,8 @@
 
 .case-skip-link:focus { top: 24px; }
 
-#case-main:focus:not(:focus-visible) { outline: none; }
+#case-main:focus,
+#case-main:focus-visible { outline: none; }
 
 /* ─── Focus visible ───────────────────────────────────── */
 
