@@ -369,7 +369,7 @@ export default function App() {
                 "The best way to face challenges is with an open mind and an insatiable curiosity."
               </p>
               <p>
-                Multimedia Engineer from Universidad de San Buenaventura — fluent
+                Multimedia Engineer from Universidad de San Buenaventura, fluent
                 in Figma and fluent in the codebase. 5+ years taking products
                 from sketch to production in React and TypeScript, with a genuine
                 interest in how people actually interact with what gets built.
@@ -408,7 +408,7 @@ export default function App() {
                 period: '2018 – 2021',
                 tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium', 'COBOL'],
                 desc: "Modernized a COBOL banking core from legacy 5250 green-screen interfaces to web using Fresche Solutions' Presto. Built parametric document generation with JsPDF, digital signature integration with TOPAZ devices, and process automation with Python and Selenium.",
-                caseStudy: { href: '/case/taylor-johnson', label: 'T&J — COBOL modernization' },
+                caseStudy: { href: '/case/taylor-johnson', label: 'T&J: COBOL modernization' },
               },
               {
                 company: 'Sistel',
@@ -416,7 +416,7 @@ export default function App() {
                 period: '2017 – 2018',
                 tags: ['HTML5', 'CSS', 'Articulate', 'UX Design'],
                 desc: 'Designed and built interactive e-learning experiences in HTML5 and Articulate, combining interactivity, ludic design and andragogy to drive engagement across corporate training programs.',
-                caseStudy: { href: '/case/sistel', label: 'Sistel — E-learning design' },
+                caseStudy: { href: '/case/sistel', label: 'Sistel: E-learning design' },
               },
             ].map(({ company, role, period, tags, desc, caseStudy }, i) => (
               <div key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>

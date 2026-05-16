@@ -89,7 +89,7 @@ export default function TJCase() {
             Bridging 40 years of COBOL banking infrastructure to the modern web.
           </h1>
           <p className="case-subhead reveal reveal-delay-2">
-            A legacy 5250 green-screen core — still processing real transactions daily — modernized
+            A legacy 5250 green-screen core, still processing real transactions daily, modernized
             to responsive web interfaces without touching the business logic underneath.
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function TJCase() {
           <div className="reveal reveal-delay-1">
             <h3 className="case-section-title">The system that couldn't stop.</h3>
             <p className="case-body">
-              The banking core ran on IBM AS/400 hardware with 5250 terminals — a technology
+              The banking core ran on IBM AS/400 hardware with 5250 terminals, a technology
               stack from the 1980s still processing transactions daily. Operators navigated
               green-screen menus with keyboard shortcuts memorized over decades. The system
               worked. That was the problem.
@@ -226,7 +226,7 @@ export default function TJCase() {
           <p className="case-body reveal reveal-delay-1">
             Integrated TOPAZ LCD signature pads directly into the Presto layer, enabling
             in-branch document signing without leaving the web interface. Once captured, the
-            signature surfaced in the Presto screen and flowed into the corresponding document —
+            signature surfaced in the Presto screen and flowed into the corresponding document,
             replacing a paper-based process and anchoring signature integrity to the banking
             operation in the ERP.
           </p>
@@ -254,7 +254,7 @@ export default function TJCase() {
           <p className="case-body reveal reveal-delay-1">
             Built a Selenium-based automation to migrate records from our system into a
             third-party client's platform. The process was parameterized against a web service
-            data source, allowing any batch size to be fed programmatically — replacing a
+            data source, allowing any batch size to be fed programmatically, replacing a
             manual, error-prone data entry operation for each client integration.
           </p>
           <div className="case-stage-wrap reveal reveal-delay-2">
