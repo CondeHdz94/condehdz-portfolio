@@ -142,8 +142,8 @@ function useBloomFollow() {
     const tick = () => {
       currentX = lerp(currentX, targetX, 0.05)
       currentY = lerp(currentY, targetY, 0.05)
-      document.documentElement.style.setProperty('--bloom-x', `${currentX * 100}%`)
-      document.documentElement.style.setProperty('--bloom-y', `${currentY * 100}%`)
+      document.documentElement.style.setProperty('--bloom-x', `${currentX * window.innerWidth}px`)
+      document.documentElement.style.setProperty('--bloom-y', `${currentY * window.innerHeight}px`)
       rafId = requestAnimationFrame(tick)
     }
 

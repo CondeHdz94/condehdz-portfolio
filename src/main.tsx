@@ -1,10 +1,11 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode, useEffect, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
-import TJCase from './cases/taylor-johnson/TJCase.tsx'
-import SistelCase from './cases/sistel/SistelCase.tsx'
+
+const TJCase    = lazy(() => import('./cases/taylor-johnson/TJCase.tsx'))
+const SistelCase = lazy(() => import('./cases/sistel/SistelCase.tsx'))
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -18,8 +19,8 @@ createRoot(document.getElementById('root')!).render(
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/case/taylor-johnson" element={<TJCase />} />
-        <Route path="/case/sistel" element={<SistelCase />} />
+        <Route path="/case/taylor-johnson" element={<Suspense fallback={null}><TJCase /></Suspense>} />
+        <Route path="/case/sistel" element={<Suspense fallback={null}><SistelCase /></Suspense>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

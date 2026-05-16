@@ -19,9 +19,9 @@
   width: 44vmin;
   height: 44vmin;
   border-radius: 50%;
-  left: var(--bloom-x, 65%);
-  top: var(--bloom-y, 36%);
-  transform: translate(-50%, -50%);
+  left: 0;
+  top: 0;
+  transform: translate(calc(var(--bloom-x, 65vw) - 50%), calc(var(--bloom-y, 36vh) - 50%));
   background-color: var(--accent);
   opacity: 0.13;
   filter: blur(80px);
@@ -34,13 +34,11 @@
 }
 
 @media (hover: none) {
-  :root {
-    --bloom-x: 50%;
-    --bloom-y: 30%;
+  .ambient-bloom-glow {
+    transform: translate(calc(50vw - 50%), calc(30vh - 50%));
+    opacity: 0.26;
   }
-
-  .ambient-bloom-glow        { opacity: 0.26; }
-  .dark .ambient-bloom-glow  { opacity: 0.20; }
+  .dark .ambient-bloom-glow { opacity: 0.20; }
 }
 
 /* ─── Focus visible ───────────────────────────────────── */
