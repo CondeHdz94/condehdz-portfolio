@@ -173,7 +173,7 @@ function useBloomFollow() {
 }
 
 function StatCounter({ target, label }: { target: number; label: string }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDListElement>(null)
   const [value, setValue] = useState(0)
   const triggered = useRef(false)
 
@@ -209,10 +209,10 @@ function StatCounter({ target, label }: { target: number; label: string }) {
   }, [target])
 
   return (
-    <div ref={ref}>
-      <span className="stat-number">{String(value).padStart(2, '0')}+</span>
-      <span className="stat-label">{label}</span>
-    </div>
+    <dl ref={ref}>
+      <dd className="stat-number">{String(value).padStart(2, '0')}+</dd>
+      <dt className="stat-label">{label}</dt>
+    </dl>
   )
 }
 
