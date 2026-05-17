@@ -401,6 +401,7 @@ export default function App() {
                 period: '2021 – Present',
                 tags: ['React', 'Redux', 'TypeScript', 'Tailwind', 'React Query', 'Zustand', 'Framer Motion', 'Figma', 'Git', 'Design Systems', 'Accessibility'],
                 desc: 'Banking platform frontend in React and Redux. Architected the product\'s design system from scratch, aligning brand guidelines with accessibility validation. Owns the frontend stack across UI/UX improvements, library migrations and process automation.',
+                caseStudy: { href: '/case/uni2', label: 'UNI2: Banking platform frontend' },
               },
               {
                 company: 'Taylor & Johnson',

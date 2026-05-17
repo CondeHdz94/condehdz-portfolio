@@ -4,6 +4,7 @@ export interface CaseEntry {
 }
 
 export const CASES: CaseEntry[] = [
+  { path: '/case/uni2',           title: 'UNI2'             },
   { path: '/case/taylor-johnson', title: 'Taylor & Johnson' },
   { path: '/case/sistel',         title: 'Sistel'           },
 ]

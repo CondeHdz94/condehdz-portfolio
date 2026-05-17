@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 
-const TJCase    = lazy(() => import('./cases/taylor-johnson/TJCase.tsx'))
+const Uni2Case   = lazy(() => import('./cases/uni2/Uni2Case.tsx'))
+const TJCase     = lazy(() => import('./cases/taylor-johnson/TJCase.tsx'))
 const SistelCase = lazy(() => import('./cases/sistel/SistelCase.tsx'))
 
 function ScrollToTop() {
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/case/uni2" element={<Suspense fallback={null}><Uni2Case /></Suspense>} />
         <Route path="/case/taylor-johnson" element={<Suspense fallback={null}><TJCase /></Suspense>} />
         <Route path="/case/sistel" element={<Suspense fallback={null}><SistelCase /></Suspense>} />
       </Routes>
