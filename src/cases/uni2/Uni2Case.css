@@ -146,6 +146,54 @@
   opacity: 0.55;
 }
 
+/* ─── Differentiators list ───────────────────────────── */
+
+.uni2-differentiators {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 40px;
+  counter-reset: diff;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.uni2-differentiators li {
+  counter-increment: diff;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 0 14px;
+  align-items: baseline;
+  font-size: var(--text-sm);
+  color: var(--case-muted);
+  line-height: 1.7;
+}
+
+.uni2-differentiators li::before {
+  content: counter(diff);
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--case-accent);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.18em;
+}
+
+.uni2-differentiators li strong {
+  color: var(--case-text);
+  font-weight: 600;
+}
+
+.uni2-differentiators li code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.88em;
+  color: var(--case-text);
+  background: var(--case-accent-bg);
+  border: 1px solid var(--case-accent-border);
+  border-radius: 3px;
+  padding: 0.05em 0.35em;
+}
+
 /* ─── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 768px) {

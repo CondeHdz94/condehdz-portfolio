@@ -93,8 +93,10 @@ export default function Uni2Case() {
             Banking software for thirty roles, built from the frontend.
           </h1>
           <p className="case-subhead reveal reveal-delay-2">
-            Five years on the frontend of a live banking core — and then a clean start,
-            architecting Uni2Lite from the first commit as its sole frontend developer.
+            Four-plus years shipping on the frontend of a live banking core — then a clean start:
+            architecting Uni2Lite from the first commit as sole frontend engineer,
+            building not just a credit platform but a composable engine to assemble
+            any credit process from configuration, not code.
           </p>
         </div>
       </section>
@@ -219,30 +221,59 @@ export default function Uni2Case() {
         <CaseLabel num="02">Uni2Lite — Founding Engineer</CaseLabel>
 
         <h2 className="case-section-title reveal">
-          Starting from zero — a new platform with the right architecture from the beginning.
+          Not a credit form. An engine for assembling any credit origination process — in hours, not sprints.
         </h2>
         <p className="case-body reveal reveal-delay-1">
           In early 2025, the company started Uni2Lite: a separate platform for its services
-          segment. No legacy to inherit — a blank Vite config and a set of decisions about what
-          kind of codebase to build. The constraint: one frontend developer, an expectation that
-          others would eventually join, and the responsibility to leave them a foundation worth
-          inheriting.
+          segment. No legacy to inherit — a blank Vite config and a foundational question:
+          what kind of codebase to build. The constraint: one frontend developer, an expectation
+          that others would eventually join, and the responsibility to leave them a foundation
+          worth inheriting.
         </p>
         <p className="case-body reveal reveal-delay-1">
-          The stack reflects deliberate choices with explicit tradeoffs. React Query for server
-          state instead of Redux-Saga: less boilerplate, better cache semantics, built-in
-          loading and error handling. Zustand for client state instead of global Redux:
-          co-located stores, no action/reducer ceremony. React Hook Form + Zod for forms:
-          type-safe schemas, composable validation, no watcher overhead. Each decision documented
-          in writing, not just made.
+          The insight that shaped everything: in financial products, processes change faster than
+          code. New regulation, new product, new partner segment — if every process change
+          requires a sprint of refactoring, you've already lost. The answer is a composable
+          credit origination engine. Not an app. A factory for apps. The steps — pre-approval,
+          client, credit, contact, insurability, OTP signature, documents — are independent
+          pieces. Processes assemble them. A step doesn't know which process it lives in.
+          That's the point.
         </p>
 
         <p className="case-body reveal reveal-delay-2">
-          The folder architecture follows an adapted Feature-Sliced Design — a layered dependency
-          graph where violations are blocking in review. The key invariant: upper layers can import
-          from lower ones, never the reverse. A step can be lifted into any future process without
-          touching its code.
+          Five decisions made this possible:
         </p>
+        <ol className="uni2-differentiators reveal reveal-delay-2">
+          <li>
+            <strong>Native dual mode.</strong> The same <code>CreditApplicationFlow</code> component
+            renders in edit mode for the client filling out the request and in consult (read-only)
+            mode for the analyst reviewing it from their work queue. One source of truth, two
+            experiences, zero component duplication.
+          </li>
+          <li>
+            <strong>Declarative forms.</strong> Fields are described as <code>FieldConfig[]</code>.
+            A builder auto-generates the Zod schema with validation messages in Spanish, the
+            responsive grid, and the React Hook Form connection. Adding a field is a single line
+            of config, not a 200-line PR.
+          </li>
+          <li>
+            <strong>Agnostic stepper.</strong> The stepper orchestrates without knowing what any
+            step does. Each step registers itself via <code>useFormStepHandler</code> or{' '}
+            <code>registerSubmitHandler</code> and returns <code>Promise&lt;boolean&gt;</code>.
+            An OTP step, a document upload step, and a 40-field form step are identical from the
+            engine's perspective.
+          </li>
+          <li>
+            <strong>Real role separation.</strong> Public routes for client signature (
+            <code>/signature/:token</code>), private <code>ProtectedRoute</code> for analysts,
+            distributors, administrators. Each role sees exactly their surface.
+          </li>
+          <li>
+            <strong>Architecture that holds.</strong> Feature-Sliced Design with unidirectional
+            dependency flow. A step never imports from another step. A feature never imports from
+            another feature. Delete an entire process without breaking anything else.
+          </li>
+        </ol>
 
         <div className="uni2-arch reveal reveal-delay-2" role="img" aria-label="Feature-Sliced Design layers: pages, processes, steps, features, domains, components">
           {FSD_LAYERS.map(l => (
@@ -253,23 +284,7 @@ export default function Uni2Case() {
           ))}
         </div>
         <p className="case-caption reveal reveal-delay-2">
-          Feature-Sliced Design (adapted) · upper layers depend on lower, never the reverse
-        </p>
-
-        <p className="case-body reveal reveal-delay-2" style={{ marginTop: 40 }}>
-          The core of Uni2Lite is the credit application flow — a multi-step wizard powered by a
-          Zustand stepper store. Each step registers itself via <code style={{ fontFamily: 'IBM Plex Mono, ui-monospace, monospace', fontSize: '0.9em' }}>useFormStepHandler</code> (for
-          React Hook Form steps) or <code style={{ fontFamily: 'IBM Plex Mono, ui-monospace, monospace', fontSize: '0.9em' }}>registerSubmitHandler</code> (for custom flows like document
-          upload or OTP polling). The same <code style={{ fontFamily: 'IBM Plex Mono, ui-monospace, monospace', fontSize: '0.9em' }}>CreditApplicationFlow</code> component renders in three
-          modes: edit, visual, and consult — controlled by a single prop. No component
-          duplication. The search module added later reuses the same flow in consult mode, with
-          zero impact to the application form itself.
-        </p>
-        <p className="case-body reveal reveal-delay-2">
-          Forms are declarative: fields are configured as <code style={{ fontFamily: 'IBM Plex Mono, ui-monospace, monospace', fontSize: '0.9em' }}>FieldConfig[]</code> and a builder
-          generates the Zod schema with validation messages, which feeds React Hook Form.
-          Supports cross-field refinements, field dependencies, and sectioned layouts. Adding
-          a new field to a step is a single line of config, not a 200-line PR.
+          Feature-Sliced Design (adapted) · upper layers import from lower, never the reverse · delete a process without breaking anything
         </p>
 
         {/* Animated scene */}
@@ -278,7 +293,7 @@ export default function Uni2Case() {
             width={1920}
             height={1080}
             duration={28}
-            background="#F0EEE8"
+            background="#0B0D14"
             persistKey="uni2-anim"
             initialTime={0}
           >
@@ -286,7 +301,7 @@ export default function Uni2Case() {
           </Stage>
         </div>
         <p className="case-caption reveal reveal-delay-3">
-          Uni2Lite · credit application flow · edit mode → consult mode via prop
+          Uni2Lite · same 7 steps, different processes · process mode and consult mode from a single component
         </p>
 
         <SkillTags
