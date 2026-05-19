@@ -129,7 +129,7 @@ export default function Uni2Case() {
           <div className="case-meta-block reveal reveal-delay-2">
             {[
               { label: 'Company',  value: 'UNI2 Microcrédito' },
-              { label: 'Role',     value: 'Frontend Developer\nFounding Engineer (Uni2Lite)' },
+              { label: 'Role',     value: 'Frontend Developer · Frontend Lead\nFounding Engineer (Uni2Lite)' },
               { label: 'Duration', value: '4 years 6 months · Ongoing' },
               { label: 'Location', value: 'Cali, Colombia' },
             ].map(({ label, value }) => (
@@ -210,6 +210,16 @@ export default function Uni2Case() {
           </tbody>
         </table>
 
+        <p className="case-body reveal reveal-delay-2">
+          Over the past several months the role has carried a formal Frontend Lead title.
+          In practice: being the technical anchor of the team. Key process designs and
+          frontend decisions in the credit domain are reviewed through me before
+          implementation, and I maintain visibility across what the rest of the team is
+          building. On the knowledge-transfer side, I facilitated the team's hands-on
+          onboarding to AI tooling — organizing a structured induction on integrating
+          tools like Claude Code into the day-to-day development workflow.
+        </p>
+
         <SkillTags
           skills={['React 16', 'Redux', 'Redux-Saga', 'Material-UI', 'SCSS', 'Bootstrap', 'AWS Amplify', 'Axios', 'JWT', 'GitHub Actions', 'Docker', 'Git Flow']}
           className="reveal reveal-delay-3"
@@ -237,10 +247,6 @@ export default function Uni2Case() {
           credit origination engine. Not an app. A factory for apps. The steps — pre-approval,
           client, credit, contact, insurability, OTP signature, documents — are independent
           pieces. Processes assemble them. A step doesn't know which process it lives in.
-          That's the point.
-        </p>
-
-        <p className="case-body reveal reveal-delay-2">
           Five decisions made this possible:
         </p>
         <ol className="uni2-differentiators reveal reveal-delay-2">

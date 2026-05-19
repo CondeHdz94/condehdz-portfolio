@@ -113,6 +113,14 @@ export default function TJCase() {
               and the browser. The COBOL logic stayed untouched. The surface was rebuilt
               from scratch.
             </p>
+            <p className="case-body">
+              Over the engagement, the role extended beyond implementation. For document
+              processes and new integrations in particular, I became the technical reference —
+              the person other team members consulted before starting anything new in that
+              domain. That meant attending cross-area meetings to align on requirements and,
+              on some occasions, joining client sessions directly to validate goals and
+              constraints.
+            </p>
           </div>
           <div className="case-meta-block reveal reveal-delay-2">
             {[
