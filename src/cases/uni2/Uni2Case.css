@@ -160,10 +160,8 @@
 
 .uni2-differentiators li {
   counter-increment: diff;
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 0 14px;
-  align-items: baseline;
+  position: relative;
+  padding-left: 36px;
   font-size: var(--text-sm);
   color: var(--case-muted);
   line-height: 1.7;
@@ -171,12 +169,14 @@
 
 .uni2-differentiators li::before {
   content: counter(diff);
+  position: absolute;
+  left: 0;
+  top: 0.18em;
   font-size: var(--text-micro);
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--case-accent);
   font-variant-numeric: tabular-nums;
-  padding-top: 0.18em;
 }
 
 .uni2-differentiators li strong {
