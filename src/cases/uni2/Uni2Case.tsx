@@ -147,8 +147,17 @@ export default function Uni2Case() {
         <CaseLabel num="01">Platform Contribution</CaseLabel>
 
         <h2 className="case-section-title reveal">
-          Four years of continuous delivery on a business-critical banking platform.
+          Four-plus years of continuous delivery on a live banking platform — currently as Frontend Lead.
         </h2>
+
+        <p className="case-body reveal reveal-delay-1">
+          Today the role is Frontend Lead — the technical anchor for the team's frontend work
+          in the credit domain. Key process designs and implementation decisions are reviewed
+          through me before they ship. Beyond technical oversight, I organized and facilitated
+          the team's hands-on onboarding to AI tooling, translating a company-wide initiative
+          into a structured induction on integrating tools like Claude Code into the
+          day-to-day development workflow.
+        </p>
 
         {/* Stats */}
         <div className="uni2-stats reveal reveal-delay-1">
@@ -209,16 +218,6 @@ export default function Uni2Case() {
             ))}
           </tbody>
         </table>
-
-        <p className="case-body reveal reveal-delay-2">
-          Over the past several months the role has carried a formal Frontend Lead title.
-          In practice: being the technical anchor of the team. Key process designs and
-          frontend decisions in the credit domain are reviewed through me before
-          implementation, and I maintain visibility across what the rest of the team is
-          building. On the knowledge-transfer side, I facilitated the team's hands-on
-          onboarding to AI tooling — organizing a structured induction on integrating
-          tools like Claude Code into the day-to-day development workflow.
-        </p>
 
         <SkillTags
           skills={['React 16', 'Redux', 'Redux-Saga', 'Material-UI', 'SCSS', 'Bootstrap', 'AWS Amplify', 'Axios', 'JWT', 'GitHub Actions', 'Docker', 'Git Flow']}
