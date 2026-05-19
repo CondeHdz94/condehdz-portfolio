@@ -1,400 +1,393 @@
 import React from 'react'
 import { Sprite, useTime, clamp, Easing } from '../../components/animation'
 
-// ── Palette ──────────────────────────────────────────────────────────────────
+// ── Palette ───────────────────────────────────────────────────────────────────
 
-const INDIGO     = '#4F46E5'
-const INDIGO_LT  = 'rgba(79, 70, 229, 0.09)'
-const INDIGO_BD  = 'rgba(79, 70, 229, 0.22)'
-const SIDEBAR_BG = '#1E1B4B'
-const SIDEBAR_AC = '#312E81'
-const SIDEBAR_TX = '#C7D2FE'
-const SIDEBAR_MT = '#818CF8'
-const CANVAS_BG  = '#F0EEE8'
-const WHITE      = '#FFFFFF'
-const BORDER     = '#E4E2DC'
-const TEXT       = '#1C1917'
-const MUTED      = '#78716C'
-const GREEN      = '#16A34A'
-const SANS       = "'Epilogue', system-ui, sans-serif"
-const MONO       = "'IBM Plex Mono', ui-monospace, monospace"
+const INDIGO        = '#4F46E5'
+const INDIGO_BG     = 'rgba(79, 70, 229, 0.10)'
+const INDIGO_BD     = 'rgba(79, 70, 229, 0.38)'
+const INDIGO_GLOW   = '0 0 24px rgba(79, 70, 229, 0.22)'
+const GREEN         = '#16A34A'
+const GREEN_BG      = 'rgba(22, 163, 74, 0.10)'
+const GREEN_BD      = 'rgba(22, 163, 74, 0.38)'
+const GREEN_GLOW    = '0 0 24px rgba(22, 163, 74, 0.22)'
+const BG            = '#0B0D14'
+const TEXT          = '#E2E8F0'
+const MUTED         = '#64748B'
+const DIM           = '#1E2330'
+const SANS          = "'Epilogue', system-ui, sans-serif"
+const MONO          = "'IBM Plex Mono', ui-monospace, monospace"
+
+const CANVAS_W = 1920
+const CANVAS_H = 1080
+
+// ── Block dimensions ─────────────────────────────────────────────────────────
+
+const BW  = 198  // block width  — full process
+const BH  = 70   // block height
+const BWE = 240  // block width  — express process
+
+// ── Step definitions ──────────────────────────────────────────────────────────
+
+interface BlockDef {
+  label:     string
+  loose:     { x: number; y: number }
+  assembled: { x: number; y: number }
+  express:   { x: number; y: number }
+  inExpress: boolean
+}
+
+// Assembled row (7 blocks): total width = 7*198 + 6*18 = 1386+108 = 1494 → startX = 213
+// Center Y = 510
+const AY = 510
+
+// Express row (3 blocks: 1,2,5): total width = 3*240 + 2*44 = 720+88 = 808 → startX = 556
+// Express center Y = 510
+
+const BLOCKS: BlockDef[] = [
+  {
+    label:     'pre-aprobación',
+    loose:     { x: 210,  y: 170 },
+    assembled: { x: 312,  y: AY  },
+    express:   { x: -160, y: 200 },
+    inExpress: false,
+  },
+  {
+    label:     'cliente',
+    loose:     { x: 1610, y: 165 },
+    assembled: { x: 528,  y: AY  },
+    express:   { x: 676,  y: AY  },
+    inExpress: true,
+  },
+  {
+    label:     'crédito',
+    loose:     { x: 960,  y: 100 },
+    assembled: { x: 744,  y: AY  },
+    express:   { x: 960,  y: AY  },
+    inExpress: true,
+  },
+  {
+    label:     'contacto',
+    loose:     { x: 310,  y: 720 },
+    assembled: { x: 960,  y: AY  },
+    express:   { x: -160, y: 720 },
+    inExpress: false,
+  },
+  {
+    label:     'asegurabilidad',
+    loose:     { x: 1720, y: 640 },
+    assembled: { x: 1176, y: AY  },
+    express:   { x: 2080, y: 300 },
+    inExpress: false,
+  },
+  {
+    label:     'firma OTP',
+    loose:     { x: 650,  y: 890 },
+    assembled: { x: 1392, y: AY  },
+    express:   { x: 1244, y: AY  },
+    inExpress: true,
+  },
+  {
+    label:     'documentos',
+    loose:     { x: 1380, y: 860 },
+    assembled: { x: 1608, y: AY  },
+    express:   { x: 2080, y: 760 },
+    inExpress: false,
+  },
+]
 
 // ── Timing ───────────────────────────────────────────────────────────────────
 
 const T = {
-  sidebar_in: 0.20,
-  main_in:    0.50,
-  nav_active: 0.90,
-  stepper_in: 1.30,
-  card_in:    1.70,
+  // Phase 1 — loose blocks
+  appear_first:   0.40,
+  appear_last:    2.20,
 
-  // Step 1 — Client info
-  f1s: 2.50, f1e: 4.00,
-  f2s: 4.30, f2e: 5.70,
-  f3s: 6.00, f3e: 7.10,
+  // Phase 2 — assembly into full process
+  assemble_start: 3.60,
+  assemble_end:   7.20,   // last block lands ~6.7
+  full_label_in:  7.50,
+  full_label_out: 9.60,
 
-  next1:  7.80,   // next button click
-  s2_in:  8.60,   // step 2 card enters
+  // Phase 3 — reconfig into express
+  reconfig_start: 9.80,
+  reconfig_end:  13.20,
+  expr_label_in: 13.50,
+  expr_label_out:16.60,
 
-  // Step 2 — Credit info
-  f4s:  9.20, f4e: 10.70,
-  f5s: 11.00, f5e: 12.10,
-  f6s: 12.40, f6e: 13.40,
+  // Phase 4 — dual mode reveal
+  dual_in:       17.20,
+  dual_switch:   19.20,
+  dual_done:     20.50,
 
-  // Mode switch
-  mode_start: 15.00,
-  mode_done:  16.20,
-
-  end: 28.00,
+  // Phase 5 — final caption hold
+  final:         22.00,
+  end:           28.00,
 }
-
-// ── Step labels ───────────────────────────────────────────────────────────────
-
-const STEPS = ['Cliente', 'Crédito', 'Contacto', 'Documentos', 'Revisión']
-
-// ── Field data ────────────────────────────────────────────────────────────────
-
-const S1 = [
-  { label: 'Nombre completo',        value: 'María Alejandra Ospina Ruiz' },
-  { label: 'Documento de identidad', value: 'CC  1018 554 221' },
-  { label: 'Fecha de nacimiento',    value: '12 / 04 / 1985' },
-]
-
-const S2 = [
-  { label: 'Monto solicitado', value: '$ 3.500.000' },
-  { label: 'Plazo',            value: '18 meses' },
-  { label: 'Producto',         value: 'Microcrédito Rural' },
-]
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function typedFrac(t: number, s: number, e: number): number {
-  if (t <= s) return 0
-  if (t >= e) return 1
-  const p = (t - s) / (e - s)
-  return p < 0.18 ? 0 : clamp((p - 0.18) / 0.65, 0, 1)
-}
+function lerp(a: number, b: number, t: number) { return a + (b - a) * t }
 
-function isFocused(t: number, s: number, e: number): boolean {
-  return t >= s && t < e
-}
-
-function enter(t: number, start: number, dur = 0.45): number {
+function enter(t: number, start: number, dur = 0.5): number {
   return Easing.easeOutCubic(clamp((t - start) / dur, 0, 1))
 }
 
-// ── Sub-components ────────────────────────────────────────────────────────────
+function getAppearOpacity(blockIdx: number, t: number): number {
+  const start = T.appear_first + blockIdx * 0.27
+  return enter(t, start, 0.55)
+}
 
-function Sidebar({ op, navActive }: { op: number; navActive: boolean }) {
-  const items = [
-    { lbl: 'Inicio',          active: false, sub: false },
-    { lbl: 'Solicitudes',     active: true,  sub: false },
-    { lbl: 'Nueva solicitud', active: navActive, sub: true },
-    { lbl: 'En proceso',      active: false, sub: true },
-    { lbl: 'Aprobadas',       active: false, sub: true },
-    { lbl: 'Usuarios',        active: false, sub: false },
-    { lbl: 'Reportes',        active: false, sub: false },
-  ]
+function getFloatOffset(blockIdx: number, t: number): number {
+  const freq  = 0.65 + blockIdx * 0.08
+  const phase = blockIdx * 0.85
+  // Taper float to 0 as assembly starts
+  const taper = 1 - clamp((t - T.assemble_start + 0.6) / 0.8, 0, 1)
+  return Math.sin(t * freq + phase) * 11 * taper
+}
+
+function getBlockPos(bi: number, t: number): { x: number; y: number } {
+  const b = BLOCKS[bi]
+
+  // Phase 1 → 2: loose → assembled
+  const assembleDelay  = bi * 0.13
+  const assembleStart  = T.assemble_start + assembleDelay
+  const assembleEnd    = assembleStart + 1.35
+  const aP = Easing.easeOutCubic(clamp((t - assembleStart) / (assembleEnd - assembleStart), 0, 1))
+
+  // Phase 3: assembled → express target
+  const reconfigDelay = bi * 0.10
+  const reconfigStart = T.reconfig_start + reconfigDelay
+  const reconfigEnd   = reconfigStart + 1.4
+  const rP = Easing.easeInOutCubic(clamp((t - reconfigStart) / (reconfigEnd - reconfigStart), 0, 1))
+
+  if (t < T.assemble_start) {
+    return { x: b.loose.x, y: b.loose.y + getFloatOffset(bi, t) }
+  }
+  if (t < T.reconfig_start) {
+    return {
+      x: lerp(b.loose.x, b.assembled.x, aP),
+      y: lerp(b.loose.y, b.assembled.y, aP),
+    }
+  }
+  return {
+    x: lerp(b.assembled.x, b.express.x, rP),
+    y: lerp(b.assembled.y, b.express.y, rP),
+  }
+}
+
+function getBlockOpacity(bi: number, t: number): number {
+  const appear = getAppearOpacity(bi, t)
+
+  // Non-express blocks fade out during reconfig
+  if (!BLOCKS[bi].inExpress) {
+    const reconfigDelay = bi * 0.10
+    const fadeStart = T.reconfig_start + reconfigDelay + 0.4
+    const fadeOut   = 1 - clamp((t - fadeStart) / 0.6, 0, 1)
+    if (t >= T.reconfig_start) return appear * fadeOut
+  }
+
+  // During dual-mode phase, all blocks dim
+  if (t >= T.dual_in) {
+    const dim = 1 - clamp((t - T.dual_in) / 0.6, 0, 1) * 0.75
+    return appear * dim
+  }
+
+  return appear
+}
+
+// ── Block component ───────────────────────────────────────────────────────────
+
+function Block({ bi, t }: { bi: number; t: number }) {
+  const pos     = getBlockPos(bi, t)
+  const op      = getBlockOpacity(bi, t)
+  const b       = BLOCKS[bi]
+  const isGreen = b.inExpress && t >= T.reconfig_start
+
+  const w    = (isGreen && t >= T.reconfig_end) ? BWE : BW
+  const bg   = isGreen ? GREEN_BG   : INDIGO_BG
+  const bd   = isGreen ? GREEN_BD   : INDIGO_BD
+  const glow = isGreen ? GREEN_GLOW : INDIGO_GLOW
+  const col  = isGreen ? GREEN      : INDIGO
 
   return (
     <div style={{
-      position: 'absolute', left: 30, top: 30,
-      width: 264, height: 1020,
-      background: SIDEBAR_BG, borderRadius: 14,
-      opacity: op, display: 'flex', flexDirection: 'column',
-      boxShadow: '0 24px 64px rgba(0,0,0,0.22)',
+      position: 'absolute',
+      left: pos.x - w / 2,
+      top:  pos.y - BH / 2,
+      width: w, height: BH,
+      borderRadius: 12,
+      background: bg,
+      border: `1.5px solid ${bd}`,
+      boxShadow: glow,
+      opacity: op,
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      gap: 4,
     }}>
-      {/* Logo */}
-      <div style={{
-        padding: '28px 22px 22px',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
-        display: 'flex', alignItems: 'center', gap: 12,
+      <span style={{
+        fontFamily: MONO, fontSize: 11.5, fontWeight: 700,
+        color: col, letterSpacing: '0.06em', textTransform: 'uppercase',
       }}>
-        <div style={{
-          width: 36, height: 36, borderRadius: 10, background: INDIGO,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: SANS, fontWeight: 800, fontSize: 15, color: WHITE,
-          flexShrink: 0,
-        }}>U2</div>
-        <div>
-          <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 14, color: WHITE }}>Uni2Lite</div>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: SIDEBAR_MT, marginTop: 1 }}>Services · v1.0</div>
-        </div>
-      </div>
+        {b.label}
+      </span>
+    </div>
+  )
+}
 
-      {/* Nav items */}
-      <div style={{ flex: 1, padding: '18px 10px' }}>
-        {items.map(item => (
-          <div key={item.lbl} style={{
-            padding: item.sub ? '7px 10px 7px 28px' : '10px 12px',
-            marginBottom: 2, borderRadius: 8,
-            background: item.active ? SIDEBAR_AC : 'transparent',
-            fontFamily: SANS,
-            fontSize: item.sub ? 12 : 13,
-            fontWeight: item.active ? 600 : 400,
-            color: item.active ? WHITE : (item.sub ? SIDEBAR_MT : SIDEBAR_TX),
-            display: 'flex', alignItems: 'center', gap: 8,
-          }}>
-            {item.sub && (
-              <span style={{
-                width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-                background: item.active ? INDIGO : 'rgba(255,255,255,0.18)',
-              }} />
-            )}
-            {item.lbl}
+// ── Connection lines ──────────────────────────────────────────────────────────
+
+function ConnLines({ positions, opacity, color }: {
+  positions: { x: number; y: number }[]
+  opacity: number
+  color: string
+}) {
+  if (opacity <= 0) return null
+  return (
+    <svg
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+      width={CANVAS_W} height={CANVAS_H}
+    >
+      {positions.slice(0, -1).map((p, i) => (
+        <line
+          key={i}
+          x1={p.x + BW / 2 + 2} y1={AY}
+          x2={positions[i + 1].x - BW / 2 - 2} y2={AY}
+          stroke={color}
+          strokeWidth={1.5}
+          strokeDasharray="5 4"
+          opacity={opacity}
+        />
+      ))}
+    </svg>
+  )
+}
+
+// ── Process label ─────────────────────────────────────────────────────────────
+
+function ProcessLabel({ text, badge, x, y, opacity }: {
+  text: string; badge: string; x: number; y: number; opacity: number
+}) {
+  return (
+    <div style={{
+      position: 'absolute', left: x, top: y,
+      transform: 'translateX(-50%) translateY(-50%)',
+      opacity, textAlign: 'center', pointerEvents: 'none',
+    }}>
+      <div style={{
+        fontFamily: MONO, fontSize: 10, fontWeight: 600,
+        color: MUTED, letterSpacing: '0.14em', textTransform: 'uppercase',
+        marginBottom: 8,
+      }}>{badge}</div>
+      <div style={{
+        fontFamily: SANS, fontSize: 28, fontWeight: 700,
+        color: TEXT, letterSpacing: '-0.03em', lineHeight: 1,
+      }}>{text}</div>
+    </div>
+  )
+}
+
+// ── Dual-mode card ────────────────────────────────────────────────────────────
+
+function DualModeCard({ opacity, isConsult }: { opacity: number; isConsult: boolean }) {
+  if (opacity <= 0) return null
+
+  const fieldStyle = (readOnly: boolean): React.CSSProperties => ({
+    background: readOnly ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)',
+    border: `1px solid ${readOnly ? 'rgba(255,255,255,0.08)' : 'rgba(79,70,229,0.3)'}`,
+    borderRadius: 8,
+    padding: '10px 14px',
+    fontFamily: SANS, fontSize: 13,
+    color: readOnly ? MUTED : TEXT,
+    transition: 'all 0.5s ease',
+  })
+
+  const badgeStyle = (active: boolean): React.CSSProperties => ({
+    display: 'inline-flex', alignItems: 'center', gap: 7,
+    padding: '7px 14px', borderRadius: 999,
+    background: active ? 'rgba(79,70,229,0.12)' : 'rgba(255,255,255,0.04)',
+    border: `1px solid ${active ? INDIGO_BD : 'rgba(255,255,255,0.1)'}`,
+    fontFamily: MONO, fontSize: 11, fontWeight: 700,
+    color: active ? INDIGO : MUTED,
+    letterSpacing: '0.06em',
+    transition: 'all 0.5s ease',
+  })
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: '50%', top: '50%',
+      transform: 'translate(-50%, -50%)',
+      opacity,
+      display: 'flex', gap: 60, alignItems: 'flex-start',
+    }}>
+
+      {/* Cliente / process mode */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 380 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+          <span style={{ fontFamily: MONO, fontSize: 10, color: MUTED, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            cliente · diligencia
+          </span>
+          <div style={badgeStyle(!isConsult)}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: !isConsult ? INDIGO : MUTED }} />
+            EDICIÓN
+          </div>
+        </div>
+        {['Nombre completo', 'Monto solicitado', 'Plazo'].map(f => (
+          <div key={f} style={fieldStyle(isConsult && false)}>
+            <div style={{ fontFamily: SANS, fontSize: 10, color: MUTED, marginBottom: 4 }}>{f}</div>
+            <div style={{ color: TEXT, fontSize: 13 }}>{
+              f === 'Nombre completo' ? 'María A. Ospina Ruiz' :
+              f === 'Monto solicitado' ? '$ 3.500.000' : '18 meses'
+            }</div>
           </div>
         ))}
-      </div>
-
-      {/* User */}
-      <div style={{
-        padding: '16px 18px',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
-        display: 'flex', alignItems: 'center', gap: 10,
-      }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: '50%', background: '#4338CA',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: SANS, fontWeight: 700, fontSize: 13, color: WHITE, flexShrink: 0,
-        }}>A</div>
-        <div>
-          <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, color: WHITE }}>Analista 01</div>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: SIDEBAR_MT }}>ejecutivo</div>
+        <div style={{ fontFamily: MONO, fontSize: 10, color: MUTED, letterSpacing: '0.08em', opacity: 0.7 }}>
+          mode={'\'process\''}
         </div>
       </div>
-    </div>
-  )
-}
 
-function AppHeader({ isConsult }: { isConsult: boolean }) {
-  return (
-    <div style={{
-      height: 60, display: 'flex', alignItems: 'center', gap: 10,
-      padding: '0 28px',
-      background: WHITE, borderBottom: `1px solid ${BORDER}`,
-      flexShrink: 0,
-    }}>
-      <span style={{ fontFamily: SANS, fontSize: 13, color: MUTED }}>Solicitudes</span>
-      <span style={{ color: BORDER, fontSize: 18, lineHeight: 1 }}>›</span>
-      <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: TEXT }}>Nueva solicitud</span>
-      <div style={{ flex: 1 }} />
-      {/* Mode badge */}
+      {/* Arrow */}
       <div style={{
-        display: 'flex', alignItems: 'center', gap: 7,
-        padding: '7px 14px', borderRadius: 999,
-        background: isConsult ? 'rgba(0,0,0,0.03)' : INDIGO_LT,
-        border: `1px solid ${isConsult ? BORDER : INDIGO_BD}`,
-        fontFamily: MONO, fontSize: 11, fontWeight: 700,
-        color: isConsult ? MUTED : INDIGO,
-        letterSpacing: '0.05em',
-        transition: 'background 0.5s ease, border-color 0.5s ease, color 0.5s ease',
+        display: 'flex', alignItems: 'center',
+        marginTop: 60,
+        opacity: isConsult ? 1 : 0.35,
+        transition: 'opacity 0.5s ease',
       }}>
-        <span style={{
-          width: 7, height: 7, borderRadius: '50%',
-          background: isConsult ? MUTED : INDIGO,
-          transition: 'background 0.5s ease',
-          flexShrink: 0,
-        }} />
-        {isConsult ? 'CONSULTA' : 'EDICIÓN'}
+        <svg width="64" height="24" viewBox="0 0 64 24" fill="none">
+          <path d="M0 12h52M44 4l12 8-12 8" stroke={INDIGO} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity={isConsult ? 1 : 0.4} />
+        </svg>
       </div>
-      <div style={{
-        width: 34, height: 34, borderRadius: '50%',
-        background: '#E0E7FF',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: SANS, fontWeight: 700, fontSize: 14, color: INDIGO,
-      }}>A</div>
-    </div>
-  )
-}
 
-function StepBar({ op, activeStep }: { op: number; activeStep: number }) {
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center',
-      padding: '18px 28px', borderBottom: `1px solid ${BORDER}`,
-      background: WHITE, opacity: op, flexShrink: 0,
-    }}>
-      {STEPS.map((s, i) => {
-        const done   = i < activeStep
-        const active = i === activeStep
-        const last   = i === STEPS.length - 1
-        return (
-          <React.Fragment key={s}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: '50%',
-                background: done ? GREEN : (active ? INDIGO : 'transparent'),
-                border: `2px solid ${done ? GREEN : (active ? INDIGO : BORDER)}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: MONO, fontSize: 11, fontWeight: 700,
-                color: (done || active) ? WHITE : MUTED,
-                transition: 'background 0.4s ease, border-color 0.4s ease',
-                flexShrink: 0,
-              }}>
-                {done ? (
-                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                    <path d="M2.5 6.5l3 3 5-5" stroke={WHITE} strokeWidth="2"
-                      strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                ) : String(i + 1).padStart(2, '0')}
-              </div>
-              <span style={{
-                fontFamily: SANS, fontSize: 12,
-                fontWeight: active ? 600 : 400,
-                color: done ? GREEN : (active ? TEXT : MUTED),
-                whiteSpace: 'nowrap',
-                transition: 'color 0.4s ease',
-              }}>{s}</span>
-            </div>
-            {!last && (
-              <div style={{
-                flex: 1, height: 1.5, minWidth: 24,
-                background: done ? GREEN : BORDER,
-                margin: '0 10px',
-                transition: 'background 0.4s ease',
-              }} />
-            )}
-          </React.Fragment>
-        )
-      })}
-    </div>
-  )
-}
-
-function FormField({ label, value, typed = 0, focused = false, readOnly = false }: {
-  label: string; value: string; typed?: number; focused?: boolean; readOnly?: boolean
-}) {
-  const shown = readOnly ? value : value.slice(0, Math.floor(value.length * typed))
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-      <label style={{
-        fontFamily: SANS, fontSize: 12, fontWeight: 500,
-        color: readOnly ? '#A8A29E' : MUTED, letterSpacing: '0.01em',
-      }}>
-        {label}
-        {!readOnly && <span style={{ color: '#EF4444', marginLeft: 3 }}>*</span>}
-      </label>
-      <div style={{
-        background: readOnly ? '#F9F7F5' : WHITE,
-        border: `1.5px solid ${focused ? INDIGO : (readOnly ? 'transparent' : BORDER)}`,
-        borderRadius: 9,
-        padding: '12px 15px',
-        fontFamily: SANS, fontSize: 14, color: readOnly ? MUTED : TEXT,
-        minHeight: 46, display: 'flex', alignItems: 'center',
-        boxShadow: focused ? `0 0 0 3px ${INDIGO_LT}` : 'none',
-        transition: 'border-color 150ms, box-shadow 150ms, background 350ms, color 350ms',
-      }}>
-        <span>{shown}</span>
-        {focused && typed < 1 && (
-          <span style={{
-            display: 'inline-block', width: 2, height: 16,
-            background: INDIGO, marginLeft: 2,
-            animation: 'u2caret 0.8s steps(2) infinite',
-          }} />
-        )}
-      </div>
-    </div>
-  )
-}
-
-function FormCard({
-  op, tx, step, fields, typedArr, focusedArr, isConsult, showNext, nextClicking,
-}: {
-  op: number; tx: number; step: number
-  fields: { label: string; value: string }[]
-  typedArr: number[]; focusedArr: boolean[]
-  isConsult: boolean; showNext: boolean; nextClicking: boolean
-}) {
-  const titles = ['Información del cliente', 'Información del crédito', 'Contacto']
-
-  return (
-    <div style={{ padding: '28px 240px', opacity: op, transform: `translateX(${tx}px)` }}>
-      <div style={{
-        background: WHITE, borderRadius: 14,
-        border: `1px solid ${BORDER}`,
-        boxShadow: '0 4px 16px rgba(0,0,0,0.05)',
-        overflow: 'hidden',
-      }}>
-        {/* Card header */}
-        <div style={{
-          padding: '22px 28px 18px', borderBottom: `1px solid ${BORDER}`,
-          display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
-        }}>
-          <div>
-            <div style={{
-              fontFamily: MONO, fontSize: 10, color: MUTED,
-              letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 5,
-            }}>
-              paso {String(step + 1).padStart(2, '0')} de {STEPS.length}
-            </div>
-            <h2 style={{
-              fontFamily: SANS, fontSize: 22, fontWeight: 700,
-              color: TEXT, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.2,
-            }}>
-              {titles[step] ?? 'Información'}
-            </h2>
+      {/* Analista / visual mode */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 380 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+          <span style={{ fontFamily: MONO, fontSize: 10, color: MUTED, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            analista · revisa
+          </span>
+          <div style={badgeStyle(isConsult)}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: isConsult ? INDIGO : MUTED }} />
+            CONSULTA
           </div>
-          {isConsult && (
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 6,
-              padding: '6px 12px', borderRadius: 7,
-              background: '#FEFCE8', border: '1px solid #FEF08A',
-              fontFamily: MONO, fontSize: 10, fontWeight: 700,
-              color: '#854D0E', letterSpacing: '0.04em',
-              flexShrink: 0, marginTop: 4,
-            }}>
-              <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-                <rect x="1.5" y="5" width="8" height="5.5" rx="1.2" fill="#854D0E" opacity="0.22" />
-                <path d="M3.5 5V4a2 2 0 014 0v1" stroke="#854D0E" strokeWidth="1.4"
-                  fill="none" strokeLinecap="round" />
-              </svg>
-              SOLO LECTURA
-            </div>
-          )}
         </div>
-
-        {/* Fields */}
-        <div style={{ padding: '26px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {fields.map((f, i) => (
-            <FormField
-              key={f.label}
-              label={f.label}
-              value={f.value}
-              typed={typedArr[i] ?? 0}
-              focused={focusedArr[i] ?? false}
-              readOnly={isConsult}
-            />
-          ))}
-        </div>
-
-        {/* Actions */}
-        {!isConsult && (
-          <div style={{
-            padding: '14px 28px 24px',
-            borderTop: `1px solid ${BORDER}`,
-            display: 'flex', justifyContent: 'flex-end', gap: 10,
-          }}>
-            <button style={{
-              padding: '11px 22px', borderRadius: 8,
-              border: `1px solid ${BORDER}`, background: WHITE,
-              fontFamily: SANS, fontSize: 13, fontWeight: 500,
-              color: MUTED, cursor: 'default',
-            }}>Anterior</button>
-            <button style={{
-              padding: '11px 26px', borderRadius: 8, border: 'none',
-              background: showNext ? INDIGO : '#C7D2FE',
-              color: WHITE, fontFamily: SANS, fontSize: 13, fontWeight: 600,
-              cursor: 'default',
-              boxShadow: showNext ? '0 4px 16px rgba(79, 70, 229, 0.35)' : 'none',
-              transform: nextClicking ? 'scale(0.95)' : 'scale(1)',
-              transition: 'transform 0.12s ease, background 0.3s ease, box-shadow 0.3s ease',
-            }}>Siguiente →</button>
+        {['Nombre completo', 'Monto solicitado', 'Plazo'].map(f => (
+          <div key={f} style={fieldStyle(true)}>
+            <div style={{ fontFamily: SANS, fontSize: 10, color: MUTED, marginBottom: 4 }}>{f}</div>
+            <div style={{ color: isConsult ? TEXT : MUTED, fontSize: 13, transition: 'color 0.5s ease' }}>{
+              f === 'Nombre completo' ? 'María A. Ospina Ruiz' :
+              f === 'Monto solicitado' ? '$ 3.500.000' : '18 meses'
+            }</div>
           </div>
-        )}
+        ))}
+        <div style={{ fontFamily: MONO, fontSize: 10, color: MUTED, letterSpacing: '0.08em', opacity: 0.7 }}>
+          mode={'\'visual\''}
+        </div>
       </div>
     </div>
   )
 }
+
+// ── Caption ───────────────────────────────────────────────────────────────────
 
 function Caption({ start, end, text, sub }: {
   start: number; end: number; text: string; sub?: string
@@ -402,7 +395,7 @@ function Caption({ start, end, text, sub }: {
   return (
     <Sprite start={start} end={end}>
       {({ localTime, duration }) => {
-        const fi = 0.35, fo = 0.45
+        const fi = 0.35, fo = 0.4
         const op = localTime < fi
           ? localTime / fi
           : localTime > duration - fo
@@ -410,14 +403,14 @@ function Caption({ start, end, text, sub }: {
             : 1
         return (
           <div style={{
-            position: 'absolute', left: '50%', bottom: 56,
+            position: 'absolute', left: '50%', bottom: 52,
             transform: `translateX(-50%) translateY(${(1 - op) * 8}px)`,
             opacity: op,
-            background: 'rgba(15,23,42,0.90)', color: '#F8FAFC',
+            background: 'rgba(15,23,42,0.92)', color: '#F8FAFC',
             padding: '10px 20px', borderRadius: 999,
             fontFamily: SANS, fontSize: 16, fontWeight: 500,
             display: 'flex', alignItems: 'center', gap: 12,
-            boxShadow: '0 8px 28px rgba(0,0,0,0.25)', whiteSpace: 'nowrap',
+            boxShadow: '0 8px 28px rgba(0,0,0,0.4)', whiteSpace: 'nowrap',
           }}>
             <span style={{
               width: 7, height: 7, borderRadius: '50%',
@@ -437,107 +430,90 @@ function Caption({ start, end, text, sub }: {
   )
 }
 
-// ── Keyframes ─────────────────────────────────────────────────────────────────
-
-const CSS = `@keyframes u2caret { 50% { opacity: 0; } }`
-
 // ── Main scene ────────────────────────────────────────────────────────────────
 
 export function SceneUni2() {
   const t = useTime()
 
-  // Shell entrance
-  const sidebarOp = enter(t, T.sidebar_in, 0.5)
-  const mainOp    = enter(t, T.main_in, 0.5)
-  const navActive = t >= T.nav_active
-  const stepperOp = enter(t, T.stepper_in, 0.4)
+  // Connection lines: show between assembled_start and reconfig_start
+  const linesFullOp  = clamp((t - (T.assemble_end - 0.5)) / 0.8, 0, 1) *
+                       (1 - clamp((t - T.reconfig_start) / 0.4, 0, 1))
+  const linesExprOp  = BLOCKS.filter(b => b.inExpress).length > 0
+    ? clamp((t - (T.reconfig_end - 0.3)) / 0.7, 0, 1) *
+      (1 - clamp((t - T.dual_in) / 0.5, 0, 1))
+    : 0
 
-  // Step logic
-  const activeStep = t < T.next1 ? 0 : 1
-  const isStep2    = t >= T.s2_in
+  // Process labels
+  const fullLabelOp = clamp((t - T.full_label_in) / 0.5, 0, 1) *
+                      (1 - clamp((t - T.full_label_out) / 0.4, 0, 1))
+  const exprLabelOp = clamp((t - T.expr_label_in) / 0.5, 0, 1) *
+                      (1 - clamp((t - T.expr_label_out) / 0.4, 0, 1))
 
-  // Card entrance / exit
-  let cardOp: number, cardTx: number
-  if (!isStep2) {
-    const fadeIn  = enter(t, T.card_in, 0.5)
-    const fadeOut = t >= T.next1 ? 1 - clamp((t - T.next1) / 0.45, 0, 1) : 1
-    cardOp = fadeIn * fadeOut
-    cardTx = 0
-  } else {
-    const p = enter(t, T.s2_in, 0.5)
-    cardOp  = p
-    cardTx  = (1 - p) * 44
-  }
+  // Dual-mode card
+  const dualOp     = enter(t, T.dual_in, 0.6)
+  const isConsult  = t >= T.dual_switch
 
-  // Field state
-  const typedArr:   number[]  = []
-  const focusedArr: boolean[] = []
+  // Assembled positions for line drawing
+  const fullPositions = BLOCKS.map(b => b.assembled)
+  const exprPositions = BLOCKS.filter(b => b.inExpress).map(b => b.express)
 
-  if (!isStep2) {
-    typedArr[0]   = typedFrac(t, T.f1s, T.f1e)
-    typedArr[1]   = typedFrac(t, T.f2s, T.f2e)
-    typedArr[2]   = typedFrac(t, T.f3s, T.f3e)
-    focusedArr[0] = isFocused(t, T.f1s, T.f1e)
-    focusedArr[1] = isFocused(t, T.f2s, T.f2e)
-    focusedArr[2] = isFocused(t, T.f3s, T.f3e)
-  } else {
-    typedArr[0]   = typedFrac(t, T.f4s, T.f4e)
-    typedArr[1]   = typedFrac(t, T.f5s, T.f5e)
-    typedArr[2]   = typedFrac(t, T.f6s, T.f6e)
-    focusedArr[0] = isFocused(t, T.f4s, T.f4e)
-    focusedArr[1] = isFocused(t, T.f5s, T.f5e)
-    focusedArr[2] = isFocused(t, T.f6s, T.f6e)
-  }
-
-  const showNext    = isStep2 ? t >= T.f6e : (t >= T.f3e && t < T.next1)
-  const nextClicking = t >= T.next1 && t < T.next1 + 0.3
-  const isConsult   = t >= T.mode_done
+  // Background grid pattern opacity
+  const gridOp = clamp((t - 0.1) / 1.5, 0, 1) * 0.18
 
   return (
-    <>
-      <style>{CSS}</style>
-      <div style={{ position: 'absolute', inset: 0, background: CANVAS_BG, fontFamily: SANS }}>
+    <div style={{ position: 'absolute', inset: 0, background: BG, overflow: 'hidden' }}>
 
-        <Sidebar op={sidebarOp} navActive={navActive} />
+      {/* Subtle grid background */}
+      <div style={{
+        position: 'absolute', inset: 0, opacity: gridOp,
+        backgroundImage:
+          `linear-gradient(${DIM} 1px, transparent 1px),` +
+          `linear-gradient(90deg, ${DIM} 1px, transparent 1px)`,
+        backgroundSize: '80px 80px',
+      }} />
 
-        {/* Main app window */}
-        <div style={{
-          position: 'absolute',
-          left: 326, top: 30, right: 30, bottom: 30,
-          background: WHITE, borderRadius: 14,
-          border: `1px solid ${BORDER}`,
-          overflow: 'hidden',
-          display: 'flex', flexDirection: 'column',
-          opacity: mainOp,
-          boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
-        }}>
-          <AppHeader isConsult={isConsult} />
-          <StepBar op={stepperOp} activeStep={activeStep} />
+      {/* Connection lines (SVG overlay, below blocks) */}
+      <ConnLines
+        positions={fullPositions}
+        opacity={linesFullOp}
+        color={`rgba(79,70,229,0.4)`}
+      />
+      <ConnLines
+        positions={exprPositions}
+        opacity={linesExprOp}
+        color={`rgba(22,163,74,0.45)`}
+      />
 
-          {/* Form area */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
-            <FormCard
-              op={cardOp}
-              tx={cardTx}
-              step={isStep2 ? 1 : 0}
-              fields={isStep2 ? S2 : S1}
-              typedArr={typedArr}
-              focusedArr={focusedArr}
-              isConsult={isConsult}
-              showNext={showNext}
-              nextClicking={nextClicking}
-            />
-          </div>
-        </div>
+      {/* Blocks */}
+      {BLOCKS.map((_, bi) => (
+        <Block key={bi} bi={bi} t={t} />
+      ))}
 
-        {/* Captions */}
-        <Caption start={0.50} end={2.40}  text="Uni2Lite · plataforma de crédito"         sub="REACT 18 · VITE · TYPESCRIPT"    />
-        <Caption start={2.60} end={7.70}  text="Paso 01 — información del cliente"         sub="REACT HOOK FORM · ZOD"           />
-        <Caption start={7.90} end={10.40} text="Validación por paso, avance controlado"    sub="ZUSTAND STEPPER STORE"          />
-        <Caption start={10.60} end={14.20} text="Paso 02 — información del crédito"        sub="FIELDCONFIG[] · DECLARATIVO"    />
-        <Caption start={15.00} end={20.00} text="Modo consulta — mismo flujo, prop mode"   sub="MODE='CONSULT'"                 />
-        <Caption start={20.50} end={27.50} text="Cero duplicación de árbol de componentes" sub="UNI2LITE · 2025"               />
-      </div>
-    </>
+      {/* Process labels */}
+      <ProcessLabel
+        text="Proceso completo"
+        badge="7 pasos · todos en orden"
+        x={CANVAS_W / 2}
+        y={320}
+        opacity={fullLabelOp}
+      />
+      <ProcessLabel
+        text="Microcrédito express"
+        badge="3 pasos · misma base · nueva config"
+        x={CANVAS_W / 2}
+        y={320}
+        opacity={exprLabelOp}
+      />
+
+      {/* Dual-mode card */}
+      <DualModeCard opacity={dualOp} isConsult={isConsult} />
+
+      {/* Captions */}
+      <Caption start={0.40}  end={3.50}  text="7 steps · construidos independientemente"  sub="FEATURE-SLICED DESIGN"           />
+      <Caption start={4.00}  end={9.50}  text="Se ensamblan en un proceso completo"        sub="CREDIT ORIGINATION FLOW"        />
+      <Caption start={10.50} end={16.50} text="Los mismos steps · proceso distinto"        sub="NUEVA CONFIG · NO UN REWRITE"   />
+      <Caption start={17.30} end={21.80} text="Un flujo · dos roles · prop mode"           sub="CERO DUPLICACIÓN DE CÓDIGO"     />
+      <Caption start={22.20} end={27.50} text="Un proceso nuevo = un archivo de config"    sub="UNI2LITE · 2025"               />
+    </div>
   )
 }
