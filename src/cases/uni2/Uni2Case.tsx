@@ -152,8 +152,8 @@ export default function Uni2Case() {
 
         <p className="case-body reveal reveal-delay-1">
           Today the role is Frontend Lead — the technical anchor for the team's frontend work
-          in the credit domain. Key process designs and implementation decisions are reviewed
-          through me before they ship. Beyond technical oversight, I organized and facilitated
+          in the credit domain, while continuing to contribute directly to the main platform.
+          Key process designs and implementation decisions are reviewed through me before they ship. Beyond technical oversight, I organized and facilitated
           the team's hands-on onboarding to AI tooling, translating a company-wide initiative
           into a structured induction on integrating tools like Claude Code into the
           day-to-day development workflow.
