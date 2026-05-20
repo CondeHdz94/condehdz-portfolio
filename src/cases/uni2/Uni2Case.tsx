@@ -5,7 +5,7 @@ import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
-import { SceneUni2 } from './scenesUni2'
+import { Uni2SaaSReel } from './saasReel/Uni2SaaSReel'
 import './Uni2Case.css'
 
 // ── Static data ───────────────────────────────────────────────────────────────
@@ -292,21 +292,21 @@ export default function Uni2Case() {
           Feature-Sliced Design (adapted) · upper layers import from lower, never the reverse · delete a process without breaking anything
         </p>
 
-        {/* Animated scene */}
+        {/* Animated scene · 45s SaaS reel */}
         <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 48 }}>
           <Stage
             width={1920}
             height={1080}
-            duration={28}
-            background="#0B0D14"
-            persistKey="uni2-anim"
+            duration={45}
+            background="#03060f"
+            persistKey="uni2-saas-anim"
             initialTime={0}
           >
-            <SceneUni2 />
+            <Uni2SaaSReel />
           </Stage>
         </div>
         <p className="case-caption reveal reveal-delay-3">
-          Uni2Lite · same 7 steps, different processes · process mode and consult mode from a single component
+          Uni2 SaaS · 45s · originación composable · captura declarativa · roles · multi-tenant · drag-to-compose
         </p>
 
         <SkillTags
