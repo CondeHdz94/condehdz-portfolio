@@ -413,55 +413,40 @@
 
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1.8fr;
-  gap: clamp(40px, 5.5vw, 80px);
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(48px, 6vw, 96px);
   align-items: start;
-}
-
-.about-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-}
-
-.stat-number {
-  display: block;
-  font-size: var(--text-stat);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: var(--accent);
-  line-height: 1;
-  margin-bottom: 6px;
-  transition: color 0.6s ease;
-}
-
-.stat-label {
-  font-size: var(--text-xs);
-  letter-spacing: 0.02em;
-  color: var(--text-muted);
-}
-
-.about-text {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
 }
 
 .about-quote {
   font-size: var(--text-secondary);
   font-style: italic;
   font-weight: 300;
-  color: var(--text-muted);
-  line-height: 1.75;
-  padding-bottom: 20px;
+  color: var(--text-strong);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  padding: 28px 0;
+  border-top: 1px solid var(--accent);
   border-bottom: 1px solid var(--accent);
   transition: border-color 0.6s ease;
+  margin: 0;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .about-text p {
   font-size: var(--text-body);
   line-height: 1.85;
-  max-width: 65ch;
+  max-width: 60ch;
+}
+
+.about-text strong {
+  color: var(--text-strong);
+  font-weight: 600;
 }
 
 /* ─── Experience ──────────────────────────────────────── */
@@ -917,12 +902,6 @@
   .about-grid {
     grid-template-columns: 1fr;
     gap: 40px;
-  }
-
-  .about-stats {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 24px;
   }
 
   .skills-stack {

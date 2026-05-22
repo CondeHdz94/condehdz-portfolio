@@ -361,27 +361,22 @@ export default function App() {
             <span className="section-name">About</span>
           </h2>
           <div className="about-grid">
-            <div className="about-stats">
-              <div className="reveal"><StatCounter target={5}  label="Years of experience" /></div>
-              <div className="reveal reveal-delay-1"><StatCounter target={20} label="Completed projects" /></div>
-              <div className="reveal reveal-delay-2"><StatCounter target={3}  label="Companies worked" /></div>
-            </div>
-            <div className="about-text reveal reveal-delay-3">
-              <p className="about-quote">
-                "The best way to face challenges is with an open mind and an insatiable curiosity."
+            <blockquote className="about-quote reveal">
+              "The best way to face challenges is with an open mind and an insatiable curiosity."
+            </blockquote>
+            <div className="about-text">
+              <p className="reveal reveal-delay-1">
+                Multimedia Engineer from Universidad de San Buenaventura, fluent in Figma and fluent
+                in the codebase. Five years taking products from sketch to production in{' '}
+                <strong>React + TypeScript</strong>, with a visual eye sharpened by a background in
+                motion graphics and post-production.
               </p>
-              <p>
-                Multimedia Engineer from Universidad de San Buenaventura, fluent
-                in Figma and fluent in the codebase. 5+ years taking products
-                from sketch to production in React and TypeScript, with a genuine
-                interest in how people actually interact with what gets built.
-              </p>
-              <p>
-                A background in motion graphics, digital illustration and video
-                post-production sharpens the visual eye behind every interface.
-                Currently building design systems, validating accessibility, and
-                obsessing over the interaction details that make software feel
-                genuinely good to use.
+              <p className="reveal reveal-delay-2">
+                Currently architecting <strong>Uni2 Lite</strong> — a credit-application orchestrator
+                built on <strong>Feature-Sliced Design</strong>, a declarative form engine over{' '}
+                <strong>Zod + React Hook Form</strong>, a decoupled stepper with dual
+                edit/visual/consult modes, and a service layer with chained Axios interceptors.
+                The kind of code that survives its second team.
               </p>
             </div>
           </div>
