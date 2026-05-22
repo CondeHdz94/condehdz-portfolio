@@ -62,7 +62,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: auto; }
+  html { scroll-behavior: smooth; }
 
   /* ── Page transitions (View Transitions API) ───────── */
   @keyframes vt-out {

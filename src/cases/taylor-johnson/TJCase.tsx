@@ -6,7 +6,6 @@ import { SceneAS400toPDF, SchemaAS400 } from './scenesCase02'
 import { SceneTopaz } from './scenesCase03'
 import { SceneSelenium } from './scenesCase04'
 import { useDarkMode } from '../../hooks/useDarkMode'
-import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import './TJCase.css'
@@ -29,7 +28,6 @@ export default function TJCase() {
   const [toggleAnim, setToggleAnim] = useState(false)
   const [activeCaseIdx, setActiveCaseIdx] = useState(0)
   const caseRatios = useRef<number[]>([0, 0, 0, 0])
-  useLenis()
   useScrollReveal()
 
   const handleThemeToggle = () => {

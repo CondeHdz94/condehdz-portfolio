@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
-import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import { Uni2SaaSReel } from './saasReel/Uni2SaaSReel'
@@ -52,7 +51,6 @@ const FSD_LAYERS = [
 export default function Uni2Case() {
   const { toggle: toggleDark } = useDarkMode()
   const [toggleAnim, setToggleAnim] = useState(false)
-  useLenis()
   useScrollReveal()
 
   const handleThemeToggle = () => {
