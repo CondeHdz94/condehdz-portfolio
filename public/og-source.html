@@ -9,41 +9,42 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Toggle UI (outside the card) ──────────────────── */
-html, body { background: #888; min-height: 100vh; }
-
-.controls {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 16px 20px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #fff;
+html, body {
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
 }
-.controls button {
+
+/* ── Toggle — fixed fuera del card, no entra en el screenshot ── */
+.toggle-ui {
+  position: fixed;
+  bottom: -40px;   /* fuera del viewport de 630px */
+  left: 0;
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.7);
   font-family: monospace;
   font-size: 11px;
-  padding: 5px 12px;
+  color: #fff;
+  z-index: 999;
+}
+.toggle-ui button {
+  font-family: monospace;
+  font-size: 11px;
+  padding: 4px 10px;
   border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 4px;
+  border-radius: 3px;
   background: rgba(255,255,255,0.1);
   color: #fff;
   cursor: pointer;
 }
-.controls button.active { background: rgba(255,255,255,0.35); }
+.toggle-ui button.active { background: rgba(255,255,255,0.4); }
 
-.wrapper {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 32px;
-}
-
-/* ── Card — exactly 1200×630 ─────────────────────── */
+/* ── Card ───────────────────────────────────────────── */
 .card {
   width: 1200px;
   height: 630px;
-  flex-shrink: 0;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -51,7 +52,6 @@ html, body { background: #888; min-height: 100vh; }
   justify-content: space-between;
   padding: 64px 88px 60px;
 
-  /* light defaults */
   --bg:     #FAFAF9;
   --strong: #1C1917;
   --text:   #57534E;
@@ -73,11 +73,9 @@ html, body { background: #888; min-height: 100vh; }
   --faint:  #5A5552;
   --line:   #2B2420;
   --green:  #4ADE80;
-
   background: var(--bg);
 }
 
-/* Top accent line */
 .card::before {
   content: '';
   position: absolute;
@@ -86,7 +84,6 @@ html, body { background: #888; min-height: 100vh; }
   background: var(--strong);
 }
 
-/* Watermark */
 .card::after {
   content: 'CC';
   position: absolute;
@@ -99,10 +96,8 @@ html, body { background: #888; min-height: 100vh; }
   color: var(--strong);
   opacity: 0.055;
   pointer-events: none;
-  font-family: 'Epilogue', sans-serif;
 }
 
-/* Top row */
 .top {
   display: flex;
   align-items: center;
@@ -117,14 +112,12 @@ html, body { background: #888; min-height: 100vh; }
 }
 
 .top-dot {
-  width: 9px;
-  height: 9px;
+  width: 9px; height: 9px;
   border-radius: 50%;
   background: var(--green);
   flex-shrink: 0;
 }
 
-/* Name */
 .name {
   font-size: 148px;
   font-weight: 900;
@@ -134,7 +127,6 @@ html, body { background: #888; min-height: 100vh; }
   z-index: 1;
 }
 
-/* Bottom row */
 .bottom {
   display: flex;
   justify-content: space-between;
@@ -163,7 +155,6 @@ html, body { background: #888; min-height: 100vh; }
   font-size: 16px;
   color: var(--text);
   letter-spacing: 0.01em;
-  line-height: 1.5;
 }
 
 .url {
@@ -178,37 +169,40 @@ html, body { background: #888; min-height: 100vh; }
 </head>
 <body>
 
-<div class="controls">
-  <button class="active" onclick="setMode('light', this)">Light</button>
-  <button onclick="setMode('dark', this)">Dark</button>
-  <span>· Abrí DevTools → Ctrl+Shift+P → "Capture full size screenshot" → guardá como public/og.png</span>
-</div>
+<div class="card" id="card">
+  <div class="top">
+    <span class="top-dot"></span>
+    <span>Camilo Conde · Portfolio</span>
+  </div>
 
-<div class="wrapper">
-  <div class="card" id="card">
+  <h1 class="name">Camilo<br>Conde</h1>
 
-    <div class="top">
-      <span class="top-dot"></span>
-      <span>Camilo Conde · Portfolio</span>
+  <div class="bottom">
+    <div class="bottom-left">
+      <p class="subtitle">Design Engineer · Cali, Colombia</p>
+      <p class="tagline">Building at the intersection of design and code.</p>
     </div>
-
-    <h1 class="name">Camilo<br>Conde</h1>
-
-    <div class="bottom">
-      <div class="bottom-left">
-        <p class="subtitle">Design Engineer · Cali, Colombia</p>
-        <p class="tagline">Building at the intersection of design and code.</p>
-      </div>
-      <span class="url">condehdz-portfolio.vercel.app</span>
-    </div>
-
+    <span class="url">condehdz-portfolio.vercel.app</span>
   </div>
 </div>
 
+<!-- Toggle fuera del viewport de 630px — no entra en el screenshot -->
+<div class="toggle-ui">
+  <button class="active" onclick="setMode('light',this)">Light</button>
+  <button onclick="setMode('dark',this)">Dark</button>
+</div>
+
 <script>
+// Leer ?dark=1 en la URL para pre-seleccionar modo
+if (new URLSearchParams(location.search).get('dark') === '1') {
+  document.getElementById('card').classList.add('dark')
+  document.querySelectorAll('.toggle-ui button')[1].classList.add('active')
+  document.querySelectorAll('.toggle-ui button')[0].classList.remove('active')
+}
+
 function setMode(mode, btn) {
   document.getElementById('card').classList.toggle('dark', mode === 'dark')
-  document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'))
+  document.querySelectorAll('.toggle-ui button').forEach(b => b.classList.remove('active'))
   btn.classList.add('active')
 }
 </script>
