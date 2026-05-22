@@ -394,19 +394,19 @@ export default function App() {
             {[
               {
                 company: 'UNI2',
-                role: 'Frontend Developer',
+                role: 'Frontend Lead · Design Engineer',
                 period: '2021 – Present',
-                tags: ['React', 'Redux', 'TypeScript', 'Tailwind', 'React Query', 'Zustand', 'Framer Motion', 'Figma', 'Git', 'Design Systems', 'Accessibility'],
-                desc: 'Banking platform frontend in React and Redux. Architected the product\'s design system from scratch, aligning brand guidelines with accessibility validation. Owns the frontend stack across UI/UX improvements, library migrations and process automation.',
-                caseStudy: { href: '/case/uni2', label: 'UNI2: Banking platform frontend' },
+                tags: ['React', 'TypeScript', 'Zustand', 'React Query', 'Zod', 'RHF', 'Tailwind', 'Figma'],
+                desc: 'Architecting Uni2 Lite\'s credit-application orchestrator from zero — Feature-Sliced Design, declarative form engine over Zod + RHF, decoupled stepper with dual edit/visual/consult modes.',
+                caseStudy: { href: '/case/uni2', label: 'Uni2 Lite — Credit orchestrator', meta: 'FSD · Zod + RHF · +470K lines', badge: 'current' },
               },
               {
                 company: 'Taylor & Johnson',
                 role: 'Multimedia Engineer',
                 period: '2018 – 2021',
                 tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium', 'COBOL'],
-                desc: "Modernized a COBOL banking core from legacy 5250 green-screen interfaces to web using Fresche Solutions' Presto. Built parametric document generation with JsPDF, digital signature integration with TOPAZ devices, and process automation with Python and Selenium.",
-                caseStudy: { href: '/case/taylor-johnson', label: 'T&J: COBOL modernization' },
+                desc: "Modernized a COBOL banking core from legacy 5250 green-screen to web via Fresche Presto. Parametric document generation, digital signature with TOPAZ, and process automation with Python + Selenium.",
+                caseStudy: { href: '/case/taylor-johnson', label: 'Taylor & Johnson — COBOL modernization', meta: 'Presto · JsPDF · TOPAZ · Selenium · 4 scenes' },
               },
               {
                 company: 'Sistel',
@@ -414,7 +414,7 @@ export default function App() {
                 period: '2017 – 2018',
                 tags: ['HTML5', 'CSS', 'Articulate', 'UX Design'],
                 desc: 'Designed and built interactive e-learning experiences in HTML5 and Articulate, combining interactivity, ludic design and andragogy to drive engagement across corporate training programs.',
-                caseStudy: { href: '/case/sistel', label: 'Sistel: E-learning design' },
+                caseStudy: { href: '/case/sistel', label: 'Sistel — E-learning design', meta: 'Visual identity · interactive authoring · LMS' },
               },
             ].map(({ company, role, period, tags, desc, caseStudy }, i) => (
               <div key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
@@ -427,8 +427,17 @@ export default function App() {
                 <p className="timeline-tags">{tags.join(' · ')}</p>
                 <p className="timeline-desc">{desc}</p>
                 {caseStudy && (
-                  <Link to={caseStudy.href} viewTransition className="timeline-case-link">
-                    {caseStudy.label}
+                  <Link to={caseStudy.href} viewTransition className="timeline-case-card">
+                    <div className="timeline-case-card-body">
+                      <div className="timeline-case-card-top">
+                        <span className="timeline-case-label">Case study</span>
+                        {caseStudy.badge === 'current' && (
+                          <span className="timeline-case-badge">Current</span>
+                        )}
+                      </div>
+                      <span className="timeline-case-title">{caseStudy.label}</span>
+                      <span className="timeline-case-meta">{caseStudy.meta}</span>
+                    </div>
                     <span className="timeline-case-arrow" aria-hidden="true">→</span>
                   </Link>
                 )}
