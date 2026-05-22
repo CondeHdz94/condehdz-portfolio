@@ -287,7 +287,7 @@ export default function App() {
         </div>
       </div>
 
-      <a href="#about" className="skip-link">Skip to content</a>
+      <a href="#main" className="skip-link">Skip to content</a>
 
       <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
         <a href="#" className="nav-logo" aria-label="Back to top">CC</a>
@@ -308,6 +308,8 @@ export default function App() {
           </span>
         </button>
       </header>
+
+      <main id="main" tabIndex={-1}>
 
       {/* ── Hero ── */}
       <section data-section="hero" className="section section-hero">
@@ -517,6 +519,7 @@ export default function App() {
         </div>
       </section>
 
+      </main>
     </div>
   )
 }

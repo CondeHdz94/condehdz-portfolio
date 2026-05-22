@@ -342,6 +342,32 @@
 
 /* ─── Skill tags ──────────────────────────────────────── */
 
+.case-outcomes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+  max-width: 72ch;
+}
+
+.case-outcomes li {
+  font-size: var(--text-base);
+  line-height: 1.75;
+  color: var(--case-text);
+  padding-left: 20px;
+  position: relative;
+}
+
+.case-outcomes li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--case-accent);
+  font-size: 13px;
+  top: 3px;
+}
+
 .case-skill-tags {
   display: flex;
   flex-wrap: wrap;

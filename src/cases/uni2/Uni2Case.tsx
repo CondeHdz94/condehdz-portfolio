@@ -315,6 +315,18 @@ export default function Uni2Case() {
         />
       </CaseSection>
 
+      {/* Outcomes */}
+      <CaseSection>
+        <CaseLabel num="03">What changed</CaseLabel>
+        <ul className="case-outcomes reveal reveal-delay-1">
+          <li>Credit-application flow reduced from multi-day manual coordination to a single guided session — operators complete originations end-to-end without leaving the platform.</li>
+          <li>Stepper's dual edit/visual/consult modes eliminated the need for parallel paper forms; compliance review now happens inside the same interface used for data entry.</li>
+          <li>Zod + RHF validation layer caught schema mismatches at input time, cutting downstream rejection rates from the banking core.</li>
+          <li>Feature-Sliced Design adoption made onboarding of new frontend contributors measurably faster — module boundaries are explicit, no implicit coupling.</li>
+          <li>+470K lines of production code across +5,300 files delivered with a two-person frontend team over three years.</li>
+        </ul>
+      </CaseSection>
+
       {/* Footer */}
       <footer className="case-footer">
         <CaseFooterNav />
