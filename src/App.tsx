@@ -74,12 +74,23 @@ function useParallax() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    let rafId: number
+    let pending = false
+
     const onScroll = () => {
-      document.documentElement.style.setProperty('--parallax-y', `${window.scrollY * 0.6}px`)
+      if (pending) return
+      pending = true
+      rafId = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--parallax-y', `${window.scrollY * 0.35}px`)
+        pending = false
+      })
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
+    }
   }, [])
 }
 
