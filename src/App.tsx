@@ -327,7 +327,10 @@ export default function App() {
         <div className="hero-bg" aria-hidden="true">
           <span className="hero-bg-text">CC</span>
         </div>
-        <p className="hero-eyebrow">Available for work</p>
+        <p className="hero-eyebrow">
+          <span className="hero-pulse" aria-hidden="true" />
+          Open to new roles · Remote / Cali
+        </p>
         <h1 className="hero-name">
           <span className="name-line"><span className="name-text">Camilo</span></span>
           <span className="name-line"><span className="name-text">Conde</span></span>
@@ -335,11 +338,14 @@ export default function App() {
         <div className="hero-meta">
           <p className="hero-title">Design Engineer</p>
           <p className="hero-bio">
-            Building at the intersection of design and code.
-            5+ years crafting digital experiences across fintech, edtech and beyond.
+            I build the parts of a frontend that other people don't want to:{' '}
+            <strong>form engines, table abstractions, design systems that survive their second team.</strong>{' '}
+            Currently architecting Uni2 Lite's credit-application flow.
           </p>
           <div className="hero-links">
-            <a href="mailto:condeher94@gmail.com" className="hero-link">Email</a>
+            <a href="mailto:condeher94@gmail.com" className="hero-link hero-link--primary">
+              Email me →
+            </a>
             <a
               href="https://linkedin.com/in/camilo-conde-652204220"
               target="_blank"
