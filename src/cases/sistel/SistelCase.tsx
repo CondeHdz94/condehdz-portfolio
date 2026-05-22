@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
+import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import { SceneSistel, type GuideStyle } from './sceneSistel'
@@ -68,6 +69,7 @@ export default function SistelCase() {
   const [toggleAnim, setToggleAnim] = useState(false)
   const [paletteIdx, setPaletteIdx] = useState(0)
   const [guide, setGuide] = useState<GuideStyle>('geometric')
+  useLenis()
   useScrollReveal()
 
   const handleThemeToggle = () => {

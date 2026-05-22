@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDarkMode } from './hooks/useDarkMode'
+import { useLenis } from './hooks/useLenis'
 import { useScrollReveal } from './hooks/useScrollReveal'
 import './App.css'
 
@@ -238,6 +239,7 @@ export default function App() {
   useParallax()
   useBloomFollow()
   useMobileScrollActive()
+  useLenis()
 
   const handleThemeToggle = () => {
     toggleDark()
