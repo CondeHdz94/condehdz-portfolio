@@ -451,12 +451,12 @@
 }
 
 .about-quote {
-  font-size: var(--text-secondary);
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
   font-style: italic;
   font-weight: 300;
   color: var(--text-strong);
-  line-height: 1.55;
-  letter-spacing: -0.01em;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
   padding: 28px 0;
   border-top: 1px solid var(--accent);
   border-bottom: 1px solid var(--accent);
