@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<title>og.png source — Camilo Conde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+}
+
+body {
+  background: #FAFAF9;
+  font-family: 'Epilogue', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Watermark */
+body::before {
+  content: 'CC';
+  position: absolute;
+  right: -40px;
+  bottom: -160px;
+  font-size: 540px;
+  font-weight: 900;
+  letter-spacing: -0.07em;
+  line-height: 1;
+  color: #1C1917;
+  opacity: 0.055;
+  pointer-events: none;
+  font-family: 'Epilogue', sans-serif;
+}
+
+.card {
+  width: 1200px;
+  height: 630px;
+  padding: 72px 88px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top bar */
+.top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #736D67;
+}
+
+.top-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #15803D;
+  flex-shrink: 0;
+}
+
+/* Middle — headline */
+.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.name {
+  font-size: 156px;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  color: #1C1917;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #736D67;
+}
+
+/* Bottom bar */
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.tagline {
+  font-size: 17px;
+  color: #57534E;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  max-width: 48ch;
+}
+
+.url {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  color: #9E9891;
+  letter-spacing: 0.06em;
+}
+
+/* Accent line top */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: #1C1917;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top">
+    <span class="top-dot"></span>
+    <span>Camilo Conde · Portfolio</span>
+  </div>
+
+  <div class="middle">
+    <h1 class="name">Camilo<br>Conde</h1>
+    <p class="subtitle">Design Engineer · Cali, Colombia</p>
+  </div>
+
+  <div class="bottom">
+    <p class="tagline">Building at the intersection of design and code.</p>
+    <span class="url">condehdz-portfolio.vercel.app</span>
+  </div>
+</div>
+
+<!--
+  INSTRUCCIONES PARA GENERAR og.png:
+  1. Abrí este archivo en Chrome
+  2. DevTools → Ctrl+Shift+P → "Capture screenshot" (full size)
+     O: DevTools → Device toolbar → setear 1200×630 → screenshot
+  3. Guardá como public/og.png
+-->
+</body>
+</html>
