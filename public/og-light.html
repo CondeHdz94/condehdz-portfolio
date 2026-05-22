@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>og-light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1200px; height: 630px; overflow: hidden; }
+
+.card {
+  width: 1200px;
+  height: 630px;
+  background: #FAFAF9;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px 88px 60px;
+  font-family: 'Epilogue', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: #1C1917;
+}
+
+.card::after {
+  content: 'CC';
+  position: absolute;
+  right: -24px;
+  bottom: -180px;
+  font-size: 560px;
+  font-weight: 900;
+  letter-spacing: -0.07em;
+  line-height: 1;
+  color: #1C1917;
+  opacity: 0.055;
+  pointer-events: none;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #736D67;
+  z-index: 1;
+}
+
+.top-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #15803D;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 148px;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.93;
+  color: #1C1917;
+  z-index: 1;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #E4E2DC;
+  z-index: 1;
+}
+
+.bottom-left { display: flex; flex-direction: column; gap: 8px; }
+
+.subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #736D67;
+}
+
+.tagline {
+  font-size: 16px;
+  color: #57534E;
+  letter-spacing: 0.01em;
+}
+
+.url {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: #9E9891;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  align-self: flex-end;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top">
+    <span class="top-dot"></span>
+    <span>Camilo Conde · Portfolio</span>
+  </div>
+  <h1 class="name">Camilo<br>Conde</h1>
+  <div class="bottom">
+    <div class="bottom-left">
+      <p class="subtitle">Design Engineer · Cali, Colombia</p>
+      <p class="tagline">Building at the intersection of design and code.</p>
+    </div>
+    <span class="url">condehdz-portfolio.vercel.app</span>
+  </div>
+</div>
+</body>
+</html>
