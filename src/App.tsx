@@ -266,6 +266,8 @@ export default function App() {
   return (
     <div className="app">
 
+      <a href="#main" className="skip-link">Skip to content</a>
+
       <div className="ambient-bloom" aria-hidden="true">
         <div className="ambient-bloom-glow" />
       </div>
@@ -274,7 +276,7 @@ export default function App() {
         <button
           className="pill-trigger"
           onClick={() => setPillOpen(o => !o)}
-          aria-haspopup="true"
+          aria-haspopup="menu"
           aria-expanded={pillOpen}
           aria-label="Navigate to section"
         >
@@ -297,8 +299,6 @@ export default function App() {
           ))}
         </div>
       </div>
-
-      <a href="#main" className="skip-link">Skip to content</a>
 
       <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
         <a href="#" className="nav-logo" aria-label="Back to top">CC</a>
