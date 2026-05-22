@@ -13,12 +13,10 @@ export function useLenis() {
     })
 
     let rafId: number
-
     const raf = (time: number) => {
       lenis.raf(time)
       rafId = requestAnimationFrame(raf)
     }
-
     rafId = requestAnimationFrame(raf)
 
     return () => {

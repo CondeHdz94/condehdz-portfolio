@@ -74,12 +74,23 @@ function useParallax() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    let rafId: number
+    let pending = false
+
     const onScroll = () => {
-      document.documentElement.style.setProperty('--parallax-y', `${window.scrollY * 0.6}px`)
+      if (pending) return
+      pending = true
+      rafId = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--parallax-y', `${window.scrollY * 0.35}px`)
+        pending = false
+      })
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
+    }
   }, [])
 }
 
@@ -255,6 +266,8 @@ export default function App() {
   return (
     <div className="app">
 
+      <a href="#main" className="skip-link">Skip to content</a>
+
       <div className="ambient-bloom" aria-hidden="true">
         <div className="ambient-bloom-glow" />
       </div>
@@ -263,7 +276,7 @@ export default function App() {
         <button
           className="pill-trigger"
           onClick={() => setPillOpen(o => !o)}
-          aria-haspopup="true"
+          aria-haspopup="menu"
           aria-expanded={pillOpen}
           aria-label="Navigate to section"
         >
@@ -287,8 +300,6 @@ export default function App() {
         </div>
       </div>
 
-      <a href="#about" className="skip-link">Skip to content</a>
-
       <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
         <a href="#" className="nav-logo" aria-label="Back to top">CC</a>
         <nav className="nav-links" aria-label="Page sections">
@@ -309,12 +320,17 @@ export default function App() {
         </button>
       </header>
 
+      <main id="main" tabIndex={-1}>
+
       {/* ── Hero ── */}
       <section data-section="hero" className="section section-hero">
         <div className="hero-bg" aria-hidden="true">
           <span className="hero-bg-text">CC</span>
         </div>
-        <p className="hero-eyebrow">Available for work</p>
+        <p className="hero-eyebrow">
+          <span className="hero-pulse" aria-hidden="true" />
+          Open to new roles · Remote / Cali
+        </p>
         <h1 className="hero-name">
           <span className="name-line"><span className="name-text">Camilo</span></span>
           <span className="name-line"><span className="name-text">Conde</span></span>
@@ -322,11 +338,14 @@ export default function App() {
         <div className="hero-meta">
           <p className="hero-title">Design Engineer</p>
           <p className="hero-bio">
-            Building at the intersection of design and code.
-            5+ years crafting digital experiences across fintech, edtech and beyond.
+            I build the parts of a frontend that other people don't want to:{' '}
+            <strong>form engines, table abstractions, design systems that survive their second team.</strong>{' '}
+            Currently architecting Uni2 Lite's credit-application flow.
           </p>
           <div className="hero-links">
-            <a href="mailto:condeher94@gmail.com" className="hero-link">Email</a>
+            <a href="mailto:condeher94@gmail.com" className="hero-link hero-link--primary">
+              Email me →
+            </a>
             <a
               href="https://linkedin.com/in/camilo-conde-652204220"
               target="_blank"
@@ -359,27 +378,22 @@ export default function App() {
             <span className="section-name">About</span>
           </h2>
           <div className="about-grid">
-            <div className="about-stats">
-              <div className="reveal"><StatCounter target={5}  label="Years of experience" /></div>
-              <div className="reveal reveal-delay-1"><StatCounter target={20} label="Completed projects" /></div>
-              <div className="reveal reveal-delay-2"><StatCounter target={3}  label="Companies worked" /></div>
-            </div>
-            <div className="about-text reveal reveal-delay-3">
-              <p className="about-quote">
-                "The best way to face challenges is with an open mind and an insatiable curiosity."
+            <blockquote className="about-quote reveal">
+              "The best way to face challenges is with an open mind and an insatiable curiosity."
+            </blockquote>
+            <div className="about-text">
+              <p className="reveal reveal-delay-1">
+                Multimedia Engineer from Universidad de San Buenaventura, fluent in Figma and fluent
+                in the codebase. Five years taking products from sketch to production in{' '}
+                <strong>React + TypeScript</strong>, with a visual eye sharpened by a background in
+                motion graphics and post-production.
               </p>
-              <p>
-                Multimedia Engineer from Universidad de San Buenaventura, fluent
-                in Figma and fluent in the codebase. 5+ years taking products
-                from sketch to production in React and TypeScript, with a genuine
-                interest in how people actually interact with what gets built.
-              </p>
-              <p>
-                A background in motion graphics, digital illustration and video
-                post-production sharpens the visual eye behind every interface.
-                Currently building design systems, validating accessibility, and
-                obsessing over the interaction details that make software feel
-                genuinely good to use.
+              <p className="reveal reveal-delay-2">
+                Currently architecting <strong>Uni2 Lite</strong> — a credit-application orchestrator
+                built on <strong>Feature-Sliced Design</strong>, a declarative form engine over{' '}
+                <strong>Zod + React Hook Form</strong>, a decoupled stepper with dual
+                edit/visual/consult modes, and a service layer with chained Axios interceptors.
+                The kind of code that survives its second team.
               </p>
             </div>
           </div>
@@ -397,19 +411,19 @@ export default function App() {
             {[
               {
                 company: 'UNI2',
-                role: 'Frontend Developer',
+                role: 'Frontend Lead · Design Engineer',
                 period: '2021 – Present',
-                tags: ['React', 'Redux', 'TypeScript', 'Tailwind', 'React Query', 'Zustand', 'Framer Motion', 'Figma', 'Git', 'Design Systems', 'Accessibility'],
-                desc: 'Banking platform frontend in React and Redux. Architected the product\'s design system from scratch, aligning brand guidelines with accessibility validation. Owns the frontend stack across UI/UX improvements, library migrations and process automation.',
-                caseStudy: { href: '/case/uni2', label: 'UNI2: Banking platform frontend' },
+                tags: ['React', 'TypeScript', 'Zustand', 'React Query', 'Zod', 'RHF', 'Tailwind', 'Figma'],
+                desc: 'Architecting Uni2 Lite\'s credit-application orchestrator from zero — Feature-Sliced Design, declarative form engine over Zod + RHF, decoupled stepper with dual edit/visual/consult modes.',
+                caseStudy: { href: '/case/uni2', label: 'Uni2 Lite — Credit orchestrator', meta: 'FSD · Zod + RHF · +470K lines', badge: 'current' },
               },
               {
                 company: 'Taylor & Johnson',
                 role: 'Multimedia Engineer',
                 period: '2018 – 2021',
                 tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium', 'COBOL'],
-                desc: "Modernized a COBOL banking core from legacy 5250 green-screen interfaces to web using Fresche Solutions' Presto. Built parametric document generation with JsPDF, digital signature integration with TOPAZ devices, and process automation with Python and Selenium.",
-                caseStudy: { href: '/case/taylor-johnson', label: 'T&J: COBOL modernization' },
+                desc: "Modernized a COBOL banking core from legacy 5250 green-screen to web via Fresche Presto. Parametric document generation, digital signature with TOPAZ, and process automation with Python + Selenium.",
+                caseStudy: { href: '/case/taylor-johnson', label: 'Taylor & Johnson — COBOL modernization', meta: 'Presto · JsPDF · TOPAZ · Selenium · 4 scenes' },
               },
               {
                 company: 'Sistel',
@@ -417,7 +431,7 @@ export default function App() {
                 period: '2017 – 2018',
                 tags: ['HTML5', 'CSS', 'Articulate', 'UX Design'],
                 desc: 'Designed and built interactive e-learning experiences in HTML5 and Articulate, combining interactivity, ludic design and andragogy to drive engagement across corporate training programs.',
-                caseStudy: { href: '/case/sistel', label: 'Sistel: E-learning design' },
+                caseStudy: { href: '/case/sistel', label: 'Sistel — E-learning design', meta: 'Visual identity · interactive authoring · LMS' },
               },
             ].map(({ company, role, period, tags, desc, caseStudy }, i) => (
               <div key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
@@ -430,8 +444,17 @@ export default function App() {
                 <p className="timeline-tags">{tags.join(' · ')}</p>
                 <p className="timeline-desc">{desc}</p>
                 {caseStudy && (
-                  <Link to={caseStudy.href} viewTransition className="timeline-case-link">
-                    {caseStudy.label}
+                  <Link to={caseStudy.href} viewTransition className="timeline-case-card">
+                    <div className="timeline-case-card-body">
+                      <div className="timeline-case-card-top">
+                        <span className="timeline-case-label">Case study</span>
+                        {caseStudy.badge === 'current' && (
+                          <span className="timeline-case-badge">Current</span>
+                        )}
+                      </div>
+                      <span className="timeline-case-title">{caseStudy.label}</span>
+                      <span className="timeline-case-meta">{caseStudy.meta}</span>
+                    </div>
                     <span className="timeline-case-arrow" aria-hidden="true">→</span>
                   </Link>
                 )}
@@ -517,6 +540,7 @@ export default function App() {
         </div>
       </section>
 
+      </main>
     </div>
   )
 }

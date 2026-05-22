@@ -284,6 +284,18 @@ export default function TJCase() {
         </CaseSection>
       </div>
 
+      {/* Outcomes */}
+      <CaseSection>
+        <CaseLabel num="05">Outcomes</CaseLabel>
+        <ul className="case-outcomes reveal reveal-delay-1">
+          <li>~40 bank operators migrated from daily green-screen sessions to web interfaces — zero retraining downtime during cutover.</li>
+          <li>~200 parametric document types automated through the JsPDF engine, replacing manual drafting in AS/400.</li>
+          <li>Paper-based signature workflow replaced end-to-end with TOPAZ LCD pad integration inside the Presto layer.</li>
+          <li>First Selenium batch migrated legacy records ahead of schedule; subsequent runs unattended during off-hours.</li>
+          <li>Fresche Presto rendering layer validated as a production path — no COBOL rewrite required, no business logic touched.</li>
+        </ul>
+      </CaseSection>
+
       {/* Footer */}
       <footer className="case-footer">
         <CaseFooterNav />
