@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sprite, useSprite, useTime, Easing, clamp } from '../../../components/animation'
+import { Sprite, useSprite, useTime, useTimeline, Easing, clamp } from '../../../components/animation'
 import { Caption, CaptionLine } from './captions'
 import { Shot1Chaos } from './Shot1Chaos'
 import { Shot2ComercialForms } from './Shot2ComercialForms'
@@ -112,6 +112,9 @@ export function Uni2SaaSReel() {
 
       {/* Brand mark — bottom-left throughout */}
       <BrandMark time={time} />
+
+      {/* Progress bar + chapter dots */}
+      <ReelProgress />
     </div>
   )
 }
@@ -186,6 +189,87 @@ function BrandMark({ time }: { time: number }) {
       >
         origination · multi-entity
       </div>
+    </div>
+  )
+}
+
+const CHAPTERS = [
+  { t: 0,  label: '01' },
+  { t: 5,  label: '02' },
+  { t: 13, label: '04' },
+  { t: 25, label: '05' },
+  { t: 32, label: '06' },
+  { t: 35, label: '07' },
+  { t: 41, label: '08' },
+] as const
+
+function ReelProgress() {
+  const { time, duration, setTime } = useTimeline()
+  const progress = duration > 0 ? clamp(time / duration, 0, 1) : 0
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 28,
+        zIndex: 95,
+        pointerEvents: 'none',
+      }}
+    >
+      {/* 1px track */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 1,
+          background: 'rgba(255,255,255,0.12)',
+        }}
+      />
+      {/* fill */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: `${progress * 100}%`,
+          height: 1,
+          background: 'rgba(129,140,248,0.7)',
+          transition: 'width 0.1s linear',
+        }}
+      />
+      {/* chapter dots */}
+      {CHAPTERS.map(({ t, label }) => {
+        const pct = duration > 0 ? (t / duration) * 100 : 0
+        const active = time >= t && (CHAPTERS.find(c => c.t > t) ? time < (CHAPTERS.find(c => c.t > t)!.t) : true)
+        return (
+          <button
+            key={t}
+            aria-label={`Jump to chapter ${label}`}
+            onClick={() => setTime(t)}
+            style={{
+              position: 'absolute',
+              bottom: -4,
+              left: `${pct}%`,
+              transform: 'translateX(-50%)',
+              width: 9,
+              height: 9,
+              borderRadius: '50%',
+              border: 'none',
+              cursor: 'pointer',
+              pointerEvents: 'all',
+              background: active ? '#818CF8' : 'rgba(255,255,255,0.25)',
+              boxShadow: active ? '0 0 8px rgba(129,140,248,0.6)' : 'none',
+              transition: 'background 0.25s ease, box-shadow 0.25s ease',
+              padding: 0,
+            }}
+          />
+        )
+      })}
     </div>
   )
 }

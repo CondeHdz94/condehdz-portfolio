@@ -344,7 +344,7 @@ export default function App() {
       </section>
 
       {/* ── About ── */}
-      <section id="about" data-section="about" className="section section-about">
+      <section id="about" data-section="about" className={`section section-about${activeSection === 'about' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">01</span>
@@ -374,7 +374,7 @@ export default function App() {
       </section>
 
       {/* ── Experience ── */}
-      <section id="experience" data-section="experience" className="section section-experience">
+      <section id="experience" data-section="experience" className={`section section-experience${activeSection === 'experience' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">02</span>
@@ -413,7 +413,7 @@ export default function App() {
       </section>
 
       {/* ── Skills ── */}
-      <section id="skills" data-section="skills" className="section section-skills">
+      <section id="skills" data-section="skills" className={`section section-skills${activeSection === 'skills' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">03</span>
@@ -435,7 +435,7 @@ export default function App() {
       </section>
 
       {/* ── Contact ── */}
-      <section id="contact" data-section="contact" className="section section-contact">
+      <section id="contact" data-section="contact" className={`section section-contact${activeSection === 'contact' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">04</span>
