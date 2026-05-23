@@ -220,35 +220,7 @@
   padding: 112px 0;
   border-top: 1px solid var(--accent);
   transition: border-color 0.6s ease;
-  position: relative;
 }
-
-.section-inner::before {
-  content: '';
-  position: absolute;
-  left: -24px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-  transform-origin: top center;
-  transform: scaleY(0);
-  border-radius: 1px;
-  transition: background-color 0.6s ease;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .is-section-active .section-inner::before {
-    animation: section-rule-grow 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes section-rule-grow {
-    from { transform: scaleY(0); }
-    to   { transform: scaleY(1); }
-  }
-}
-
-.section-hero .section-inner::before { display: none; }
 
 /* Section rhythm — each section earns its own weight */
 .section-about      .section-inner { padding-top: 96px; }

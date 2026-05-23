@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import { useDarkMode } from './hooks/useDarkMode'
 import { useLenis } from './hooks/useLenis'
 import { useScrollReveal } from './hooks/useScrollReveal'
+import { EXPERIENCE } from './content/experience'
+import { SKILLS } from './content/skills'
+import { HERO_LINKS, CONTACT_LINKS, SOCIAL_LINKS } from './content/contact'
 import './App.css'
 
 const SECTION_COLORS: Record<string, string> = {
@@ -58,9 +61,6 @@ function useSectionColor() {
           '--accent',
           active === 'hero' ? 'var(--accent-neutral)' : SECTION_COLORS[active]
         )
-        document.querySelectorAll('[data-section]').forEach((el) => {
-          el.classList.toggle('is-section-active', el.getAttribute('data-section') === active)
-        })
         setActiveSection(active)
       },
       { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
@@ -319,25 +319,16 @@ export default function App() {
             Currently architecting Uni2 Lite's credit-application flow.
           </p>
           <div className="hero-links">
-            <a href="mailto:condeher94@gmail.com" className="hero-link hero-link--primary">
-              Email me →
-            </a>
-            <a
-              href="https://linkedin.com/in/camilo-conde-652204220"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-link"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="https://github.com/CondeHdz94"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-link"
-            >
-              GitHub
-            </a>
+            {HERO_LINKS.map(({ href, label, primary, external }) => (
+              <a
+                key={href}
+                href={href}
+                className={`hero-link${primary ? ' hero-link--primary' : ''}`}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {label}
+              </a>
+            ))}
           </div>
         </div>
         <div className="scroll-hint" aria-hidden="true">
@@ -384,32 +375,7 @@ export default function App() {
             <span className="section-name">Experience</span>
           </h2>
           <ul className="timeline">
-            {[
-              {
-                company: 'UNI2',
-                role: 'Frontend Lead · Design Engineer',
-                period: '2021 – Present',
-                tags: ['React', 'TypeScript', 'Zustand', 'React Query', 'Zod', 'RHF', 'Tailwind', 'Figma'],
-                desc: 'Architecting Uni2 Lite\'s credit-application orchestrator from zero — Feature-Sliced Design, declarative form engine over Zod + RHF, decoupled stepper with dual edit/visual/consult modes.',
-                caseStudy: { href: '/case/uni2', label: 'Uni2 Lite — Credit orchestrator', meta: 'FSD · Zod + RHF · +470K lines', badge: 'current' },
-              },
-              {
-                company: 'Taylor & Johnson',
-                role: 'Multimedia Engineer',
-                period: '2018 – 2021',
-                tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium', 'COBOL'],
-                desc: "Modernized a COBOL banking core from legacy 5250 green-screen to web via Fresche Presto. Parametric document generation, digital signature with TOPAZ, and process automation with Python + Selenium.",
-                caseStudy: { href: '/case/taylor-johnson', label: 'Taylor & Johnson — COBOL modernization', meta: 'Presto · JsPDF · TOPAZ · Selenium · 4 scenes' },
-              },
-              {
-                company: 'Sistel',
-                role: 'Web Course Developer',
-                period: '2017 – 2018',
-                tags: ['HTML5', 'CSS', 'Articulate', 'UX Design'],
-                desc: 'Designed and built interactive e-learning experiences in HTML5 and Articulate, combining interactivity, ludic design and andragogy to drive engagement across corporate training programs.',
-                caseStudy: { href: '/case/sistel', label: 'Sistel — E-learning design', meta: 'Visual identity · interactive authoring · LMS' },
-              },
-            ].map(({ company, role, period, tags, desc, caseStudy }, i) => (
+            {EXPERIENCE.map(({ company, role, period, tags, desc, caseStudy }, i) => (
               <li key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
                 <span className="timeline-num">0{i + 1}</span>
                 <div className="timeline-header">
@@ -448,24 +414,7 @@ export default function App() {
             <span className="section-name">Skills</span>
           </h2>
           <div className="skills-stack">
-            {[
-              {
-                title: 'Languages',
-                items: ['JavaScript', 'TypeScript', 'HTML', 'CSS / SASS'],
-              },
-              {
-                title: 'Frameworks & Libraries',
-                items: ['React', 'Zod', 'React Hook Form', 'React Query', 'Redux', 'Zustand', 'Tailwind', 'Vite', 'React Router', 'react-imask', 'Svelte', 'Astro', 'Framer Motion'],
-              },
-              {
-                title: 'Design & Motion',
-                items: ['Figma', 'Illustrator', 'Photoshop', 'After Effects', 'Premiere Pro', 'InDesign'],
-              },
-              {
-                title: 'Quality & Systems',
-                items: ['Design Systems', 'Accessibility', 'Feature-Sliced Design', 'Git', 'Jest', 'Testing Library', 'Cypress'],
-              },
-            ].map(({ title, items }, i) => (
+            {SKILLS.map(({ title, items }, i) => (
               <div key={title} className={`skill-group reveal reveal-delay-${i + 1}`}>
                 <h3 className="skill-group-title">{title}</h3>
                 <ul className="skill-tags">
@@ -488,30 +437,16 @@ export default function App() {
           </h2>
           <p className="contact-headline reveal reveal-delay-1">Let's build something together.</p>
           <div className="contact-links reveal reveal-delay-2">
-            <a href="mailto:condeher94@gmail.com" className="contact-link">
-              condeher94@gmail.com
-            </a>
-            <a href="tel:+573127216626" className="contact-link">
-              +57 312 721 6626
-            </a>
+            {CONTACT_LINKS.map(({ href, label }) => (
+              <a key={href} href={href} className="contact-link">{label}</a>
+            ))}
           </div>
           <div className="contact-social reveal reveal-delay-3">
-            <a
-              href="https://github.com/CondeHdz94"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/camilo-conde-652204220"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              LinkedIn
-            </a>
+            {SOCIAL_LINKS.map(({ href, label }) => (
+              <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="social-link">
+                {label}
+              </a>
+            ))}
           </div>
         </div>
       </section>
