@@ -14,6 +14,12 @@
   --case-accent-bg:     rgba(129, 140, 248, 0.05);
 }
 
+/* ─── Platform sub-cases sidebar (3 items, overrides TJCase grid-row: span 4) */
+
+.uni2-platform-region .cases-sidebar {
+  grid-row: 1 / span 3;
+}
+
 /* ─── Contribution stats ──────────────────────────────── */
 
 .uni2-stats {

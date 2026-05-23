@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
@@ -47,11 +47,16 @@ const FSD_LAYERS = [
   { name: 'components', desc: 'UI primitives' },
 ]
 
+const PLATFORM_IDS    = ['platform-01', 'platform-02', 'platform-03']
+const PLATFORM_LABELS = ['Biometric', 'Modal System', 'Libraries']
+
 // ── Page component ────────────────────────────────────────────────────────────
 
 export default function Uni2Case() {
   const { toggle: toggleDark } = useDarkMode()
   const [toggleAnim, setToggleAnim] = useState(false)
+  const [activePlatformIdx, setActivePlatformIdx] = useState(0)
+  const platformRatios = useRef<number[]>([0, 0, 0])
   useLenis()
   useScrollReveal()
 
@@ -65,6 +70,25 @@ export default function Uni2Case() {
     document.title = 'UNI2 — Camilo Conde'
     document.getElementById('case-main')?.focus({ preventScroll: true })
     return () => { document.title = 'Camilo Conde — Design Engineer' }
+  }, [])
+
+  useEffect(() => {
+    const thresholds = Array.from({ length: 21 }, (_, i) => i / 20)
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        const idx = PLATFORM_IDS.indexOf((entry.target as HTMLElement).id)
+        if (idx >= 0) platformRatios.current[idx] = entry.intersectionRatio
+      }
+      const max = Math.max(...platformRatios.current)
+      if (max > 0) setActivePlatformIdx(platformRatios.current.indexOf(max))
+    }, { threshold: thresholds })
+
+    PLATFORM_IDS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -144,7 +168,7 @@ export default function Uni2Case() {
         </div>
       </CaseSection>
 
-      {/* 01 — Platform contribution */}
+      {/* 01 — Platform contribution intro */}
       <CaseSection>
         <CaseLabel num="01">Platform Contribution</CaseLabel>
 
@@ -161,7 +185,6 @@ export default function Uni2Case() {
           day-to-day development workflow.
         </p>
 
-        {/* Stats */}
         <div className="uni2-stats reveal reveal-delay-1">
           {[
             { value: '+3,140', label: 'Commits signed' },
@@ -183,47 +206,89 @@ export default function Uni2Case() {
           consumers. Contributing to a system at this scale for four years means learning to read
           the domain before touching the code.
         </p>
-        <p className="case-body reveal reveal-delay-1">
-          The work divided across four tracks: feature delivery, design system, library
-          modernization, and platform health. Feature delivery included building the digital
-          authorization and biometric onboarding pipeline — the highest-impact feature across
-          the engagement. AWS Amplify Face Liveness for biometric capture, DECEVAL for electronic
-          signature, and Verifik for identity validation and credit bureau queries. The flow handles
-          token delivery, document number comparison, re-send with on-screen feedback, and a
-          dedicated Digital Ally role for field-assisted operations. It replaced paper-based,
-          in-person approval processes with a fully remote pipeline.
-        </p>
-        <p className="case-body reveal reveal-delay-2">
-          Design system work centered on a unified modal pattern — central, lateral, and alert
-          variants with consistent overlay and scroll handling — and a shared application summary
-          component adopted across all roles, eliminating duplicated implementations that had
-          diverged over time. Library modernization was deliberate and incremental: each removal
-          justified by what it bought back.
-        </p>
+      </CaseSection>
 
-        {/* Library migration table */}
-        <table className="uni2-lib-table reveal reveal-delay-2" aria-label="Library migration decisions">
-          <thead>
-            <tr>
-              <th>Library</th>
-              <th>Action</th>
-              <th>Rationale</th>
-            </tr>
-          </thead>
-          <tbody>
-            {LIB_MIGRATIONS.map(row => (
-              <tr key={row.lib}>
-                <td>{row.lib}</td>
-                <td>{row.action}</td>
-                <td>{row.detail}</td>
+      {/* Platform sub-cases — sidebar region */}
+      <div className="cases-region uni2-platform-region">
+        <nav className="cases-sidebar" aria-label="Platform highlights">
+          {PLATFORM_LABELS.map((label, i) => (
+            <a
+              key={label}
+              href={`#platform-0${i + 1}`}
+              className={`cases-sidebar-item${activePlatformIdx === i ? ' is-active' : ''}`}
+              aria-current={activePlatformIdx === i ? 'location' : undefined}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+
+        {/* 01a — Biometric Pipeline */}
+        <CaseSection id="platform-01">
+          <CaseLabel num="01a">Biometric Pipeline</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">
+            Digital authorization and biometric onboarding pipeline — the highest-impact feature
+            delivered across the engagement. AWS Amplify Face Liveness for biometric capture,
+            DECEVAL for electronic signature, and Verifik for identity validation and credit
+            bureau queries.
+          </p>
+          <p className="case-body reveal reveal-delay-1">
+            The flow handles token delivery, document number comparison, re-send with on-screen
+            feedback, and a dedicated Digital Ally role for field-assisted operations — credit
+            officers who accompany clients through the process when self-service isn't viable.
+            It replaced paper-based, in-person approval processes with a fully remote pipeline.
+          </p>
+        </CaseSection>
+
+        {/* 01b — Modal System */}
+        <CaseSection id="platform-02">
+          <CaseLabel num="01b">Modal System</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">
+            Unified modal pattern — central, lateral, and alert variants with consistent overlay
+            and scroll handling — adopted across all roles.
+          </p>
+          <p className="case-body reveal reveal-delay-1">
+            Before this, modals were implemented independently per feature: overlapping z-index
+            conflicts, inconsistent dismiss behavior, no shared scroll lock. A single composable
+            system replaced them all. The shared application summary component, built alongside
+            the modal system, eliminated diverged implementations that had accumulated across
+            years of parallel feature work.
+          </p>
+        </CaseSection>
+
+        {/* 01c — Library Modernization */}
+        <CaseSection id="platform-03">
+          <CaseLabel num="01c">Library Modernization</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">
+            Library modernization was deliberate and incremental — each removal justified by
+            what it bought back in bundle size, maintainability, or design system ownership.
+          </p>
+          <table className="uni2-lib-table reveal reveal-delay-2" aria-label="Library migration decisions">
+            <thead>
+              <tr>
+                <th>Library</th>
+                <th>Action</th>
+                <th>Rationale</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {LIB_MIGRATIONS.map(row => (
+                <tr key={row.lib}>
+                  <td>{row.lib}</td>
+                  <td>{row.action}</td>
+                  <td>{row.detail}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </CaseSection>
+      </div>
 
+      {/* Platform skills */}
+      <CaseSection>
         <SkillTags
           skills={['React 16', 'Redux', 'Redux-Saga', 'Material-UI', 'SCSS', 'Bootstrap', 'AWS Amplify', 'Axios', 'JWT', 'GitHub Actions', 'Docker', 'Git Flow']}
-          className="reveal reveal-delay-3"
+          className="reveal"
         />
       </CaseSection>
 
@@ -317,7 +382,7 @@ export default function Uni2Case() {
         />
       </CaseSection>
 
-      {/* Outcomes */}
+      {/* 03 — Outcomes */}
       <CaseSection>
         <CaseLabel num="03">What changed</CaseLabel>
         <ul className="case-outcomes reveal reveal-delay-1">
