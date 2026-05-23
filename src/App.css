@@ -218,27 +218,9 @@
 }
 
 .section-inner {
-  position: relative;
   padding: 112px 0;
   border-top: 1px solid var(--accent);
   transition: border-color 0.6s ease;
-}
-
-.section-inner::before {
-  content: '';
-  position: absolute;
-  left: -2px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-  transform-origin: top;
-  transform: scaleY(0);
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, background-color 0.6s ease;
-}
-
-.is-active .section-inner::before {
-  transform: scaleY(1);
 }
 
 /* Section rhythm — each section earns its own weight */
@@ -246,10 +228,28 @@
 .section-skills     .section-inner { padding: 96px 0 112px; }
 
 .section-label {
+  position: relative;
   display: flex;
   align-items: baseline;
   gap: 10px;
   margin-bottom: 56px;
+}
+
+.section-label::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.6s ease;
+}
+
+.is-active .section-label::before {
+  transform: scaleY(1);
 }
 
 .section-about  .section-label { margin-bottom: 64px; }
