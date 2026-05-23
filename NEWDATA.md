@@ -132,4 +132,42 @@ Cali, Valle del Cauca, Colombia
 
 Transmitiendo conocimiento diseñando cursos virtuales en Flash, HTML5 y la herramienta de Articulate en la empresa Sistel Ltda. que combinan interactividad, lúdica, andragogía y creatividad, logrando cautivar al usuario y generar conocimiento en diferentes ámbitos.
 
+###
+Sistel info:
 
+Empresa - proyecto
+
+COMFANDI - SISTEMA_EDUCATIVO
+
+G&F - Salud Ocupacional
+
+INTERDINCO - Inducción Corporativa
+
+J&J - Ambientes de compra
+
+NUTRESA - Modificadores de la leche
+        - Temporada Navidena
+
+PROCAPS - Procaps Bienvenida
+
+UNILEVER - desodorantes de unilever (rexona - axe)
+
+UNINORTE - SST
+
+B-SECURE - SEGURIDAD_INFORMACIÓN
+
+EMCALI - Estructura Organizacional
+       - Registro PQR
+
+JOHNSON CONTROLS - Batería CAPSA
+
+MANPOWER - Material POP
+
+PROCAPS - Procaps Procesos
+
+SYNGENTA - ISABION Nuestros estándares de Calidad
+
+TOTTO - Higiene Postural
+
+
+###
