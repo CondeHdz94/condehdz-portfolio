@@ -235,6 +235,17 @@ export default function SistelCase() {
         />
       </CaseSection>
 
+      {/* Outcomes */}
+      <CaseSection>
+        <CaseLabel num="02">Outcomes</CaseLabel>
+        <ul className="case-outcomes reveal reveal-delay-1">
+          <li>15+ modules delivered across 13 clients in 18 months — multinationals (Unilever, J&J, Nutresa, Procaps, Syngenta) alongside regional companies (Emcali, Comfandi, Totto).</li>
+          <li>Topics spanned occupational health (G&F, Uninorte), information security (B-Secure), product launches (Syngenta, Nutresa, Unilever), corporate onboarding (Interdinco, Manpower, Procaps), and retail ergonomics (Totto, J&J).</li>
+          <li>Every module was fully rebranded per client — palette, character style, and interaction language built from scratch, not pulled from a template.</li>
+          <li>Replaced instructor-led and document-based training with branching scenarios and animated interactions, published as HTML5 modules for LMS deployment.</li>
+        </ul>
+      </CaseSection>
+
       {/* Footer */}
       <footer className="case-footer">
         <CaseFooterNav />
