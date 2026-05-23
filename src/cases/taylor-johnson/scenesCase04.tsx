@@ -981,3 +981,5 @@ export function SceneSelenium() {
     </>
   )
 }
+
+export default SceneSelenium

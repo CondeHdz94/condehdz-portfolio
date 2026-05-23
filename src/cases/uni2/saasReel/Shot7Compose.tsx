@@ -236,7 +236,7 @@ function Shot7Title({ progress }: { progress: number }) {
           letterSpacing: '-0.02em',
         }}
       >
-        Mismo inventario. <span style={{ fontStyle: 'italic' }}>Tres recorridos.</span>
+        Same inventory. <span style={{ fontStyle: 'italic' }}>Three paths.</span>
       </div>
       <div
         style={{

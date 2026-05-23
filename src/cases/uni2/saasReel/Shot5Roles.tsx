@@ -19,44 +19,44 @@ interface RoleConfig {
 const ROLE_CONFIGS: RoleConfig[] = [
   {
     id: 'rol-a',
-    name: 'Rol A',
-    subtitle: 'captura · diligencia todo',
-    examples: 'comercial · ejecutivo · aliado',
+    name: 'Role A',
+    subtitle: 'intake · fills everything',
+    examples: 'commercial · executive · partner',
     accent: '#818CF8',
     steps: [
-      { id: 'pre-approver', label: 'Pre-aprobación', mode: 'form' },
-      { id: 'info-client', label: 'Info cliente', mode: 'form' },
-      { id: 'info-credit', label: 'Info crédito', mode: 'form' },
-      { id: 'info-contact', label: 'Info contacto', mode: 'form' },
-      { id: 'insurability', label: 'Asegurabilidad', mode: 'form' },
-      { id: 'documents', label: 'Documentos', mode: 'form' },
+      { id: 'pre-approver', label: 'Pre-approval', mode: 'form' },
+      { id: 'info-client', label: 'Client info', mode: 'form' },
+      { id: 'info-credit', label: 'Credit info', mode: 'form' },
+      { id: 'info-contact', label: 'Contact info', mode: 'form' },
+      { id: 'insurability', label: 'Insurability', mode: 'form' },
+      { id: 'documents', label: 'Documents', mode: 'form' },
     ],
   },
   {
     id: 'rol-b',
-    name: 'Rol B',
-    subtitle: 'documenta · sube papeles',
-    examples: 'mesa de ayuda · soporte · tesorería',
+    name: 'Role B',
+    subtitle: 'documents · uploads files',
+    examples: 'help desk · support · treasury',
     accent: '#6366F1',
     steps: [
-      { id: 'info-client', label: 'Info cliente', mode: 'visual' },
-      { id: 'info-credit', label: 'Info crédito', mode: 'visual' },
-      { id: 'documents', label: 'Documentos', mode: 'form' },
+      { id: 'info-client', label: 'Client info', mode: 'visual' },
+      { id: 'info-credit', label: 'Credit info', mode: 'visual' },
+      { id: 'documents', label: 'Documents', mode: 'form' },
     ],
   },
   {
     id: 'rol-c',
-    name: 'Rol C',
-    subtitle: 'revisa · sólo decide',
-    examples: 'analista · aprobador · comité',
+    name: 'Role C',
+    subtitle: 'reviews · decides only',
+    examples: 'analyst · approver · committee',
     accent: '#A5B4FC',
     steps: [
-      { id: 'pre-approver', label: 'Pre-aprobación', mode: 'visual' },
-      { id: 'info-client', label: 'Info cliente', mode: 'visual' },
-      { id: 'info-credit', label: 'Info crédito', mode: 'visual' },
-      { id: 'insurability', label: 'Asegurabilidad', mode: 'visual' },
-      { id: 'documents', label: 'Documentos', mode: 'visual' },
-      { id: 'decision', label: 'Decisión', mode: 'form' },
+      { id: 'pre-approver', label: 'Pre-approval', mode: 'visual' },
+      { id: 'info-client', label: 'Client info', mode: 'visual' },
+      { id: 'info-credit', label: 'Credit info', mode: 'visual' },
+      { id: 'insurability', label: 'Insurability', mode: 'visual' },
+      { id: 'documents', label: 'Documents', mode: 'visual' },
+      { id: 'decision', label: 'Decision', mode: 'form' },
     ],
   },
 ]
@@ -179,7 +179,7 @@ const EXPEDIENTE = {
   id: 'SOL-04781',
   name: 'Tatiana Avilés Restrepo',
   amount: '$ 28.0M',
-  product: 'crédito vehícular',
+  product: 'vehicle credit',
 }
 
 const LANE_TOP = 318
@@ -276,7 +276,7 @@ export function Shot5Roles() {
             letterSpacing: '-0.02em',
           }}
         >
-          Mismo expediente · <span style={{ fontStyle: 'italic' }}>recorre cada rol.</span>
+          Same file. <span style={{ fontStyle: 'italic' }}>Every role.</span>
         </div>
         <div
           style={{
@@ -755,7 +755,7 @@ function ExpedienteIdentityChip({ enter, ticker, completed }: { enter: number; t
           fontWeight: 600,
         }}
       >
-        expediente
+        file
       </div>
       <div>
         <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10.5, color: 'rgba(236,236,234,0.55)', letterSpacing: '0.06em' }}>

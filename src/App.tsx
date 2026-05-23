@@ -58,6 +58,9 @@ function useSectionColor() {
           '--accent',
           active === 'hero' ? 'var(--accent-neutral)' : SECTION_COLORS[active]
         )
+        document.querySelectorAll('[data-section]').forEach((el) => {
+          el.classList.toggle('is-section-active', el.getAttribute('data-section') === active)
+        })
         setActiveSection(active)
       },
       { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
@@ -452,7 +455,7 @@ export default function App() {
               },
               {
                 title: 'Frameworks & Libraries',
-                items: ['React', 'Svelte', 'Astro', 'Framer Motion', 'React Query', 'Redux', 'Zustand', 'Tailwind'],
+                items: ['React', 'Zod', 'React Hook Form', 'React Query', 'Redux', 'Zustand', 'Tailwind', 'Vite', 'React Router', 'react-imask', 'Svelte', 'Astro', 'Framer Motion'],
               },
               {
                 title: 'Design & Motion',
@@ -460,7 +463,7 @@ export default function App() {
               },
               {
                 title: 'Quality & Systems',
-                items: ['Design Systems', 'Accessibility', 'Jest', 'Testing Library', 'Cypress', 'Git'],
+                items: ['Design Systems', 'Accessibility', 'Feature-Sliced Design', 'Git', 'Jest', 'Testing Library', 'Cypress'],
               },
             ].map(({ title, items }, i) => (
               <div key={title} className={`skill-group reveal reveal-delay-${i + 1}`}>

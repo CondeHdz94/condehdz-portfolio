@@ -308,7 +308,7 @@ export default function Uni2Case() {
           </Stage>
         </div>
         <p className="case-caption reveal reveal-delay-3">
-          Uni2 SaaS · 45s · originación composable · captura declarativa · roles · multi-tenant · drag-to-compose
+          Uni2 SaaS · 45s · composable origination · declarative intake · roles · multi-tenant · drag-to-compose
         </p>
 
         <SkillTags

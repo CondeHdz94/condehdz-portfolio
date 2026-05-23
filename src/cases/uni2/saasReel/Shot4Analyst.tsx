@@ -113,7 +113,7 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
           transform: `translateY(${(1 - titleEnter) * -12}px)`,
         }}
       >
-        El expediente <span style={{ fontStyle: 'italic' }}>avanza.</span>
+        The file <span style={{ fontStyle: 'italic' }}>moves forward.</span>
       </div>
 
       <div
@@ -126,7 +126,7 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
           transform: `translateY(${(1 - badgesEnter) * 14}px)`,
         }}
       >
-        <RoleBigBadge label="Rol A" examples="comité · aprobador" active={leftActive} done={leftDone} accent="#A5B4FC" />
+        <RoleBigBadge label="Role A" examples="committee · approver" active={leftActive} done={leftDone} accent="#A5B4FC" />
 
         <div style={{ position: 'relative', width: 360, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg width="360" height="40" viewBox="0 0 360 40" style={{ position: 'absolute', top: '50%', marginTop: -20 }}>
@@ -199,7 +199,7 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
           )}
         </div>
 
-        <RoleBigBadge label="Rol B" examples="tesorería · operaciones" active={rightActive} done={false} accent="#818CF8" arrivedPulse={arrivedPulse} />
+        <RoleBigBadge label="Role B" examples="treasury · operations" active={rightActive} done={false} accent="#818CF8" arrivedPulse={arrivedPulse} />
       </div>
 
       <div
@@ -214,7 +214,7 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
           marginTop: 10,
         }}
       >
-        mismo expediente · distinto rol · distinto modo (form / visual)
+        same file · different role · different mode (form / visual)
       </div>
     </div>
   )

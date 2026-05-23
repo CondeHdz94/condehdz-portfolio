@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
 import { SceneAS400toPDF, SchemaAS400 } from './scenesCase02'
-import { SceneTopaz } from './scenesCase03'
-import { SceneSelenium } from './scenesCase04'
+
+const SceneTopaz    = lazy(() => import('./scenesCase03'))
+const SceneSelenium = lazy(() => import('./scenesCase04'))
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
@@ -250,8 +251,10 @@ export default function TJCase() {
               initialTime={0}
               forcePlay={activeCaseIdx === 2}
             >
-              <Sprite start={0} end={18} keepMounted>
-                <SceneTopaz />
+              <Sprite start={0} end={18} keepMounted={activeCaseIdx === 2}>
+                <Suspense fallback={null}>
+                  <SceneTopaz />
+                </Suspense>
               </Sprite>
             </Stage>
           </div>
@@ -277,8 +280,10 @@ export default function TJCase() {
               initialTime={0}
               forcePlay={activeCaseIdx === 3}
             >
-              <Sprite start={0} end={28} keepMounted>
-                <SceneSelenium />
+              <Sprite start={0} end={28} keepMounted={activeCaseIdx === 3}>
+                <Suspense fallback={null}>
+                  <SceneSelenium />
+                </Suspense>
               </Sprite>
             </Stage>
           </div>

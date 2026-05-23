@@ -23,22 +23,22 @@
   top: 0;
   transform: translate(calc(var(--bloom-x, 65vw) - 50%), calc(var(--bloom-y, 36vh) - 50%));
   background-color: var(--accent);
-  opacity: 0.13;
+  opacity: 0.22;
   filter: blur(80px);
   transition: background-color 0.8s ease;
   will-change: transform;
 }
 
 .dark .ambient-bloom-glow {
-  opacity: 0.10;
+  opacity: 0.15;
 }
 
 @media (hover: none) {
   .ambient-bloom-glow {
     transform: translate(calc(50vw - 50%), calc(30vh - 50%));
-    opacity: 0.26;
+    opacity: 0.30;
   }
-  .dark .ambient-bloom-glow { opacity: 0.20; }
+  .dark .ambient-bloom-glow { opacity: 0.22; }
 }
 
 /* ─── Focus visible ───────────────────────────────────── */
@@ -138,11 +138,30 @@
   text-transform: uppercase;
   color: var(--text-muted);
   transition: color 0.4s ease;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
 }
 
 .nav-link:hover,
 .nav-link.is-active {
   color: var(--accent);
+}
+
+.nav-link.is-active::after {
+  transform: translateX(-50%) scale(1);
 }
 
 .theme-toggle {
@@ -201,7 +220,35 @@
   padding: 112px 0;
   border-top: 1px solid var(--accent);
   transition: border-color 0.6s ease;
+  position: relative;
 }
+
+.section-inner::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  transform-origin: top center;
+  transform: scaleY(0);
+  border-radius: 1px;
+  transition: background-color 0.6s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-section-active .section-inner::before {
+    animation: section-rule-grow 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes section-rule-grow {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+}
+
+.section-hero .section-inner::before { display: none; }
 
 /* Section rhythm — each section earns its own weight */
 .section-about      .section-inner { padding-top: 96px; }
