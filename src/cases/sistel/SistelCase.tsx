@@ -79,7 +79,9 @@ export default function SistelCase() {
   }
 
   useEffect(() => {
+    document.title = 'Sistel — Camilo Conde'
     document.getElementById('case-main')?.focus({ preventScroll: true })
+    return () => { document.title = 'Camilo Conde — Design Engineer' }
   }, [])
 
   return (

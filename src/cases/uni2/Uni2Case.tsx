@@ -62,7 +62,9 @@ export default function Uni2Case() {
   }
 
   useEffect(() => {
+    document.title = 'UNI2 — Camilo Conde'
     document.getElementById('case-main')?.focus({ preventScroll: true })
+    return () => { document.title = 'Camilo Conde — Design Engineer' }
   }, [])
 
   return (
