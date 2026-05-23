@@ -94,12 +94,20 @@ export function Uni2SaaSReel() {
         <CaptionLine kicker="07 · handoff" line="Same file. Different role." italic={[1, 4]} size={56} />
       </Caption>
 
+      <Caption start={26.0} end={30.5}>
+        <CaptionLine kicker="08 · roles" line="Every role sees exactly their surface." italic={[4, 5, 6]} size={56} />
+      </Caption>
+
+      <Caption start={32.4} end={34.8}>
+        <CaptionLine kicker="09 · entity" line="One engine. Multiple brands." italic={[2, 3]} size={64} />
+      </Caption>
+
       <Caption start={35.4} end={38.4}>
-        <CaptionLine kicker="08 · compose your process" line="Without touching code." italic={[3]} size={68} />
+        <CaptionLine kicker="10 · compose your process" line="Without touching code." italic={[3]} size={68} />
       </Caption>
 
       <Caption start={38.7} end={40.9}>
-        <CaptionLine kicker="09 · outcome" line="Hours, not sprints." italic={[2, 3]} size={68} />
+        <CaptionLine kicker="11 · outcome" line="Hours, not sprints." italic={[2, 3]} size={68} />
       </Caption>
 
       {/* Brand mark — bottom-left throughout */}

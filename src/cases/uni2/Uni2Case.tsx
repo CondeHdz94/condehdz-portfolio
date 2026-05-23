@@ -273,7 +273,7 @@ export default function Uni2Case() {
             </thead>
             <tbody>
               {LIB_MIGRATIONS.map(row => (
-                <tr key={row.lib}>
+                <tr key={row.lib} data-action={row.action.split(' ')[0].toLowerCase()}>
                   <td>{row.lib}</td>
                   <td>{row.action}</td>
                   <td>{row.detail}</td>

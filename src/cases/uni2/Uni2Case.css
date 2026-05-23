@@ -103,10 +103,14 @@
 }
 
 .uni2-lib-table td:nth-child(2) {
-  color: var(--case-accent);
   font-weight: 500;
   white-space: nowrap;
+  color: var(--case-muted);
 }
+
+.uni2-lib-table [data-action="removed"] td:nth-child(2)  { color: #EF4444; }
+.uni2-lib-table [data-action="migrated"] td:nth-child(2) { color: var(--case-accent); }
+.uni2-lib-table [data-action="updated"] td:nth-child(2)  { color: var(--case-muted); }
 
 /* ─── Feature-Sliced Design layers ───────────────────── */
 
