@@ -124,6 +124,18 @@ Each accent is active only while its section dominates the viewport. They are ne
 
 **The Warmth Rule.** Every neutral leans warm. No cool grays, no pure blacks, no optical whites. The undertone is always toward stone and amber, never toward blue or green.
 
+### Case Accents (per-route overrides)
+
+Each case study defines its own `--case-accent` scoped to `.case-page--[name]`. These override the section unlock system within the case route and never appear on the CV landing page.
+
+| Case | Route | Light | Dark | Character |
+|------|-------|-------|------|-----------|
+| Taylor & Johnson | `/case/taylor-johnson` | `#166534` | `#4ADE80` | Phosphor green — CRT terminal register |
+| Sistel | `/case/sistel` | `#EA580C` | `#FB923C` | Coral orange — warm, editorial |
+| Uni2 | `/case/uni2` | `#4F46E5` | `#818CF8` | Fintech indigo — SaaS credibility |
+
+**The Isolation Rule.** Case accents are scoped and never leak into the CV register. When the user navigates back to the landing, the section unlock system resumes from scratch. Case accent ≠ section accent.
+
 ## 3. Typography
 
 **Display / Body Font:** Epilogue (single family, all weights)

@@ -192,6 +192,9 @@ export default function SistelCase() {
           </Stage>
         </div>
 
+        <p className="case-caption reveal reveal-delay-3" style={{ marginTop: 32 }}>
+          Each course was rebranded for the client. Try the most common palette systems →
+        </p>
         <div className="sistel-tweaks reveal reveal-delay-3">
           <div className="sistel-tweaks-group">
             <span className="sistel-tweaks-label">Brand color</span>

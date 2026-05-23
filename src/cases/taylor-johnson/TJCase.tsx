@@ -304,6 +304,20 @@ export default function TJCase() {
         </ul>
       </CaseSection>
 
+      {/* Animation engine note */}
+      <CaseSection>
+        <CaseLabel num="06">Animation Engine</CaseLabel>
+        <p className="case-body reveal reveal-delay-1">
+          The four scenes above run on a custom timeline engine built for this portfolio — not a
+          library dependency. <code>Stage</code>, <code>Sprite</code>, <code>interpolate()</code>,
+          and 20+ easing functions in 24KB of TypeScript. Frame-accurate scrubbing, declarative
+          keyframe composition, and a <code>persistKey</code> mechanism that keeps scenes alive
+          across sidebar switches without retriggering animations. The engine is the same kind of
+          artifact as the work it demonstrates: frontend infrastructure designed to be invisible
+          until you look at it.
+        </p>
+      </CaseSection>
+
       {/* Footer */}
       <footer className="case-footer">
         <CaseFooterNav />
