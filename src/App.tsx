@@ -202,6 +202,7 @@ export default function App() {
   const [toggleAnim, setToggleAnim] = useState(false)
   const [pillOpen, setPillOpen] = useState(false)
   const pillRef = useRef<HTMLDivElement>(null)
+  const pillTriggerRef = useRef<HTMLButtonElement>(null)
 
   const activeSection = useSectionColor()
   useScrollReveal()
@@ -229,7 +230,10 @@ export default function App() {
       }
     }
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setPillOpen(false)
+      if (e.key === 'Escape') {
+        setPillOpen(false)
+        pillTriggerRef.current?.focus()
+      }
     }
     document.addEventListener('click', close)
     document.addEventListener('keydown', onKeyDown)
@@ -250,9 +254,9 @@ export default function App() {
 
       <div className="nav-pill" ref={pillRef}>
         <button
+          ref={pillTriggerRef}
           className="pill-trigger"
           onClick={() => setPillOpen(o => !o)}
-          aria-haspopup="menu"
           aria-expanded={pillOpen}
           aria-label="Navigate to section"
         >
@@ -260,20 +264,22 @@ export default function App() {
           <span className="pill-name">{SECTION_LABELS[activeSection]}</span>
           <span className="pill-chevron" aria-hidden="true">▲</span>
         </button>
-        <div className={`pill-menu${pillOpen ? ' is-open' : ''}`} role="menu">
-          {PILL_SECTIONS.map(({ key, label }) => (
-            <a
-              key={key}
-              href={key === 'hero' ? '#' : `#${key}`}
-              className={`pill-item${activeSection === key ? ' is-active' : ''}`}
-              role="menuitem"
-              onClick={() => setPillOpen(false)}
-            >
-              <span className="pill-item-dot" style={{ background: PILL_COLORS[key] }} />
-              <span className="pill-item-label">{label}</span>
-            </a>
-          ))}
-        </div>
+        <nav className={`pill-menu${pillOpen ? ' is-open' : ''}`} aria-label="Page sections">
+          <ul role="list">
+            {PILL_SECTIONS.map(({ key, label }) => (
+              <li key={key}>
+                <a
+                  href={key === 'hero' ? '#' : `#${key}`}
+                  className={`pill-item${activeSection === key ? ' is-active' : ''}`}
+                  onClick={() => setPillOpen(false)}
+                >
+                  <span className="pill-item-dot" style={{ background: PILL_COLORS[key] }} />
+                  <span className="pill-item-label">{label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
@@ -338,7 +344,7 @@ export default function App() {
       </section>
 
       {/* ── About ── */}
-      <section id="about" data-section="about" className="section section-about">
+      <section id="about" data-section="about" className={`section section-about${activeSection === 'about' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">01</span>
@@ -368,7 +374,7 @@ export default function App() {
       </section>
 
       {/* ── Experience ── */}
-      <section id="experience" data-section="experience" className="section section-experience">
+      <section id="experience" data-section="experience" className={`section section-experience${activeSection === 'experience' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">02</span>
@@ -407,7 +413,7 @@ export default function App() {
       </section>
 
       {/* ── Skills ── */}
-      <section id="skills" data-section="skills" className="section section-skills">
+      <section id="skills" data-section="skills" className={`section section-skills${activeSection === 'skills' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">03</span>
@@ -429,7 +435,7 @@ export default function App() {
       </section>
 
       {/* ── Contact ── */}
-      <section id="contact" data-section="contact" className="section section-contact">
+      <section id="contact" data-section="contact" className={`section section-contact${activeSection === 'contact' ? ' is-active' : ''}`}>
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">04</span>

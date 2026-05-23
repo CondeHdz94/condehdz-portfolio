@@ -150,6 +150,7 @@ export default function TJCase() {
               href={`#case-0${i + 1}`}
               className={`cases-sidebar-item${activeCaseIdx === i ? ' is-active' : ''}`}
               aria-label={`Case 0${i + 1}: ${label}`}
+              aria-current={activeCaseIdx === i ? 'location' : undefined}
             >
               {label}
             </a>
@@ -190,7 +191,7 @@ export default function TJCase() {
               initialTime={0}
               forcePlay={activeCaseIdx === 0}
             >
-              <Sprite start={0} end={scene.dur} keepMounted>
+              <Sprite start={0} end={scene.dur} keepMounted={activeCaseIdx === 0}>
                 <scene.comp />
               </Sprite>
             </Stage>
@@ -223,7 +224,7 @@ export default function TJCase() {
               initialTime={0}
               forcePlay={activeCaseIdx === 1}
             >
-              <Sprite start={0} end={19.5} keepMounted>
+              <Sprite start={0} end={19.5} keepMounted={activeCaseIdx === 1}>
                 <SceneAS400toPDF />
               </Sprite>
             </Stage>
@@ -301,6 +302,20 @@ export default function TJCase() {
           <li>First Selenium batch migrated legacy records ahead of schedule; subsequent runs unattended during off-hours.</li>
           <li>Fresche Presto rendering layer validated as a production path — no COBOL rewrite required, no business logic touched.</li>
         </ul>
+      </CaseSection>
+
+      {/* Animation engine note */}
+      <CaseSection>
+        <CaseLabel num="06">Animation Engine</CaseLabel>
+        <p className="case-body reveal reveal-delay-1">
+          The four scenes above run on a custom timeline engine built for this portfolio — not a
+          library dependency. <code>Stage</code>, <code>Sprite</code>, <code>interpolate()</code>,
+          and 20+ easing functions in 24KB of portfolio code. Frame-accurate scrubbing, declarative
+          keyframe composition, and a <code>persistKey</code> mechanism that keeps scenes alive
+          across sidebar switches without retriggering animations. The engine is the same kind of
+          artifact as the work it demonstrates: frontend infrastructure designed to be invisible
+          until you look at it.
+        </p>
       </CaseSection>
 
       {/* Footer */}
