@@ -79,7 +79,9 @@ export default function SistelCase() {
   }
 
   useEffect(() => {
+    document.title = 'Sistel — Camilo Conde'
     document.getElementById('case-main')?.focus({ preventScroll: true })
+    return () => { document.title = 'Camilo Conde — Design Engineer' }
   }, [])
 
   return (
@@ -122,7 +124,7 @@ export default function SistelCase() {
         <CaseLabel num="00">Context</CaseLabel>
         <div className="case-overview-grid">
           <div className="reveal reveal-delay-1">
-            <h2 className="case-section-title">When the content exists but the experience doesn't.</h2>
+            <h3 className="case-section-title">When the content exists but the experience doesn't.</h3>
             <p className="case-body">
               Corporate training at Sistel always started the same way: subject matter experts
               with deep domain knowledge, and a slide deck — or a Word document — to show for it.

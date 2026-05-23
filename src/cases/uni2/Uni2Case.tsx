@@ -62,7 +62,9 @@ export default function Uni2Case() {
   }
 
   useEffect(() => {
+    document.title = 'UNI2 — Camilo Conde'
     document.getElementById('case-main')?.focus({ preventScroll: true })
+    return () => { document.title = 'Camilo Conde — Design Engineer' }
   }, [])
 
   return (
@@ -106,9 +108,9 @@ export default function Uni2Case() {
         <CaseLabel num="00">Context</CaseLabel>
         <div className="case-overview-grid">
           <div className="reveal reveal-delay-1">
-            <h2 className="case-section-title">
+            <h3 className="case-section-title">
               A live banking platform with daily operations, thirty user roles, and no room for downtime.
-            </h2>
+            </h3>
             <p className="case-body">
               UNI2 is the internal web interface of a Colombian microcredit company — the platform through
               which every credit operation is originated, approved, disbursed, and tracked. The users
@@ -146,9 +148,9 @@ export default function Uni2Case() {
       <CaseSection>
         <CaseLabel num="01">Platform Contribution</CaseLabel>
 
-        <h2 className="case-section-title reveal">
+        <h3 className="case-section-title reveal">
           Four-plus years of continuous delivery on a live banking platform — currently as Frontend Lead.
-        </h2>
+        </h3>
 
         <p className="case-body reveal reveal-delay-1">
           Today the role is Frontend Lead — the technical anchor for the team's frontend work
@@ -229,9 +231,9 @@ export default function Uni2Case() {
       <CaseSection>
         <CaseLabel num="02">Uni2Lite — Founding Engineer</CaseLabel>
 
-        <h2 className="case-section-title reveal">
+        <h3 className="case-section-title reveal">
           Not a credit form. An engine for assembling any credit origination process — in hours, not sprints.
-        </h2>
+        </h3>
         <p className="case-body reveal reveal-delay-1">
           In early 2025, the company started Uni2Lite: a separate platform for its services
           segment. No legacy to inherit — a blank Vite config and a foundational question:

@@ -142,34 +142,44 @@ function useBloomFollow() {
     let currentX = 0.65
     let currentY = 0.36
     let rafId: number
+    let running = false
 
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-
-    const onMouseMove = (e: MouseEvent) => {
-      targetX = e.clientX / window.innerWidth
-      targetY = e.clientY / window.innerHeight
-    }
+    const EPS = 0.0008
 
     const tick = () => {
       currentX = lerp(currentX, targetX, 0.05)
       currentY = lerp(currentY, targetY, 0.05)
       document.documentElement.style.setProperty('--bloom-x', `${currentX * window.innerWidth}px`)
       document.documentElement.style.setProperty('--bloom-y', `${currentY * window.innerHeight}px`)
-      rafId = requestAnimationFrame(tick)
+      if (Math.abs(currentX - targetX) < EPS && Math.abs(currentY - targetY) < EPS) {
+        running = false
+      } else {
+        rafId = requestAnimationFrame(tick)
+      }
+    }
+
+    const onMouseMove = (e: MouseEvent) => {
+      targetX = e.clientX / window.innerWidth
+      targetY = e.clientY / window.innerHeight
+      if (!running) {
+        running = true
+        rafId = requestAnimationFrame(tick)
+      }
     }
 
     const start = () => {
-      rafId = requestAnimationFrame(tick)
       window.addEventListener('mousemove', onMouseMove, { passive: true })
     }
 
     const stop = () => {
       cancelAnimationFrame(rafId)
+      running = false
       window.removeEventListener('mousemove', onMouseMove)
     }
 
     const onHoverChange = (e: MediaQueryListEvent) => {
-      e.matches ? stop() : start()
+      if (e.matches) stop(); else start()
     }
 
     if (!hoverMq.matches) start()
@@ -181,50 +191,6 @@ function useBloomFollow() {
       hoverMq.removeEventListener('change', onHoverChange)
     }
   }, [])
-}
-
-function StatCounter({ target, label }: { target: number; label: string }) {
-  const ref = useRef<HTMLDListElement>(null)
-  const [value, setValue] = useState(0)
-  const triggered = useRef(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setValue(target)
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !triggered.current) {
-          triggered.current = true
-          const duration = 1400
-          const start = performance.now()
-          const tick = (now: number) => {
-            const t = Math.min((now - start) / duration, 1)
-            const eased = 1 - Math.pow(1 - t, 3)
-            setValue(Math.round(eased * target))
-            if (t < 1) requestAnimationFrame(tick)
-          }
-          requestAnimationFrame(tick)
-        }
-      },
-      { threshold: 0.3 }
-    )
-
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [target])
-
-  return (
-    <dl ref={ref}>
-      <dd className="stat-number">{String(value).padStart(2, '0')}+</dd>
-      <dt className="stat-label">{label}</dt>
-    </dl>
-  )
 }
 
 export default function App() {
@@ -259,8 +225,15 @@ export default function App() {
         setPillOpen(false)
       }
     }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPillOpen(false)
+    }
     document.addEventListener('click', close)
-    return () => document.removeEventListener('click', close)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('click', close)
+      document.removeEventListener('keydown', onKeyDown)
+    }
   }, [])
 
   return (
@@ -407,7 +380,7 @@ export default function App() {
             <span className="section-num">02</span>
             <span className="section-name">Experience</span>
           </h2>
-          <div className="timeline">
+          <ul className="timeline">
             {[
               {
                 company: 'UNI2',
@@ -434,7 +407,7 @@ export default function App() {
                 caseStudy: { href: '/case/sistel', label: 'Sistel — E-learning design', meta: 'Visual identity · interactive authoring · LMS' },
               },
             ].map(({ company, role, period, tags, desc, caseStudy }, i) => (
-              <div key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
+              <li key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
                 <span className="timeline-num">0{i + 1}</span>
                 <div className="timeline-header">
                   <span className="timeline-company">{company}</span>
@@ -458,9 +431,9 @@ export default function App() {
                     <span className="timeline-case-arrow" aria-hidden="true">→</span>
                   </Link>
                 )}
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
@@ -492,11 +465,11 @@ export default function App() {
             ].map(({ title, items }, i) => (
               <div key={title} className={`skill-group reveal reveal-delay-${i + 1}`}>
                 <h3 className="skill-group-title">{title}</h3>
-                <div className="skill-tags">
+                <ul className="skill-tags">
                   {items.map((item) => (
-                    <span key={item} className="skill-tag">{item}</span>
+                    <li key={item} className="skill-tag">{item}</li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>
