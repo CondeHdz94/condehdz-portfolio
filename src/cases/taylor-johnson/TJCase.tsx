@@ -150,6 +150,7 @@ export default function TJCase() {
               href={`#case-0${i + 1}`}
               className={`cases-sidebar-item${activeCaseIdx === i ? ' is-active' : ''}`}
               aria-label={`Case 0${i + 1}: ${label}`}
+              aria-current={activeCaseIdx === i ? 'location' : undefined}
             >
               {label}
             </a>
@@ -190,7 +191,7 @@ export default function TJCase() {
               initialTime={0}
               forcePlay={activeCaseIdx === 0}
             >
-              <Sprite start={0} end={scene.dur} keepMounted>
+              <Sprite start={0} end={scene.dur} keepMounted={activeCaseIdx === 0}>
                 <scene.comp />
               </Sprite>
             </Stage>
@@ -223,7 +224,7 @@ export default function TJCase() {
               initialTime={0}
               forcePlay={activeCaseIdx === 1}
             >
-              <Sprite start={0} end={19.5} keepMounted>
+              <Sprite start={0} end={19.5} keepMounted={activeCaseIdx === 1}>
                 <SceneAS400toPDF />
               </Sprite>
             </Stage>
