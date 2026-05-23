@@ -1016,3 +1016,5 @@ export function SceneTopaz() {
     </>
   )
 }
+
+export default SceneTopaz

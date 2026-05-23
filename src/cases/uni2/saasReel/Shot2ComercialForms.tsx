@@ -126,7 +126,7 @@ function Shot2Header({ progress }: { progress: number }) {
           marginBottom: 8,
         }}
       >
-        02 · captura · sistema declarativo
+        02 · intake · declarative system
       </div>
       <div
         style={{
@@ -137,7 +137,7 @@ function Shot2Header({ progress }: { progress: number }) {
           letterSpacing: '-0.02em',
         }}
       >
-        Forms <span style={{ fontStyle: 'italic' }}>declarativos.</span>
+        <span style={{ fontStyle: 'italic' }}>Declarative</span> forms.
       </div>
     </div>
   )

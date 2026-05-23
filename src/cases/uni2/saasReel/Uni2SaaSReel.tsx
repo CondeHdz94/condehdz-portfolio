@@ -67,39 +67,39 @@ export function Uni2SaaSReel() {
 
       {/* Captions */}
       <Caption start={0.6} end={4.7}>
-        <CaptionLine kicker="01 · el problema" line="Originar un crédito siempre fue caos." italic={[3, 4]} />
+        <CaptionLine kicker="01 · the problem" line="Credit origination was always chaos." italic={[3, 4]} />
       </Caption>
 
       <Caption start={5.8} end={9.4}>
-        <CaptionLine kicker="02 · captura" line="Cada formulario nace de un config. No de código." italic={[5, 7, 8]} size={56} />
+        <CaptionLine kicker="02 · intake" line="Every form is born from config. Not from code." italic={[6, 9]} size={56} />
       </Caption>
 
       <Caption start={9.7} end={12.9}>
-        <CaptionLine kicker="03 · validación" line="Filtros automáticos. Canales externos." italic={[1, 3]} size={56} />
+        <CaptionLine kicker="03 · validation" line="Automatic filters. External channels." italic={[1, 3]} size={56} />
       </Caption>
 
       <Caption start={14.0} end={17.0}>
-        <CaptionLine kicker="04 · bolsa" line="La solicitud aparece en la bolsa general." italic={[5, 6]} size={60} />
+        <CaptionLine kicker="04 · queue" line="The application lands in the general pool." italic={[6, 7]} size={60} />
       </Caption>
 
       <Caption start={17.3} end={19.4}>
-        <CaptionLine kicker="05 · análisis" line="Identidad, score y reglas, en una pantalla." italic={[4]} size={60} />
+        <CaptionLine kicker="05 · analysis" line="Identity, score and rules — one screen." italic={[4]} size={60} />
       </Caption>
 
       <Caption start={19.7} end={21.7}>
-        <CaptionLine kicker="06 · decisión" line="Y tú decides, con todo a la vista." italic={[2, 3]} size={64} />
+        <CaptionLine kicker="06 · decision" line="And you decide, with everything in view." italic={[2, 3]} size={64} />
       </Caption>
 
       <Caption start={22.2} end={24.9}>
-        <CaptionLine kicker="07 · handoff" line="Mismo expediente. Otro rol." italic={[1, 4]} size={56} />
+        <CaptionLine kicker="07 · handoff" line="Same file. Different role." italic={[1, 4]} size={56} />
       </Caption>
 
       <Caption start={35.4} end={38.4}>
-        <CaptionLine kicker="09 · arma tu proceso" line="Sin tocar código." italic={[2]} size={68} />
+        <CaptionLine kicker="08 · compose your process" line="Without touching code." italic={[3]} size={68} />
       </Caption>
 
       <Caption start={38.7} end={40.9}>
-        <CaptionLine kicker="10 · resultado" line="En horas, no en sprints." italic={[3, 4]} size={68} />
+        <CaptionLine kicker="09 · outcome" line="Hours, not sprints." italic={[2, 3]} size={68} />
       </Caption>
 
       {/* Brand mark — bottom-left throughout */}
@@ -176,7 +176,7 @@ function BrandMark({ time }: { time: number }) {
           color: 'rgba(236,236,234,0.55)',
         }}
       >
-        originación · multi-entidad
+        origination · multi-entity
       </div>
     </div>
   )
