@@ -31,7 +31,6 @@ export const SKILLS: Skill[] = ([
   { id: 'typescript', name: 'TypeScript',    cat: 'foundations', tier: 'core',      years: 3, icon: 'ts',       note: 'Strict mode by default. Generics over comments.' },
   { id: 'javascript', name: 'JavaScript',    cat: 'foundations', tier: 'core',      years: 7, icon: 'js',       note: 'The substrate.' },
   { id: 'css',        name: 'CSS / SASS',    cat: 'foundations', tier: 'core',      years: 7, icon: 'css',      note: 'CSS variables, container queries, the new stuff.' },
-  { id: 'html',       name: 'HTML',          cat: 'foundations', tier: 'core',      years: 7, icon: 'html',     note: 'Semantic before pretty.' },
   { id: 'tailwind',   name: 'Tailwind',      cat: 'foundations', tier: 'working',   years: 3, icon: 'tailwind', note: 'With tokens, never with magic numbers.' },
   { id: 'vite',       name: 'Vite',          cat: 'foundations', tier: 'working',   years: 3, icon: 'vite',     note: 'The default. Build feels instant again.' },
 
@@ -47,7 +46,6 @@ export const SKILLS: Skill[] = ([
   { id: 'framer',      name: 'Framer Motion', cat: 'motion', tier: 'exploring', years: 3, icon: 'framer',   note: 'Layout animations, gesture-driven UI.' },
   { id: 'illustrator', name: 'Illustrator',   cat: 'motion', tier: 'working',   years: 3, icon: 'ai',       note: 'Vector. Logo work, icon systems.' },
   { id: 'photoshop',   name: 'Photoshop',     cat: 'motion', tier: 'working',   years: 3, icon: 'ps',       note: 'Composites. Color grading. Mockups.' },
-  { id: 'premiere',    name: 'Premiere Pro',  cat: 'motion', tier: 'exploring', years: 1, icon: 'premiere', note: 'Edits that respect rhythm.' },
 
   // ── Systems & Hygiene ─────────────────────────────────────
   { id: 'ds',   name: 'Design Systems',        cat: 'systems', tier: 'core',      years: 4, icon: 'ds',   note: 'Tokens, primitives, contracts. The kind that survive.' },
