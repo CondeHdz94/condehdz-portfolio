@@ -4,7 +4,7 @@ import { useDarkMode } from './hooks/useDarkMode'
 import { useLenis } from './hooks/useLenis'
 import { useScrollReveal } from './hooks/useScrollReveal'
 import { EXPERIENCE } from './content/experience'
-import { SKILLS } from './content/skills'
+import { SkillsLedger } from './components/SkillsLedger'
 import { HERO_LINKS, CONTACT_LINKS, SOCIAL_LINKS } from './content/contact'
 import './App.css'
 
@@ -103,7 +103,6 @@ function useMobileScrollActive() {
 
     const groups = [
       Array.from(document.querySelectorAll('.timeline-item')),
-      Array.from(document.querySelectorAll('.skill-group')),
     ]
 
     const update = () => {
@@ -419,18 +418,10 @@ export default function App() {
             <span className="section-num">03</span>
             <span className="section-name">Skills</span>
           </h2>
-          <div className="skills-stack">
-            {SKILLS.map(({ title, items }, i) => (
-              <div key={title} className={`skill-group reveal reveal-delay-${i + 1}`}>
-                <h3 className="skill-group-title">{title}</h3>
-                <ul className="skill-tags">
-                  {items.map((item) => (
-                    <li key={item} className="skill-tag">{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <p className="section-headline reveal reveal-delay-1">
+            The stack I&apos;ve earned, ordered by how often it ships. Each row is a tool I&apos;d <em>still pick</em> on a Monday.
+          </p>
+          <SkillsLedger />
         </div>
       </section>
 
