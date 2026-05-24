@@ -32,7 +32,6 @@ export const SKILLS: Skill[] = ([
   { id: 'javascript', name: 'JavaScript',    cat: 'foundations', tier: 'core',      years: 7, icon: 'js',       note: 'The substrate.' },
   { id: 'css',        name: 'CSS / SASS',    cat: 'foundations', tier: 'core',      years: 7, icon: 'css',      note: 'CSS variables, container queries, the new stuff.' },
   { id: 'tailwind',   name: 'Tailwind',      cat: 'foundations', tier: 'working',   years: 3, icon: 'tailwind', note: 'With tokens, never with magic numbers.' },
-  { id: 'vite',       name: 'Vite',          cat: 'foundations', tier: 'working',   years: 3, icon: 'vite',     note: 'The default. Build feels instant again.' },
 
   // ── Forms & State ─────────────────────────────────────────
   { id: 'zod',     name: 'Zod',             cat: 'forms', tier: 'core',    years: 3, icon: 'zod',     note: 'Schemas as the source of truth — types, runtime, forms.' },
