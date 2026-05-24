@@ -23,6 +23,9 @@
   --case-accent-bg:     rgba(74, 222, 128, 0.05);
 }
 
+/* ── Taylor & Johnson modifier (hook for TJ-specific overrides) ── */
+.case-page--tj {}
+
 /* ─── Skip link ───────────────────────────────────────── */
 
 .case-skip-link {

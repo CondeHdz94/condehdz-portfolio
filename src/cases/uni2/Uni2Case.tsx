@@ -113,7 +113,7 @@ export default function Uni2Case() {
       <section id="case-main" tabIndex={-1} className="case-hero">
         <div className="case-hero-inner">
           <p className="case-eyebrow reveal">
-            UNI2 Microcrédito · Frontend Developer · 2021 – Present
+            UNI2 Microcrédito · Sr. Frontend Developer · 2021 – Present
           </p>
           <h1 className="case-headline reveal reveal-delay-1">
             Banking software for thirty roles, built from the frontend.
@@ -238,6 +238,9 @@ export default function Uni2Case() {
             officers who accompany clients through the process when self-service isn't viable.
             It replaced paper-based, in-person approval processes with a fully remote pipeline.
           </p>
+          <p className="case-outcome-line reveal reveal-delay-2">
+            Authorization turnaround reduced from <strong>days or weeks to minutes</strong> — the full biometric pipeline runs remotely, end-to-end, without paper or in-person coordination.
+          </p>
         </CaseSection>
 
         {/* 01b — Modal System */}
@@ -253,6 +256,9 @@ export default function Uni2Case() {
             system replaced them all. The shared application summary component, built alongside
             the modal system, eliminated diverged implementations that had accumulated across
             years of parallel feature work.
+          </p>
+          <p className="case-outcome-line reveal reveal-delay-2">
+            <strong>Adopted as platform standard across all 30+ roles</strong> — every module and feature built after the system shipped uses it. Zero per-feature z-index conflicts since.
           </p>
         </CaseSection>
 
@@ -281,6 +287,9 @@ export default function Uni2Case() {
               ))}
             </tbody>
           </table>
+          <p className="case-outcome-line reveal reveal-delay-3">
+            Bundle weight reduced with each removal — no library dropped without a documented rationale and a replacement that earned its place.
+          </p>
         </CaseSection>
       </div>
 

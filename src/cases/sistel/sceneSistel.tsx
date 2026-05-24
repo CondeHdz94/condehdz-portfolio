@@ -24,7 +24,7 @@ const CREAM = '#F8F4EC'
 // ── Font stacks ───────────────────────────────────────────────────────────────
 
 const F_DISPLAY = "'Fraunces', Georgia, 'Times New Roman', serif"
-const F_UI      = "'Geist', 'Epilogue', 'Helvetica Neue', system-ui, sans-serif"
+const F_UI      = "'Epilogue', 'Helvetica Neue', system-ui, sans-serif"
 const F_MONO    = "'JetBrains Mono', ui-monospace, monospace"
 const F_PPT     = "'Calibri', 'Carlito', 'Trebuchet MS', sans-serif"
 

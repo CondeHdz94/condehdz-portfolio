@@ -32,6 +32,8 @@ export const SKILLS: Skill[] = ([
   { id: 'javascript', name: 'JavaScript',    cat: 'foundations', tier: 'core',      years: 7, icon: 'js',       note: 'The substrate.' },
   { id: 'css',        name: 'CSS / SASS',    cat: 'foundations', tier: 'core',      years: 7, icon: 'css',      note: 'CSS variables, container queries, the new stuff.' },
   { id: 'tailwind',   name: 'Tailwind',      cat: 'foundations', tier: 'working',   years: 3, icon: 'tailwind', note: 'With tokens, never with magic numbers.' },
+  { id: 'svelte',     name: 'Svelte',        cat: 'foundations', tier: 'exploring', years: 1, icon: 'svelte',   note: 'Reactivity without a runtime. A useful lens on React.' },
+  { id: 'astro',      name: 'Astro',         cat: 'foundations', tier: 'exploring', years: 1, icon: 'astro',    note: 'Content-first. Islands architecture.' },
 
   // ── Forms & State ─────────────────────────────────────────
   { id: 'zod',     name: 'Zod',             cat: 'forms', tier: 'core',    years: 3, icon: 'zod',     note: 'Schemas as the source of truth — types, runtime, forms.' },
@@ -47,12 +49,13 @@ export const SKILLS: Skill[] = ([
   { id: 'photoshop',   name: 'Photoshop',     cat: 'motion', tier: 'working',   years: 3, icon: 'ps',       note: 'Composites. Color grading. Mockups.' },
 
   // ── Systems & Hygiene ─────────────────────────────────────
-  { id: 'ds',   name: 'Design Systems',        cat: 'systems', tier: 'core',      years: 4, icon: 'ds',   note: 'Tokens, primitives, contracts. The kind that survive.' },
-  { id: 'fsd',  name: 'Feature-Sliced Design', cat: 'systems', tier: 'core',      years: 2, icon: 'fsd',  note: 'Architecture for codebases that outlive features.' },
-  { id: 'git',  name: 'Git',                   cat: 'systems', tier: 'core',      years: 5, icon: 'git',  note: 'Trunk-based, clean history.' },
-  { id: 'a11y', name: 'Accessibility',         cat: 'systems', tier: 'working',   years: 5, icon: 'a11y', note: 'WCAG, focus rings, prefers-reduced-motion.' },
-  { id: 'jest', name: 'Jest',                  cat: 'systems', tier: 'exploring', years: 2, icon: 'jest', note: 'Unit, snapshot, the boring reliable layer.' },
-  { id: 'rtl',  name: 'Testing Library',       cat: 'systems', tier: 'exploring', years: 2, icon: 'rtl',  note: 'Tests that read like specs.' },
+  { id: 'ds',      name: 'Design Systems',        cat: 'systems', tier: 'core',      years: 4, icon: 'ds',      note: 'Tokens, primitives, contracts. The kind that survive.' },
+  { id: 'fsd',     name: 'Feature-Sliced Design', cat: 'systems', tier: 'core',      years: 2, icon: 'fsd',     note: 'Architecture for codebases that outlive features.' },
+  { id: 'git',     name: 'Git',                   cat: 'systems', tier: 'core',      years: 5, icon: 'git',     note: 'Trunk-based, clean history.' },
+  { id: 'a11y',    name: 'Accessibility',         cat: 'systems', tier: 'working',   years: 5, icon: 'a11y',    note: 'WCAG, focus rings, prefers-reduced-motion.' },
+  { id: 'jest',    name: 'Jest',                  cat: 'systems', tier: 'exploring', years: 2, icon: 'jest',    note: 'Unit, snapshot, the boring reliable layer.' },
+  { id: 'rtl',     name: 'Testing Library',       cat: 'systems', tier: 'exploring', years: 2, icon: 'rtl',     note: 'Tests that read like specs.' },
+  { id: 'cypress', name: 'Cypress',               cat: 'systems', tier: 'exploring', years: 1, icon: 'cypress', note: 'E2E. Occasional, but real.' },
 ] as Skill[]).sort((a, b) => {
   if (a.cat !== b.cat) return 0
   return TIER_ORDER[a.tier] - TIER_ORDER[b.tier]

@@ -65,7 +65,7 @@ export default function TJCase() {
   }, [])
 
   return (
-    <div className="case-page">
+    <div className="case-page case-page--tj">
 
       <a href="#case-main" className="case-skip-link">Skip to content</a>
 
@@ -316,20 +316,6 @@ export default function TJCase() {
           The 40-year-old COBOL core: untouched, still processing, still running. No rewrite,
           no migration, no business logic touched. Fresche Presto as a production modernization
           path — validated at scale.
-        </p>
-      </CaseSection>
-
-      {/* Animation engine note */}
-      <CaseSection>
-        <CaseLabel num="06">Animation Engine</CaseLabel>
-        <p className="case-body reveal reveal-delay-1">
-          The four scenes above run on a custom timeline engine built for this portfolio — not a
-          library dependency. <code>Stage</code>, <code>Sprite</code>, <code>interpolate()</code>,
-          and 20+ easing functions in 24KB of portfolio code. Frame-accurate scrubbing, declarative
-          keyframe composition, and a <code>persistKey</code> mechanism that keeps scenes alive
-          across sidebar switches without retriggering animations. The engine is the same kind of
-          artifact as the work it demonstrates: frontend infrastructure designed to be invisible
-          until you look at it.
         </p>
       </CaseSection>
 
