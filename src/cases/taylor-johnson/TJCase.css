@@ -368,6 +368,22 @@
   top: 3px;
 }
 
+/* ─── Per-case outcome note ───────────────────────────── */
+
+.case-outcome-line {
+  margin-top: 24px;
+  padding: 13px 18px 13px 16px;
+  border-left: 2px solid var(--case-accent-border);
+  font-size: var(--text-xs);
+  line-height: 1.65;
+  color: var(--case-muted);
+}
+
+.case-outcome-line strong {
+  color: var(--case-accent);
+  font-weight: 600;
+}
+
 .case-skill-tags {
   display: flex;
   flex-wrap: wrap;

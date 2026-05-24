@@ -226,3 +226,111 @@
     gap: 10px;
   }
 }
+
+/* ─── Outcomes stats ─────────────────────────────────── */
+
+.sistel-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--case-border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 40px 0 48px;
+}
+
+.sistel-stats-item {
+  padding: 26px 22px;
+  background: var(--case-surface);
+}
+
+.sistel-stats-item + .sistel-stats-item {
+  border-left: 1px solid var(--case-border);
+}
+
+.sistel-stat-value {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--case-accent);
+  line-height: 1;
+  margin-bottom: 7px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sistel-stat-label {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+}
+
+/* ─── Client grid ────────────────────────────────────── */
+
+.sistel-clients {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px 28px;
+  border: 1px solid var(--case-border);
+  background: var(--case-bg);
+}
+
+.sistel-clients-group {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.sistel-clients-label {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.sistel-clients-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.sistel-client-chip {
+  padding: 5px 12px;
+  border: 1px solid var(--case-border);
+  border-radius: 2px;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--case-text);
+  background: var(--case-surface);
+}
+
+.sistel-clients-group--intl .sistel-client-chip {
+  border-color: var(--case-accent-border);
+  color: var(--case-accent);
+  background: var(--case-accent-bg);
+}
+
+@media (max-width: 640px) {
+  .sistel-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sistel-stats-item {
+    padding: 18px 14px;
+  }
+
+  .sistel-clients-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .sistel-clients-label {
+    min-width: auto;
+  }
+}

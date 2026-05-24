@@ -386,11 +386,10 @@ export default function Uni2Case() {
       <CaseSection>
         <CaseLabel num="03">What changed</CaseLabel>
         <ul className="case-outcomes reveal reveal-delay-1">
-          <li>Credit-application flow reduced from multi-day manual coordination to a single guided session — operators complete originations end-to-end without leaving the platform.</li>
-          <li>Stepper's dual edit/visual/consult modes eliminated the need for parallel paper forms; compliance review now happens inside the same interface used for data entry.</li>
-          <li>Zod + RHF validation layer caught schema mismatches at input time, cutting downstream rejection rates from the banking core.</li>
-          <li>Feature-Sliced Design adoption made onboarding of new frontend contributors measurably faster — module boundaries are explicit, no implicit coupling.</li>
-          <li>+470K lines of production code across +5,300 files delivered with a two-person frontend team over three years.</li>
+          <li>Credit origination flow reduced from multi-day manual coordination to a single guided session — operators run applications end-to-end without leaving the platform.</li>
+          <li>Compliance review moved inside the origination interface — the stepper's dual edit/consult mode eliminated parallel paper forms tracking the same data in two separate systems.</li>
+          <li>Downstream rejection rates from the banking core reduced — the Zod + RHF validation layer catches field schema mismatches at input, before they reach the core.</li>
+          <li>Frontend onboarding measurably faster — Feature-Sliced Design's explicit, unidirectional boundaries mean a new contributor can navigate the codebase without implicit coupling to trace.</li>
         </ul>
       </CaseSection>
 

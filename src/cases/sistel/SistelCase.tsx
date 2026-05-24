@@ -24,6 +24,11 @@ const GUIDE_OPTIONS: { value: GuideStyle; label: string }[] = [
   { value: 'mascot',    label: 'Mascot' },
 ]
 
+const CLIENTS = {
+  intl:     ['Unilever', 'J&J', 'Nutresa', 'Procaps', 'Syngenta'],
+  regional: ['Emcali', 'Comfandi', 'Totto', 'G&F', 'Uninorte', 'B-Secure', 'Interdinco', 'Manpower'],
+}
+
 const WORKFLOW_STEPS = [
   {
     num: '01',
@@ -153,6 +158,34 @@ export default function SistelCase() {
             ))}
           </div>
         </div>
+        <div className="sistel-stats reveal reveal-delay-1">
+          <div className="sistel-stats-item">
+            <div className="sistel-stat-value">15+</div>
+            <div className="sistel-stat-label">Modules delivered</div>
+          </div>
+          <div className="sistel-stats-item">
+            <div className="sistel-stat-value">13</div>
+            <div className="sistel-stat-label">Clients</div>
+          </div>
+          <div className="sistel-stats-item">
+            <div className="sistel-stat-value">18mo</div>
+            <div className="sistel-stat-label">Delivery window</div>
+          </div>
+        </div>
+        <div className="sistel-clients reveal reveal-delay-2">
+          <div className="sistel-clients-group sistel-clients-group--intl">
+            <span className="sistel-clients-label">International</span>
+            <div className="sistel-clients-list">
+              {CLIENTS.intl.map(c => <span key={c} className="sistel-client-chip">{c}</span>)}
+            </div>
+          </div>
+          <div className="sistel-clients-group">
+            <span className="sistel-clients-label">Regional</span>
+            <div className="sistel-clients-list">
+              {CLIENTS.regional.map(c => <span key={c} className="sistel-client-chip">{c}</span>)}
+            </div>
+          </div>
+        </div>
       </CaseSection>
 
       {/* 01 From Script to Interaction */}
@@ -239,10 +272,9 @@ export default function SistelCase() {
       <CaseSection>
         <CaseLabel num="02">Outcomes</CaseLabel>
         <ul className="case-outcomes reveal reveal-delay-1">
-          <li>15+ modules delivered across 13 clients in 18 months — multinationals (Unilever, J&J, Nutresa, Procaps, Syngenta) alongside regional companies (Emcali, Comfandi, Totto).</li>
-          <li>Topics spanned occupational health (G&F, Uninorte), information security (B-Secure), product launches (Syngenta, Nutresa, Unilever), corporate onboarding (Interdinco, Manpower, Procaps), and retail ergonomics (Totto, J&J).</li>
-          <li>Every module was fully rebranded per client — palette, character style, and interaction language built from scratch, not pulled from a template.</li>
-          <li>Replaced instructor-led and document-based training with branching scenarios and animated interactions, published as HTML5 modules for LMS deployment.</li>
+          <li>Passive slide decks and procedure manuals replaced end-to-end with HTML5 interactive modules — branching scenarios, animated feedback, self-paced progression — published to LMS platforms for async delivery.</li>
+          <li>Every module built from scratch per client: palette, character system, and interaction language aligned to brand guidelines, not adapted from a shared template.</li>
+          <li>Topics covered across engagements: occupational health, information security, product launches, corporate onboarding, and retail ergonomics — each requiring domain-specific interaction design, not a reused course shell.</li>
         </ul>
       </CaseSection>
 

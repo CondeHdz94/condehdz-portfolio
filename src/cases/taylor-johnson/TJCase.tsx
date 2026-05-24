@@ -196,6 +196,9 @@ export default function TJCase() {
               </Sprite>
             </Stage>
           </div>
+          <p className="case-outcome-line reveal reveal-delay-3">
+            <strong>~40 operators</strong> migrated from daily green-screen sessions to purpose-built web interfaces — zero retraining downtime during cutover.
+          </p>
           <SkillTags skills={['HTML', 'CSS', 'JavaScript', 'jQuery', 'Presto']} className="reveal reveal-delay-3" />
         </CaseSection>
 
@@ -229,6 +232,9 @@ export default function TJCase() {
               </Sprite>
             </Stage>
           </div>
+          <p className="case-outcome-line reveal reveal-delay-4">
+            <strong>~200 parametric document types</strong> automated through the JsPDF engine, replacing manual drafting in AS/400.
+          </p>
           <SkillTags skills={['JsPDF.js', 'SQL', 'Web Services', 'AS/400']} className="reveal reveal-delay-4" />
         </CaseSection>
 
@@ -259,6 +265,9 @@ export default function TJCase() {
               </Sprite>
             </Stage>
           </div>
+          <p className="case-outcome-line reveal reveal-delay-3">
+            Paper-based in-branch signing <strong>replaced end-to-end</strong> — signature captured on TOPAZ pad, surfaced in Presto, embedded in the document, anchored to the ERP record.
+          </p>
           <SkillTags skills={['Presto', 'TOPAZ LCD', 'ERP Integration']} className="reveal reveal-delay-3" />
         </CaseSection>
 
@@ -288,6 +297,9 @@ export default function TJCase() {
               </Sprite>
             </Stage>
           </div>
+          <p className="case-outcome-line reveal reveal-delay-3">
+            First batch <strong>migrated ahead of schedule</strong>. Subsequent runs unattended during off-hours — parameterized, repeatable, no manual input per client.
+          </p>
           <SkillTags skills={['Python', 'Selenium', 'Web Services']} className="reveal reveal-delay-3" />
         </CaseSection>
       </div>
@@ -295,13 +307,16 @@ export default function TJCase() {
       {/* Outcomes */}
       <CaseSection>
         <CaseLabel num="05">Outcomes</CaseLabel>
-        <ul className="case-outcomes reveal reveal-delay-1">
-          <li>~40 bank operators migrated from daily green-screen sessions to web interfaces — zero retraining downtime during cutover.</li>
-          <li>~200 parametric document types automated through the JsPDF engine, replacing manual drafting in AS/400.</li>
-          <li>Paper-based signature workflow replaced end-to-end with TOPAZ LCD pad integration inside the Presto layer.</li>
-          <li>First Selenium batch migrated legacy records ahead of schedule; subsequent runs unattended during off-hours.</li>
-          <li>Fresche Presto rendering layer validated as a production path — no COBOL rewrite required, no business logic touched.</li>
-        </ul>
+        <p className="case-body reveal reveal-delay-1">
+          40 operators on rebuilt web interfaces. 200 document types automated. Paper-based
+          signing replaced end-to-end. Batch migrations running unattended overnight — four
+          modernization tracks, delivered in parallel, across nearly three years.
+        </p>
+        <p className="case-body reveal reveal-delay-2">
+          The 40-year-old COBOL core: untouched, still processing, still running. No rewrite,
+          no migration, no business logic touched. Fresche Presto as a production modernization
+          path — validated at scale.
+        </p>
       </CaseSection>
 
       {/* Animation engine note */}
