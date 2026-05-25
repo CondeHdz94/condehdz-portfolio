@@ -10,33 +10,6 @@ import './Uni2Case.css'
 
 // ── Static data ───────────────────────────────────────────────────────────────
 
-const LIB_MIGRATIONS = [
-  {
-    lib:     'SweetAlert2',
-    action:  'Removed',
-    detail:  'Replaced by a unified custom modal system aligned to the design system. Central, lateral, and alert variants.',
-  },
-  {
-    lib:     'react-intl',
-    action:  'Removed',
-    detail:  'No active i18n requirements. The library added bundle weight without delivering value.',
-  },
-  {
-    lib:     'MUI icons',
-    action:  'Removed',
-    detail:  'Replaced with custom SVG iconography and sprites. Significant bundle size reduction.',
-  },
-  {
-    lib:     'Material-UI',
-    action:  'Migrated (partial)',
-    detail:  'Progressive replacement with owned components. Design system ownership; no third-party theming constraints.',
-  },
-  {
-    lib:     'react-scripts',
-    action:  'Updated',
-    detail:  'Version bump required to unblock AWS Amplify Face Liveness. Resolved dependency incompatibilities.',
-  },
-]
 
 const FSD_LAYERS = [
   { name: 'pages',     desc: 'entry points' },
@@ -266,28 +239,13 @@ export default function Uni2Case() {
         <CaseSection id="platform-03">
           <CaseLabel num="01c">Library Modernization</CaseLabel>
           <p className="case-body reveal reveal-delay-1">
-            Library modernization was deliberate and incremental — each removal justified by
-            what it bought back in bundle size, maintainability, or design system ownership.
+            Each removal earned its place. SweetAlert2 went out when the custom modal system
+            went in — not before. MUI icons and the core library were phased out progressively
+            as owned components took their place: no third-party theming constraints, no bundle
+            weight we didn't control. react-scripts moved from 3.x to 5.x to unblock the
+            biometric pipeline — and freed chart.js to migrate to recharts along the way.
           </p>
-          <table className="uni2-lib-table reveal reveal-delay-2" aria-label="Library migration decisions">
-            <thead>
-              <tr>
-                <th>Library</th>
-                <th>Action</th>
-                <th>Rationale</th>
-              </tr>
-            </thead>
-            <tbody>
-              {LIB_MIGRATIONS.map(row => (
-                <tr key={row.lib} data-action={row.action.split(' ')[0].toLowerCase()}>
-                  <td>{row.lib}</td>
-                  <td>{row.action}</td>
-                  <td>{row.detail}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="case-outcome-line reveal reveal-delay-3">
+          <p className="case-outcome-line reveal reveal-delay-2">
             Bundle weight reduced with each removal — no library dropped without a documented rationale and a replacement that earned its place.
           </p>
         </CaseSection>
