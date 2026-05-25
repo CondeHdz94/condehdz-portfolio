@@ -10,6 +10,18 @@ export interface TimelineContextValue {
   playing: boolean
   setTime: (t: number) => void
   setPlaying: (p: boolean | ((prev: boolean) => boolean)) => void
+  subscribeToTime: (fn: (t: number) => void) => () => void
+  getTime: () => number
+}
+
+// Stable sprite context — never changes during animation playback
+export interface SpriteStableContextValue {
+  duration: number
+  start: number
+  end: number
+  subscribeToLocalTime: (fn: (localTime: number, progress: number) => void) => () => void
+  getLocalTime: () => number
+  getProgress: () => number
 }
 
 export interface SpriteContextValue {
@@ -17,6 +29,11 @@ export interface SpriteContextValue {
   progress: number
   duration: number
   visible: boolean
+  start: number
+  end: number
+  subscribeToLocalTime: (fn: (localTime: number, progress: number) => void) => () => void
+  getLocalTime: () => number
+  getProgress: () => number
 }
 
 // ── Easing ───────────────────────────────────────────────────────────────────
@@ -127,21 +144,69 @@ export const TimelineContext = React.createContext<TimelineContextValue>({
   playing: false,
   setTime: () => {},
   setPlaying: () => {},
+  subscribeToTime: () => () => {},
+  getTime: () => 0,
 })
 
 export const useTime = () => React.useContext(TimelineContext).time
 export const useTimeline = () => React.useContext(TimelineContext)
 
-// ── Sprite ───────────────────────────────────────────────────────────────────
+// ── Sprite context ───────────────────────────────────────────────────────────
 
+// Stable sprite context — subscribeToLocalTime is stable so useSpriteEffect
+// never re-subscribes, and components that only read it don't re-render on
+// every animation frame.
+export const SpriteStableContext = React.createContext<SpriteStableContextValue>({
+  duration: 0,
+  start: 0,
+  end: 0,
+  subscribeToLocalTime: () => () => {},
+  getLocalTime: () => 0,
+  getProgress: () => 0,
+})
+
+// Volatile sprite context — updates every frame for backward-compat consumers
+// that call useSprite().localTime directly.
 export const SpriteContext = React.createContext<SpriteContextValue>({
   localTime: 0,
   progress: 0,
   duration: 0,
   visible: false,
+  start: 0,
+  end: 0,
+  subscribeToLocalTime: () => () => {},
+  getLocalTime: () => 0,
+  getProgress: () => 0,
 })
 
+// Reads from volatile context — re-renders on every frame (backward compat).
 export const useSprite = () => React.useContext(SpriteContext)
+
+// Subscribes to per-frame localTime imperatively — never causes re-renders.
+export function useSpriteEffect(
+  callback: (localTime: number, progress: number) => void,
+): void {
+  const { subscribeToLocalTime } = React.useContext(SpriteStableContext)
+  const cbRef = React.useRef(callback)
+  cbRef.current = callback
+  React.useEffect(
+    () => subscribeToLocalTime((lt, p) => cbRef.current(lt, p)),
+    [subscribeToLocalTime],
+  )
+}
+
+// Subscribes to per-frame timeline time imperatively — never causes re-renders.
+export function useTimeEffect(callback: (time: number) => void): void {
+  const { subscribeToTime } = React.useContext(TimelineContext)
+  const cbRef = React.useRef(callback)
+  cbRef.current = callback
+  React.useEffect(
+    () => subscribeToTime((t) => cbRef.current(t)),
+    [subscribeToTime],
+  )
+}
+
+// ── Sprite ───────────────────────────────────────────────────────────────────
 
 interface SpriteProps {
   start?: number
@@ -151,19 +216,74 @@ interface SpriteProps {
 }
 
 export function Sprite({ start = 0, end = Infinity, children, keepMounted = false }: SpriteProps) {
-  const { time } = useTimeline()
-  const visible = time >= start && time <= end
+  const { subscribeToTime } = React.useContext(TimelineContext)
+  const dur = end - start
+
+  const localTimeRef = React.useRef(0)
+  const progressRef = React.useRef(0)
+  const spriteSubsRef = React.useRef<Set<(lt: number, p: number) => void>>(new Set())
+
+  // Volatile state — updated every frame so useSprite().localTime stays current.
+  const [volatile, setVolatile] = React.useState<SpriteContextValue>(() => ({
+    localTime: 0,
+    progress: 0,
+    duration: dur,
+    visible: false,
+    start,
+    end,
+    subscribeToLocalTime: () => () => {},
+    getLocalTime: () => 0,
+    getProgress: () => 0,
+  }))
+
+  const subscribeToLocalTime = React.useCallback(
+    (fn: (lt: number, p: number) => void) => {
+      spriteSubsRef.current.add(fn)
+      fn(localTimeRef.current, progressRef.current)
+      return () => { spriteSubsRef.current.delete(fn) }
+    },
+    [],
+  )
+  const getLocalTime = React.useCallback(() => localTimeRef.current, [])
+  const getProgress  = React.useCallback(() => progressRef.current, [])
+
+  const stableCtx = React.useMemo<SpriteStableContextValue>(
+    () => ({ duration: dur, start, end, subscribeToLocalTime, getLocalTime, getProgress }),
+    [dur, start, end, subscribeToLocalTime, getLocalTime, getProgress],
+  )
+
+  React.useEffect(() => {
+    return subscribeToTime((t) => {
+      const vis = t >= start && t <= end
+      const lt  = Math.max(0, t - start)
+      const p   = dur > 0 && isFinite(dur) ? clamp(lt / dur, 0, 1) : 0
+      localTimeRef.current = lt
+      progressRef.current  = p
+      spriteSubsRef.current.forEach((fn) => fn(lt, p))
+      setVolatile({
+        localTime: lt,
+        progress: p,
+        duration: dur,
+        visible: vis,
+        start,
+        end,
+        subscribeToLocalTime,
+        getLocalTime,
+        getProgress,
+      })
+    })
+  }, [subscribeToTime, start, end, dur, subscribeToLocalTime, getLocalTime, getProgress])
+
+  const visible = volatile.visible
+
   if (!visible && !keepMounted) return null
 
-  const dur = end - start
-  const localTime = Math.max(0, time - start)
-  const progress = dur > 0 && isFinite(dur) ? clamp(localTime / dur, 0, 1) : 0
-  const value: SpriteContextValue = { localTime, progress, duration: dur, visible }
-
   return (
-    <SpriteContext.Provider value={value}>
-      {typeof children === 'function' ? children(value) : children}
-    </SpriteContext.Provider>
+    <SpriteStableContext.Provider value={stableCtx}>
+      <SpriteContext.Provider value={volatile}>
+        {typeof children === 'function' ? children(volatile) : children}
+      </SpriteContext.Provider>
+    </SpriteStableContext.Provider>
   )
 }
 
@@ -199,39 +319,46 @@ export function TextSprite({
   align = 'left',
   letterSpacing = '-0.01em',
 }: TextSpriteProps) {
-  const { localTime, duration } = useSprite()
-  const exitStart = Math.max(0, duration - exitDur)
-
-  let opacity = 1
-  let ty = 0
-
-  if (localTime < entryDur) {
-    const t = entryEase(clamp(localTime / entryDur, 0, 1))
-    opacity = t
-    ty = (1 - t) * 16
-  } else if (localTime > exitStart) {
-    const t = exitEase(clamp((localTime - exitStart) / exitDur, 0, 1))
-    opacity = 1 - t
-    ty = -t * 8
-  }
-
+  const { duration } = React.useContext(SpriteStableContext)
+  const divRef = React.useRef<HTMLDivElement>(null)
   const translateX = align === 'center' ? '-50%' : align === 'right' ? '-100%' : '0'
 
+  useSpriteEffect((localTime) => {
+    const div = divRef.current
+    if (!div) return
+    const exitStart = Math.max(0, duration - exitDur)
+    let opacity = 1, ty = 0
+    if (localTime < entryDur) {
+      const t = entryEase(clamp(localTime / entryDur, 0, 1))
+      opacity = t
+      ty = (1 - t) * 16
+    } else if (localTime > exitStart) {
+      const t = exitEase(clamp((localTime - exitStart) / exitDur, 0, 1))
+      opacity = 1 - t
+      ty = -t * 8
+    }
+    div.style.opacity = String(opacity)
+    div.style.transform = `translate(${translateX}, ${ty}px)`
+  })
+
   return (
-    <div style={{
-      position: 'absolute',
-      left: x, top: y,
-      transform: `translate(${translateX}, ${ty}px)`,
-      opacity,
-      fontFamily: font,
-      fontSize: size,
-      fontWeight: weight,
-      color,
-      letterSpacing,
-      whiteSpace: 'pre',
-      lineHeight: 1.1,
-      willChange: 'transform, opacity',
-    }}>
+    <div
+      ref={divRef}
+      style={{
+        position: 'absolute',
+        left: x, top: y,
+        transform: `translate(${translateX}, 16px)`,
+        opacity: 0,
+        fontFamily: font,
+        fontSize: size,
+        fontWeight: weight,
+        color,
+        letterSpacing,
+        whiteSpace: 'pre',
+        lineHeight: 1.1,
+        willChange: 'transform, opacity',
+      }}
+    >
       {text}
     </div>
   )
@@ -266,25 +393,30 @@ export function ImageSprite({
   fit = 'cover',
   placeholder = null,
 }: ImageSpriteProps) {
-  const { localTime, duration } = useSprite()
-  const exitStart = Math.max(0, duration - exitDur)
+  const { duration } = React.useContext(SpriteStableContext)
+  const divRef = React.useRef<HTMLDivElement>(null)
 
-  let opacity = 1
-  let scale = 1
-
-  if (localTime < entryDur) {
-    const t = Easing.easeOutCubic(clamp(localTime / entryDur, 0, 1))
-    opacity = t
-    scale = 0.96 + 0.04 * t
-  } else if (localTime > exitStart) {
-    const t = Easing.easeInCubic(clamp((localTime - exitStart) / exitDur, 0, 1))
-    opacity = 1 - t
-    scale = (kenBurns ? kenBurnsScale : 1) + 0.02 * t
-  } else if (kenBurns) {
-    const holdSpan = exitStart - entryDur
-    const holdT = holdSpan > 0 ? (localTime - entryDur) / holdSpan : 0
-    scale = 1 + (kenBurnsScale - 1) * holdT
-  }
+  useSpriteEffect((localTime) => {
+    const div = divRef.current
+    if (!div) return
+    const exitStart = Math.max(0, duration - exitDur)
+    let opacity = 1, scale = 1
+    if (localTime < entryDur) {
+      const t = Easing.easeOutCubic(clamp(localTime / entryDur, 0, 1))
+      opacity = t
+      scale = 0.96 + 0.04 * t
+    } else if (localTime > exitStart) {
+      const t = Easing.easeInCubic(clamp((localTime - exitStart) / exitDur, 0, 1))
+      opacity = 1 - t
+      scale = (kenBurns ? kenBurnsScale : 1) + 0.02 * t
+    } else if (kenBurns) {
+      const holdSpan = exitStart - entryDur
+      const holdT = holdSpan > 0 ? (localTime - entryDur) / holdSpan : 0
+      scale = 1 + (kenBurnsScale - 1) * holdT
+    }
+    div.style.opacity = String(opacity)
+    div.style.transform = `scale(${scale})`
+  })
 
   const content = placeholder ? (
     <div style={{
@@ -304,17 +436,20 @@ export function ImageSprite({
   )
 
   return (
-    <div style={{
-      position: 'absolute',
-      left: x, top: y,
-      width, height,
-      opacity,
-      transform: `scale(${scale})`,
-      transformOrigin: 'center',
-      borderRadius: radius,
-      overflow: 'hidden',
-      willChange: 'transform, opacity',
-    }}>
+    <div
+      ref={divRef}
+      style={{
+        position: 'absolute',
+        left: x, top: y,
+        width, height,
+        opacity: 0,
+        transform: 'scale(0.96)',
+        transformOrigin: 'center',
+        borderRadius: radius,
+        overflow: 'hidden',
+        willChange: 'transform, opacity',
+      }}
+    >
       {content}
     </div>
   )
@@ -341,40 +476,43 @@ export function RectSprite({
   radius = 8,
   entryDur = 0.4,
   exitDur = 0.3,
-  render,
 }: RectSpriteProps) {
-  const spriteCtx = useSprite()
-  const { localTime, duration } = spriteCtx
-  const exitStart = Math.max(0, duration - exitDur)
+  const { duration } = React.useContext(SpriteStableContext)
+  const divRef = React.useRef<HTMLDivElement>(null)
 
-  let opacity = 1
-  let scale = 1
-
-  if (localTime < entryDur) {
-    const t = Easing.easeOutBack(clamp(localTime / entryDur, 0, 1))
-    opacity = clamp(localTime / entryDur, 0, 1)
-    scale = 0.4 + 0.6 * t
-  } else if (localTime > exitStart) {
-    const t = Easing.easeInQuad(clamp((localTime - exitStart) / exitDur, 0, 1))
-    opacity = 1 - t
-    scale = 1 - 0.15 * t
-  }
-
-  const overrides = render ? render(spriteCtx) : {}
+  useSpriteEffect((localTime) => {
+    const div = divRef.current
+    if (!div) return
+    const exitStart = Math.max(0, duration - exitDur)
+    let opacity = 1, scale = 1
+    if (localTime < entryDur) {
+      const t = Easing.easeOutBack(clamp(localTime / entryDur, 0, 1))
+      opacity = clamp(localTime / entryDur, 0, 1)
+      scale = 0.4 + 0.6 * t
+    } else if (localTime > exitStart) {
+      const t = Easing.easeInQuad(clamp((localTime - exitStart) / exitDur, 0, 1))
+      opacity = 1 - t
+      scale = 1 - 0.15 * t
+    }
+    div.style.opacity = String(opacity)
+    div.style.transform = `scale(${scale})`
+  })
 
   return (
-    <div style={{
-      position: 'absolute',
-      left: x, top: y,
-      width, height,
-      background: color,
-      borderRadius: radius,
-      opacity,
-      transform: `scale(${scale})`,
-      transformOrigin: 'center',
-      willChange: 'transform, opacity',
-      ...overrides,
-    }} />
+    <div
+      ref={divRef}
+      style={{
+        position: 'absolute',
+        left: x, top: y,
+        width, height,
+        background: color,
+        borderRadius: radius,
+        opacity: 0,
+        transform: 'scale(0.4)',
+        transformOrigin: 'center',
+        willChange: 'transform, opacity',
+      }}
+    />
   )
 }
 
@@ -595,7 +733,7 @@ export function Stage({
   initialTime,
   children,
 }: StageProps) {
-  const [time, setTime] = React.useState(() => {
+  const [time, setTimeState] = React.useState(() => {
     if (initialTime !== undefined) return clamp(initialTime, 0, duration)
     try {
       const v = parseFloat(localStorage.getItem(persistKey + ':t') ?? '0')
@@ -609,10 +747,38 @@ export function Stage({
   const [fakeFull, setFakeFull] = React.useState(false)
   const isFullscreen = nativeFull || fakeFull
 
-  const stageRef = React.useRef<HTMLDivElement>(null)
-  const rafRef = React.useRef<number>(0)
-  const lastTsRef = React.useRef<number | null>(null)
-  const hasAutoplayed = React.useRef(false)
+  const stageRef       = React.useRef<HTMLDivElement>(null)
+  const rafRef         = React.useRef<number>(0)
+  const lastTsRef      = React.useRef<number | null>(null)
+  const hasAutoplayed  = React.useRef(false)
+  const timeRef        = React.useRef(time)
+  const hoverTimeRef   = React.useRef<number | null>(null)
+  const subscribersRef = React.useRef<Set<(t: number) => void>>(new Set())
+
+  const notifySubscribers = React.useCallback((t: number) => {
+    subscribersRef.current.forEach((fn) => fn(t))
+  }, [])
+
+  const subscribeToTime = React.useCallback((fn: (t: number) => void) => {
+    subscribersRef.current.add(fn)
+    fn(hoverTimeRef.current ?? timeRef.current)
+    return () => { subscribersRef.current.delete(fn) }
+  }, [])
+
+  const getTime = React.useCallback(() => hoverTimeRef.current ?? timeRef.current, [])
+
+  const handleSetTime = React.useCallback((t: number) => {
+    const clamped = clamp(t, 0, duration)
+    timeRef.current = clamped
+    if (hoverTimeRef.current === null) notifySubscribers(clamped)
+    setTimeState(clamped)
+  }, [duration, notifySubscribers])
+
+  const handleHover = React.useCallback((t: number | null) => {
+    hoverTimeRef.current = t
+    setHoverTime(t)
+    notifySubscribers(t ?? timeRef.current)
+  }, [notifySubscribers])
 
   React.useEffect(() => {
     try { localStorage.setItem(persistKey + ':t', String(time)) } catch {}
@@ -685,19 +851,20 @@ export function Stage({
       if (lastTsRef.current == null) lastTsRef.current = ts
       const dt = (ts - lastTsRef.current) / 1000
       lastTsRef.current = ts
-      setTime((t) => {
-        let next = t + dt
-        if (next >= duration) {
-          if (loop) next = next % duration
-          else { next = duration; setPlaying(false) }
-        }
-        return next
-      })
+
+      let next = timeRef.current + dt
+      if (next >= duration) {
+        if (loop) next = next % duration
+        else { next = duration; setPlaying(false) }
+      }
+      timeRef.current = next
+      notifySubscribers(hoverTimeRef.current ?? next)
+      setTimeState(next)
       rafRef.current = requestAnimationFrame(step)
     }
     rafRef.current = requestAnimationFrame(step)
     return () => { cancelAnimationFrame(rafRef.current); lastTsRef.current = null }
-  }, [playing, duration, loop])
+  }, [playing, duration, loop, notifySubscribers])
 
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -707,12 +874,12 @@ export function Stage({
         e.preventDefault()
         setPlaying((p) => !p)
       } else if (e.code === 'ArrowLeft') {
-        setTime((t) => clamp(t - (e.shiftKey ? 1 : 0.1), 0, duration))
+        handleSetTime(clamp(getTime() - (e.shiftKey ? 1 : 0.1), 0, duration))
       } else if (e.code === 'ArrowRight') {
-        setTime((t) => clamp(t + (e.shiftKey ? 1 : 0.1), 0, duration))
+        handleSetTime(clamp(getTime() + (e.shiftKey ? 1 : 0.1), 0, duration))
       } else if (e.key === '0' || e.code === 'Home') {
-        setTime(0)
-      } else if (e.key === 'f' || e.key === 'F') {
+        handleSetTime(0)
+      } else if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey) {
         handleFullscreen()
       } else if (e.code === 'Escape') {
         setFakeFull(false)
@@ -720,13 +887,13 @@ export function Stage({
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [duration, handleFullscreen])
+  }, [duration, handleFullscreen, handleSetTime, getTime])
 
   const displayTime = hoverTime != null ? hoverTime : time
 
   const ctxValue = React.useMemo<TimelineContextValue>(
-    () => ({ time: displayTime, duration, playing, setTime, setPlaying }),
-    [displayTime, duration, playing],
+    () => ({ time: displayTime, duration, playing, setTime: handleSetTime, setPlaying, subscribeToTime, getTime }),
+    [displayTime, duration, playing, handleSetTime, subscribeToTime, getTime],
   )
 
   return (
@@ -769,9 +936,9 @@ export function Stage({
         playing={playing}
         isFullscreen={isFullscreen}
         onPlayPause={() => setPlaying((p) => !p)}
-        onReset={() => setTime(0)}
-        onSeek={(t) => setTime(t)}
-        onHover={(t) => setHoverTime(t)}
+        onReset={() => handleSetTime(0)}
+        onSeek={handleSetTime}
+        onHover={handleHover}
         onFullscreen={handleFullscreen}
       />
     </div>
