@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sprite, useSprite, useTime, useTimeline, Easing, clamp } from '../../../components/animation'
+import { Sprite, useSprite, useTimeline, useTimeEffect, Easing, clamp } from '../../../components/animation'
 import { Caption, CaptionLine } from './captions'
 import { Shot1Chaos } from './Shot1Chaos'
 import { Shot2ComercialForms } from './Shot2ComercialForms'
@@ -19,8 +19,6 @@ import { Shot8Closing } from './Shot8Closing'
 //   41–45  Shot 8 · Cierre
 
 export function Uni2SaaSReel() {
-  const time = useTime()
-
   return (
     <div className="uni2-saas-reel" style={{ position: 'absolute', inset: 0, background: '#03060f' }}>
       <Sprite start={0} end={5.4}>
@@ -111,7 +109,7 @@ export function Uni2SaaSReel() {
       </Caption>
 
       {/* Brand mark — bottom-left throughout */}
-      <BrandMark time={time} />
+      <BrandMark />
 
       {/* Progress bar + chapter dots */}
       <ReelProgress />
@@ -119,14 +117,22 @@ export function Uni2SaaSReel() {
   )
 }
 
-function BrandMark({ time }: { time: number }) {
-  const shot6 = time >= 32 && time <= 35.3
-  const shot8 = time >= 40.8
-  const fadeIn = clamp((time - 1.0) / 0.8, 0, 1)
-  const targetVis = shot6 || shot8 ? 0 : 1
-  const opacity = fadeIn * targetVis
+function BrandMark() {
+  const divRef = React.useRef<HTMLDivElement>(null)
+
+  useTimeEffect((t) => {
+    const div = divRef.current
+    if (!div) return
+    const shot6 = t >= 32 && t <= 35.3
+    const shot8 = t >= 40.8
+    const fadeIn = clamp((t - 1.0) / 0.8, 0, 1)
+    const targetVis = shot6 || shot8 ? 0 : 1
+    div.style.opacity = String(clamp(fadeIn * targetVis, 0, 1))
+  })
+
   return (
     <div
+      ref={divRef}
       style={{
         position: 'absolute',
         left: 80,
@@ -134,7 +140,7 @@ function BrandMark({ time }: { time: number }) {
         display: 'flex',
         alignItems: 'center',
         gap: 12,
-        opacity: clamp(opacity, 0, 1),
+        opacity: 0,
         transition: 'opacity 400ms ease-in-out',
         zIndex: 90,
         pointerEvents: 'none',
@@ -204,7 +210,7 @@ const CHAPTERS = [
 ] as const
 
 function ReelProgress() {
-  const { time, duration, setTime } = useTimeline()
+  const { time, duration } = useTimeline()
   const progress = duration > 0 ? clamp(time / duration, 0, 1) : 0
 
   return (
@@ -219,7 +225,6 @@ function ReelProgress() {
         pointerEvents: 'none',
       }}
     >
-      {/* 1px track */}
       <div
         style={{
           position: 'absolute',
@@ -230,7 +235,6 @@ function ReelProgress() {
           background: 'rgba(255,255,255,0.12)',
         }}
       />
-      {/* fill */}
       <div
         style={{
           position: 'absolute',
@@ -242,34 +246,6 @@ function ReelProgress() {
           transition: 'width 0.1s linear',
         }}
       />
-      {/* chapter dots */}
-      {CHAPTERS.map(({ t, label }) => {
-        const pct = duration > 0 ? (t / duration) * 100 : 0
-        const active = time >= t && (CHAPTERS.find(c => c.t > t) ? time < (CHAPTERS.find(c => c.t > t)!.t) : true)
-        return (
-          <button
-            key={t}
-            aria-label={`Jump to chapter ${label}`}
-            onClick={() => setTime(t)}
-            style={{
-              position: 'absolute',
-              bottom: -4,
-              left: `${pct}%`,
-              transform: 'translateX(-50%)',
-              width: 9,
-              height: 9,
-              borderRadius: '50%',
-              border: 'none',
-              cursor: 'pointer',
-              pointerEvents: 'all',
-              background: active ? '#818CF8' : 'rgba(255,255,255,0.25)',
-              boxShadow: active ? '0 0 8px rgba(129,140,248,0.6)' : 'none',
-              transition: 'background 0.25s ease, box-shadow 0.25s ease',
-              padding: 0,
-            }}
-          />
-        )
-      })}
     </div>
   )
 }

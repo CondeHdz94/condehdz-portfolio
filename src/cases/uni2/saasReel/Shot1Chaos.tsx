@@ -1,9 +1,15 @@
 import React from 'react'
-import { useSprite } from '../../../components/animation'
-import { Particles, mulberry32 } from './animMocks'
+import { useSpriteEffect } from '../../../components/animation'
+import { mulberry32 } from './animMocks'
 
-export function Shot1Chaos() {
-  const { localTime, progress } = useSprite()
+export const Shot1Chaos = React.memo(function Shot1Chaos() {
+  const flareRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((localTime) => {
+    if (flareRef.current) {
+      flareRef.current.style.top = `${28 + Math.sin(localTime * 0.6) * 1.2}%`
+    }
+  })
 
   return (
     <div
@@ -14,26 +20,38 @@ export function Shot1Chaos() {
         overflow: 'hidden',
       }}
     >
-      <div className="flare" style={{ top: `${28 + Math.sin(localTime * 0.6) * 1.2}%` }} />
-      <StackVariant localTime={localTime} progress={progress} />
+      <div ref={flareRef} className="flare" style={{ top: '28%' }} />
+      <StackVariant />
       <div className="grain" />
       <div className="vignette" />
     </div>
   )
-}
+})
 
-function StackVariant({ localTime, progress }: { localTime: number; progress: number }) {
-  const stackHeight = Math.min(30, Math.floor(progress * 36))
-  const days = Math.floor(progress * 47) + 1
+const LAYERS = (() => {
+  const rng = mulberry32(7711)
+  return Array.from({ length: 36 }, () => ({
+    rot: (rng() - 0.5) * 7,
+    ox: (rng() - 0.5) * 28,
+    shade: 0.85 + rng() * 0.15,
+  }))
+})()
 
-  const layers = React.useMemo(() => {
-    const rng = mulberry32(7711)
-    return Array.from({ length: 36 }, () => ({
-      rot: (rng() - 0.5) * 7,
-      ox: (rng() - 0.5) * 28,
-      shade: 0.85 + rng() * 0.15,
-    }))
-  }, [])
+function StackVariant() {
+  const [stackHeight, setStackHeight] = React.useState(0)
+  const [days, setDays] = React.useState(1)
+  const prevRef = React.useRef({ sh: -1, d: -1 })
+
+  useSpriteEffect((_, progress) => {
+    const sh = Math.min(30, Math.floor(progress * 36))
+    const d = Math.floor(progress * 47) + 1
+    const prev = prevRef.current
+    if (sh !== prev.sh || d !== prev.d) {
+      prevRef.current = { sh, d }
+      setStackHeight(sh)
+      setDays(d)
+    }
+  })
 
   return (
     <div style={{ position: 'absolute', inset: 0 }}>
@@ -86,7 +104,7 @@ function StackVariant({ localTime, progress }: { localTime: number; progress: nu
       </div>
 
       <div style={{ position: 'absolute', right: 200, bottom: 30 }}>
-        {layers.slice(0, stackHeight).map((l, i) => {
+        {LAYERS.slice(0, stackHeight).map((l, i) => {
           const yOff = i * -14
           const baseW = 380
           const baseH = 480
@@ -131,7 +149,7 @@ function StackVariant({ localTime, progress }: { localTime: number; progress: nu
         })}
       </div>
 
-      <Particles count={20} localTime={localTime} />
+
     </div>
   )
 }
