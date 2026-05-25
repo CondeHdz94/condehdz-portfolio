@@ -86,7 +86,7 @@ export default function Uni2Case() {
       <section id="case-main" tabIndex={-1} className="case-hero">
         <div className="case-hero-inner">
           <p className="case-eyebrow reveal">
-            UNI2 Microcrédito · Sr. Frontend Developer · 2021 – Present
+            UNI2 Microcrédito · Sr. Frontend Lead · Founding Engineer, Uni2Lite · 2021 – Present
           </p>
           <h1 className="case-headline reveal reveal-delay-1">
             Banking software for thirty roles, built from the frontend.
@@ -128,7 +128,7 @@ export default function Uni2Case() {
           <div className="case-meta-block reveal reveal-delay-2">
             {[
               { label: 'Company',  value: 'UNI2 Microcrédito' },
-              { label: 'Role',     value: 'Frontend Developer · Frontend Lead\nFounding Engineer (Uni2Lite)' },
+              { label: 'Role',     value: 'Sr. Frontend Lead\nFounding Engineer (Uni2Lite)' },
               { label: 'Duration', value: '4 years 6 months · Ongoing' },
               { label: 'Location', value: 'Cali, Colombia' },
             ].map(({ label, value }) => (

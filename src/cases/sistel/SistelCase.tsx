@@ -26,7 +26,7 @@ const GUIDE_OPTIONS: { value: GuideStyle; label: string }[] = [
 
 const CLIENTS = {
   intl:     ['Unilever', 'J&J', 'Nutresa', 'Procaps', 'Syngenta'],
-  regional: ['Emcali', 'Comfandi', 'Totto', 'G&F', 'Uninorte', 'B-Secure', 'Interdinco', 'Manpower'],
+  regional: ['Emcali', 'Comfandi', 'Totto', 'G&F', 'Uninorte', 'B-Secure', 'Interdinco', 'Manpower', 'Johnson Controls'],
 }
 
 const WORKFLOW_STEPS = [
@@ -164,7 +164,7 @@ export default function SistelCase() {
             <div className="sistel-stat-label">Modules delivered</div>
           </div>
           <div className="sistel-stats-item">
-            <div className="sistel-stat-value">13</div>
+            <div className="sistel-stat-value">14</div>
             <div className="sistel-stat-label">Clients</div>
           </div>
           <div className="sistel-stats-item">
@@ -270,7 +270,7 @@ export default function SistelCase() {
 
       {/* Outcomes */}
       <CaseSection>
-        <CaseLabel num="02">Outcomes</CaseLabel>
+        <CaseLabel num="02">What changed</CaseLabel>
         <ul className="case-outcomes reveal reveal-delay-1">
           <li>Passive slide decks and procedure manuals replaced end-to-end with HTML5 interactive modules — branching scenarios, animated feedback, self-paced progression — published to LMS platforms for async delivery.</li>
           <li>Every module built from scratch per client: palette, character system, and interaction language aligned to brand guidelines, not adapted from a shared template.</li>

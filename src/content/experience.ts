@@ -17,10 +17,10 @@ export interface ExperienceEntry {
 export const EXPERIENCE: ExperienceEntry[] = [
   {
     company: 'UNI2',
-    role: 'Frontend Lead · Design Engineer',
+    role: 'Sr. Frontend Lead · Design Engineer',
     period: '2021 – Present',
-    tags: ['React', 'TypeScript', 'Zustand', 'React Query', 'Zod', 'RHF', 'Tailwind', 'Figma'],
-    desc: "Architecting Uni2 Lite's credit-application orchestrator from zero — Feature-Sliced Design, declarative form engine over Zod + RHF, decoupled stepper with dual edit/visual/consult modes.",
+    tags: ['React', 'TypeScript', 'Redux', 'Zustand', 'React Query', 'Zod', 'RHF', 'Tailwind', 'Figma'],
+    desc: "Four years contributing to a 30-role banking platform (React + Redux) — currently as Sr. Frontend Lead and Founding Engineer on Uni2 Lite: FSD architecture, declarative form engine over Zod + RHF, decoupled stepper with dual edit/consult modes.",
     caseStudy: {
       href: '/case/uni2',
       label: 'Uni2 Lite — Credit orchestrator',
@@ -32,7 +32,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
     company: 'Taylor & Johnson',
     role: 'Multimedia Engineer',
     period: '2018 – 2021',
-    tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium', 'COBOL'],
+    tags: ['JavaScript', 'JsPDF', 'Python', 'Selenium'],
     desc: 'Modernized a COBOL banking core from legacy 5250 green-screen to web via Fresche Presto. Parametric document generation, digital signature with TOPAZ, and process automation with Python + Selenium.',
     caseStudy: {
       href: '/case/taylor-johnson',
