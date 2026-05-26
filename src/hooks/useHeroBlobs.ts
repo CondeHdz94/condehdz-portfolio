@@ -239,7 +239,7 @@ export function useHeroBlobs(
       glassCtx.clearRect(0, 0, W, H)
 
       // Blobs — tinta del cristal
-      drawBlobsGlass(glassCtx as CanvasRenderingContext2D, W, H, dark ? 0.50 : 0.34, 1.18)
+      drawBlobsGlass(glassCtx as CanvasRenderingContext2D, W, H, dark ? 0.40 : 0.34, 1.18)
 
       // Blur antes del clip
       ;(glassCtx as ExtCtx).filter = 'blur(16px) saturate(1.1)'
@@ -283,7 +283,7 @@ export function useHeroBlobs(
       const dark = document.documentElement.classList.contains('dark')
       const W = blobCanvas.width, H = blobCanvas.height
       blobCtx.clearRect(0, 0, W, H)
-      drawBlobsAmbient(blobCtx, W, H, dark ? 0.13 : 0.10)
+      drawBlobsAmbient(blobCtx, W, H, dark ? 0.53 : 0.50)
 
       const maxBlobAlpha = Math.max(...blobs.map(b => b.alpha))
       glassCanvas.style.opacity = Math.min(1, maxBlobAlpha * 2.2).toFixed(3)
