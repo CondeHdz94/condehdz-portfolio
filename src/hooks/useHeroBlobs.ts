@@ -112,6 +112,7 @@ export function useHeroBlobs(
     }))
 
     let t = 0
+    let lastTime = performance.now()
     let mouseNX = 0.5, mouseNY = 0.35
     let rafId: number
 
@@ -267,9 +268,11 @@ export function useHeroBlobs(
       glassCtx.globalCompositeOperation = 'source-over'
     }
 
-    function draw() {
+    function draw(now: number) {
       rafId = requestAnimationFrame(draw)
-      t += 0.0013  // más vivo
+      const dt = Math.min((now - lastTime) / 1000, 0.05)
+      lastTime = now
+      t += dt * 0.078
 
       for (const b of blobs) {
         b.sx    += (mouseNX - b.sx) * b.lerpSpeed
@@ -317,7 +320,7 @@ export function useHeroBlobs(
     }
 
     resize()
-    draw()
+    rafId = requestAnimationFrame(draw)
 
     return () => {
       cancelAnimationFrame(rafId)
