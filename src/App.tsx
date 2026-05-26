@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDarkMode } from './hooks/useDarkMode'
 import { useLenis } from './hooks/useLenis'
 import { useScrollReveal } from './hooks/useScrollReveal'
+import { useHeroBlobs } from './hooks/useHeroBlobs'
 import { EXPERIENCE } from './content/experience'
 import { SkillsLedger } from './components/SkillsLedger'
 import { HERO_LINKS, CONTACT_LINKS, SOCIAL_LINKS } from './content/contact'
@@ -73,29 +74,6 @@ function useSectionColor() {
   return activeSection
 }
 
-function useParallax() {
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    let rafId: number
-    let pending = false
-
-    const onScroll = () => {
-      if (pending) return
-      pending = true
-      rafId = requestAnimationFrame(() => {
-        document.documentElement.style.setProperty('--parallax-y', `${window.scrollY * 0.35}px`)
-        pending = false
-      })
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      cancelAnimationFrame(rafId)
-    }
-  }, [])
-}
 
 function useMobileScrollActive() {
   useEffect(() => {
@@ -130,6 +108,24 @@ function useMobileScrollActive() {
     window.addEventListener('scroll', update, { passive: true })
     update()
     return () => window.removeEventListener('scroll', update)
+  }, [])
+}
+
+function useParallax() {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let rafId: number
+    let pending = false
+    const onScroll = () => {
+      if (pending) return
+      pending = true
+      rafId = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--parallax-y', `${window.scrollY * 0.35}px`)
+        pending = false
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(rafId) }
   }, [])
 }
 
@@ -202,6 +198,9 @@ export default function App() {
   const [pillOpen, setPillOpen] = useState(false)
   const pillRef = useRef<HTMLDivElement>(null)
   const pillTriggerRef = useRef<HTMLButtonElement>(null)
+  const blobRef  = useRef<HTMLCanvasElement>(null)
+  const glassRef = useRef<HTMLCanvasElement>(null)
+  const ccRef    = useRef<HTMLSpanElement>(null)
 
   const activeSection = useSectionColor()
   useScrollReveal()
@@ -209,6 +208,7 @@ export default function App() {
   useBloomFollow()
   useMobileScrollActive()
   useLenis()
+  useHeroBlobs(blobRef, glassRef, ccRef)
 
   const handleThemeToggle = () => {
     toggleDark()
@@ -305,8 +305,12 @@ export default function App() {
 
       {/* ── Hero ── */}
       <section data-section="hero" className="section section-hero">
-        <div className="hero-bg" aria-hidden="true">
-          <span className="hero-bg-text">CC</span>
+        <div className="hero-canvas-layer" aria-hidden="true">
+          <canvas ref={blobRef}  className="hero-blob-canvas" />
+          <div className="hero-cc-wrap">
+            <span ref={ccRef} className="hero-cc-span">CC</span>
+          </div>
+          <canvas ref={glassRef} className="hero-glass-canvas" />
         </div>
         <p className="hero-eyebrow">
           <span className="hero-pulse" aria-hidden="true" />
@@ -324,14 +328,14 @@ export default function App() {
             Currently architecting Uni2 Lite's credit-application flow.
           </p>
           <div className="hero-links">
-            {HERO_LINKS.map(({ href, label, primary, external }) => (
+            {HERO_LINKS.map((link) => (
               <a
-                key={href}
-                href={href}
-                className={`hero-link${primary ? ' hero-link--primary' : ''}`}
-                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                key={link.href}
+                href={link.href}
+                className={`hero-link${'primary' in link ? ' hero-link--primary' : ''}`}
+                {...('external' in link ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
-                {label}
+                {link.label}
               </a>
             ))}
           </div>
