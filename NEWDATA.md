@@ -171,3 +171,38 @@ TOTTO - Higiene Postural
 
 
 ###
+
+React 5y
+TypeScript 3y
+JavaScript 7y
+CSS / SASS 7y
+HTML 7y 
+Tailwind 3y
+Vite 3y
+React Router 5y
+Svelte -1y
+Astro -1y
+
+
+Zod 3y
+React Hook Form 5y
+React Query 3y
+Zustand 3y
+Redux 5y
+react-imask (de verdad es relevante? ahora también se usa uno mejor en vez de este, no?) 2y
+
+Figma 6y
+After Effects -1y
+Framer Motion (basico) 3y
+Illustrator 3y
+Photoshop 3y
+Premiere Pro 1y
+InDesign -1y
+
+Design Systems 4y
+Feature-Sliced Design 2y
+Git 5y
+Accessibility 5y
+Jest 2y (ocasionales en uni2)
+Testing Library 2y (ocasionales en uni2)
+Cypress -1y (ocasionales en uni2)
