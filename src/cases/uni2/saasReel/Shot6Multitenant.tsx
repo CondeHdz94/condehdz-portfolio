@@ -1,17 +1,11 @@
-import { useSprite, clamp } from '../../../components/animation'
+import React from 'react'
+import { useSpriteEffect, clamp } from '../../../components/animation'
 import { Particles, BrandPill, StepIcon, REAL_STEPS_BY_ID, TENANT_PRESETS, type Tenant } from './animMocks'
 
 type BrandsPreset = keyof typeof TENANT_PRESETS
 
-export function Shot6Multitenant({ brandsPreset = 'acme-vs-microcredito' as BrandsPreset }) {
-  const { localTime } = useSprite()
+export const Shot6Multitenant = React.memo(function Shot6Multitenant({ brandsPreset = 'acme-vs-microcredito' }: { brandsPreset?: BrandsPreset }) {
   const tenants = TENANT_PRESETS[brandsPreset] || TENANT_PRESETS['acme-vs-microcredito']
-
-  const tIn = clamp(localTime / 0.45, 0, 1)
-  const hold = clamp((localTime - 0.4) / 0.4, 0, 1)
-
-  const xOffset = (1 - tIn) * -200
-  const xOffsetR = (1 - tIn) * 200
 
   return (
     <div
@@ -24,7 +18,7 @@ export function Shot6Multitenant({ brandsPreset = 'acme-vs-microcredito' as Bran
     >
       <div className="dotgrid" />
 
-      <Shot6Title progress={hold} />
+      <Shot6Title />
 
       <div
         style={{
@@ -37,30 +31,39 @@ export function Shot6Multitenant({ brandsPreset = 'acme-vs-microcredito' as Bran
           gap: 56,
         }}
       >
-        <TenantSurface tenant={tenants[0]} enter={tIn} hold={hold} align="left" xOffset={xOffset} />
-        <TenantSurface tenant={tenants[1]} enter={tIn} hold={hold} align="right" xOffset={xOffsetR} />
+        <TenantSurface tenant={tenants[0]} align="left" />
+        <TenantSurface tenant={tenants[1]} align="right" />
       </div>
 
-      <Shot6Footer time={localTime} />
+      <Shot6Footer />
 
-      <Particles count={20} localTime={localTime} seed={6611} />
+      <Particles count={20} seed={6611} />
       <div className="vignette" />
     </div>
   )
-}
+})
 
-function Shot6Title({ progress }: { progress: number }) {
-  const ty = (1 - progress) * 10
+function Shot6Title() {
+  const divRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const hold = clamp((lt - 0.4) / 0.4, 0, 1)
+    if (!divRef.current) return
+    divRef.current.style.opacity = String(hold)
+    divRef.current.style.transform = `translateY(${(1 - hold) * 10}px)`
+  })
+
   return (
     <div
+      ref={divRef}
       style={{
         position: 'absolute',
         left: 80,
         right: 80,
         top: 130,
         textAlign: 'center',
-        opacity: progress,
-        transform: `translateY(${ty}px)`,
+        opacity: 0,
+        transform: 'translateY(10px)',
       }}
     >
       <div
@@ -90,10 +93,19 @@ function Shot6Title({ progress }: { progress: number }) {
   )
 }
 
-function Shot6Footer({ time }: { time: number }) {
-  const op = clamp((time - 0.6) / 0.6, 0, 1)
+function Shot6Footer() {
+  const divRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const op = clamp((lt - 0.6) / 0.6, 0, 1)
+    if (divRef.current) divRef.current.style.opacity = String(op)
+  })
+
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, bottom: 170, textAlign: 'center', opacity: op }}>
+    <div
+      ref={divRef}
+      style={{ position: 'absolute', left: 0, right: 0, bottom: 170, textAlign: 'center', opacity: 0 }}
+    >
       <div
         style={{
           fontFamily: 'var(--f-mono)',
@@ -109,22 +121,21 @@ function Shot6Footer({ time }: { time: number }) {
   )
 }
 
-function TenantSurface({
-  tenant,
-  enter,
-  hold,
-  align,
-  xOffset,
-}: {
-  tenant: Tenant
-  enter: number
-  hold: number
-  align: 'left' | 'right'
-  xOffset: number
-}) {
-  const slide = (1 - enter) * (align === 'left' ? -40 : 40)
+function TenantSurface({ tenant, align }: { tenant: Tenant; align: 'left' | 'right' }) {
+  const divRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const tIn = clamp(lt / 0.45, 0, 1)
+    const slide = (1 - tIn) * (align === 'left' ? -40 : 40)
+    const xOffset = (1 - tIn) * (align === 'left' ? -200 : 200)
+    if (!divRef.current) return
+    divRef.current.style.opacity = String(tIn)
+    divRef.current.style.transform = `translateX(${xOffset + slide}px)`
+  })
+
   return (
     <div
+      ref={divRef}
       style={{
         width: 580,
         height: 560,
@@ -132,8 +143,7 @@ function TenantSurface({
         borderRadius: 12,
         border: `1px solid ${tenant.primary}55`,
         boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 60px ${tenant.primary}25, inset 0 0 0 1px ${tenant.primary}15`,
-        opacity: enter,
-        transform: `translateX(${xOffset + slide}px)`,
+        opacity: 0,
         overflow: 'hidden',
         flexShrink: 0,
       }}
@@ -178,7 +188,7 @@ function TenantSurface({
         >
           flujo configurado · {tenant.steps.length} steps
         </div>
-        <TenantStepsTimeline tenant={tenant} progress={hold} />
+        <TenantStepsTimeline tenant={tenant} />
       </div>
 
       <div
@@ -237,17 +247,31 @@ function TenantSurface({
   )
 }
 
-function TenantStepsTimeline({ tenant, progress }: { tenant: Tenant; progress: number }) {
+function TenantStepsTimeline({ tenant }: { tenant: Tenant }) {
+  const stepRefs = React.useRef<(HTMLDivElement | null)[]>(
+    Array.from({ length: tenant.steps.length }, () => null),
+  )
+
+  useSpriteEffect((lt) => {
+    const hold = clamp((lt - 0.4) / 0.4, 0, 1)
+    stepRefs.current.forEach((el, i) => {
+      if (!el) return
+      const entry = clamp((hold * tenant.steps.length - i * 0.7) / 1, 0, 1)
+      const ty = (1 - entry) * 6
+      el.style.opacity = String(entry)
+      el.style.transform = `translateX(${(1 - entry) * -8}px) translateY(${ty}px)`
+    })
+  })
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
       {tenant.steps.map((stepId, i) => {
         const step = REAL_STEPS_BY_ID[stepId]
         if (!step) return null
-        const entry = clamp((progress * tenant.steps.length - i * 0.7) / 1, 0, 1)
-        const ty = (1 - entry) * 6
         return (
           <div
             key={stepId}
+            ref={(el) => { stepRefs.current[i] = el }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -256,8 +280,7 @@ function TenantStepsTimeline({ tenant, progress }: { tenant: Tenant; progress: n
               background: 'rgba(255,255,255,0.03)',
               border: `1px solid ${tenant.primary}1c`,
               borderRadius: 6,
-              opacity: entry,
-              transform: `translateX(${(1 - entry) * -8}px) translateY(${ty}px)`,
+              opacity: 0,
             }}
           >
             <div

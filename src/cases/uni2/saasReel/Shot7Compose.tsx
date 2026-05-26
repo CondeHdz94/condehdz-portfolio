@@ -1,4 +1,5 @@
-import { useSprite, Easing, clamp } from '../../../components/animation'
+import React from 'react'
+import { useSpriteEffect, Easing, clamp } from '../../../components/animation'
 import { Particles, StepIcon, REAL_STEPS_BY_ID } from './animMocks'
 
 interface ComposeStep { id: string; mode: 'form' | 'visual' }
@@ -125,6 +126,14 @@ const TRACK_GAP = 28
 const TRACK_LABEL_H = 24
 const TRACK_H = TRACK_LABEL_H + CARD_H
 
+const INVENTORY_WIDTH = 260
+const INVENTORY_SPACING = 44
+const TRACK_ORIGIN_X = INVENTORY_WIDTH + 60
+
+const WAVE_START = 0.85
+const WAVE_STAGGER = 0.36
+const DROP_DUR = 0.55
+
 type ComposeOrder = 'linear' | 'branching'
 
 interface Drop {
@@ -137,17 +146,8 @@ interface Drop {
   branchPosition?: number
 }
 
-export function Shot7Compose({ composeOrder = 'linear' as ComposeOrder }) {
-  const { localTime } = useSprite()
+export const Shot7Compose = React.memo(function Shot7Compose({ composeOrder = 'linear' }: { composeOrder?: ComposeOrder }) {
   const roles = COMPOSE_ROLES[composeOrder] || COMPOSE_ROLES.linear
-
-  const titleEnter = clamp(localTime / 0.5, 0, 1)
-  const inventoryEnter = clamp((localTime - 0.3) / 0.5, 0, 1)
-  const trackFrameEnter = clamp((localTime - 0.4) / 0.5, 0, 1)
-
-  const waveStart = 0.85
-  const waveStagger = 0.36
-  const dropDur = 0.55
 
   const drops: Drop[] = []
   roles.forEach((role, roleIdx) => {
@@ -170,8 +170,7 @@ export function Shot7Compose({ composeOrder = 'linear' as ComposeOrder }) {
   })
 
   const maxWave = drops.reduce((m, d) => Math.max(m, d.wave), 0)
-  const lastDropEnd = waveStart + maxWave * waveStagger + dropDur
-  const glowProgress = clamp((localTime - lastDropEnd + 0.1) / 0.9, 0, 1)
+  const lastDropEnd = WAVE_START + maxWave * WAVE_STAGGER + DROP_DUR
 
   return (
     <div
@@ -184,35 +183,35 @@ export function Shot7Compose({ composeOrder = 'linear' as ComposeOrder }) {
     >
       <div className="dotgrid" />
 
-      <Shot7Title progress={titleEnter} />
+      <Shot7Title />
 
-      <ComposeStage
-        time={localTime}
-        roles={roles}
-        drops={drops}
-        inventoryEnter={inventoryEnter}
-        trackFrameEnter={trackFrameEnter}
-        waveStart={waveStart}
-        waveStagger={waveStagger}
-        dropDur={dropDur}
-        glowProgress={glowProgress}
-      />
+      <ComposeStage roles={roles} drops={drops} lastDropEnd={lastDropEnd} />
 
-      <Particles count={16} localTime={localTime} seed={9081} />
+      <Particles count={16} seed={9081} />
       <div className="vignette" />
     </div>
   )
-}
+})
 
-function Shot7Title({ progress }: { progress: number }) {
+function Shot7Title() {
+  const divRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const progress = clamp(lt / 0.5, 0, 1)
+    if (!divRef.current) return
+    divRef.current.style.opacity = String(progress)
+    divRef.current.style.transform = `translateY(${(1 - progress) * 10}px)`
+  })
+
   return (
     <div
+      ref={divRef}
       style={{
         position: 'absolute',
         left: 80,
         top: 130,
-        opacity: progress,
-        transform: `translateY(${(1 - progress) * 10}px)`,
+        opacity: 0,
+        transform: 'translateY(10px)',
       }}
     >
       <div
@@ -254,103 +253,75 @@ function Shot7Title({ progress }: { progress: number }) {
 }
 
 function ComposeStage({
-  time,
   roles,
   drops,
-  inventoryEnter,
-  trackFrameEnter,
-  waveStart,
-  waveStagger,
-  dropDur,
-  glowProgress,
+  lastDropEnd,
 }: {
-  time: number
   roles: ComposeRole[]
   drops: Drop[]
-  inventoryEnter: number
-  trackFrameEnter: number
-  waveStart: number
-  waveStagger: number
-  dropDur: number
-  glowProgress: number
+  lastDropEnd: number
 }) {
-  const inventoryWidth = 260
-  const inventorySpacing = 44
+  const trackContainerRef = React.useRef<HTMLDivElement>(null)
 
-  const trackOriginX = inventoryWidth + 60
+  useSpriteEffect((lt) => {
+    const enter = clamp((lt - 0.4) / 0.5, 0, 1)
+    if (trackContainerRef.current) {
+      trackContainerRef.current.style.opacity = String(enter)
+      trackContainerRef.current.style.transform = `translateY(${(1 - enter) * 12}px)`
+    }
+  })
+
   const roleTrackY = roles.map((_, i) => i * (TRACK_H + TRACK_GAP))
 
   const slotForDrop = (drop: Drop) => {
     const baseY = roleTrackY[drop.roleIdx] + TRACK_LABEL_H
     if (drop.lane === 'trunk') {
-      return { x: trackOriginX + drop.stepIdx * (CARD_W + CARD_GAP), y: baseY }
-    } else {
-      return {
-        x: trackOriginX + (drop.role.branch!.from + 1 + (drop.branchPosition ?? 0)) * (CARD_W + CARD_GAP),
-        y: baseY - (CARD_H + 24),
-      }
+      return { x: TRACK_ORIGIN_X + drop.stepIdx * (CARD_W + CARD_GAP), y: baseY }
+    }
+    return {
+      x: TRACK_ORIGIN_X + (drop.role.branch!.from + 1 + (drop.branchPosition ?? 0)) * (CARD_W + CARD_GAP),
+      y: baseY - (CARD_H + 24),
     }
   }
 
   return (
     <div style={{ position: 'absolute', left: 80, right: 80, top: 350, bottom: 130 }}>
-      <ComposeInventory
-        time={time}
-        enter={inventoryEnter}
-        steps={INVENTORY_LIST}
-        drops={drops}
-        waveStart={waveStart}
-        waveStagger={waveStagger}
-        dropDur={dropDur}
-        inventorySpacing={inventorySpacing}
-        width={inventoryWidth}
-      />
+      <ComposeInventory drops={drops} />
 
       <div
+        ref={trackContainerRef}
         style={{
           position: 'absolute',
-          left: trackOriginX,
+          left: TRACK_ORIGIN_X,
           top: 0,
           right: 0,
-          opacity: trackFrameEnter,
-          transform: `translateY(${(1 - trackFrameEnter) * 12}px)`,
+          opacity: 0,
+          transform: 'translateY(12px)',
         }}
       >
         {roles.map((role, roleIdx) => (
-          <TrackFrame key={role.id} role={role} y={roleTrackY[roleIdx]} glow={glowProgress} />
+          <TrackFrame key={role.id} role={role} y={roleTrackY[roleIdx]} lastDropEnd={lastDropEnd} />
         ))}
 
         {drops.map((drop) => {
-          const dropT = clamp((time - waveStart - drop.wave * waveStagger) / dropDur, 0, 1)
-          if (dropT <= 0) return null
-
           const slot = slotForDrop(drop)
           const inventoryIdx = INVENTORY_LIST.indexOf(drop.step.id)
-          const startX = -trackOriginX + 16
-          const startY = inventoryIdx * inventorySpacing + 8
-
-          const eased = Easing.easeInOutCubic(dropT)
-          const arcLift = -36 * Math.sin(dropT * Math.PI)
-          const x = startX + (slot.x - startX) * eased
-          const y = startY + (slot.y - startY) * eased + arcLift
-          const scale = 0.92 + eased * 0.08
-          const settled = dropT >= 1
-          const glowPulse = settled
-            ? clamp((glowProgress - drop.wave / 6) * 5, 0, 1) -
-              clamp((glowProgress - drop.wave / 6 - 0.18) * 5, 0, 1)
-            : 0
+          const startX = -TRACK_ORIGIN_X + 16
+          const startY = inventoryIdx * INVENTORY_SPACING + 8
+          const startAt = WAVE_START + drop.wave * WAVE_STAGGER
 
           return (
             <FlyingRoleChip
               key={`${drop.role.id}-${drop.lane}-${drop.stepIdx}`}
               step={drop.step}
               accent={drop.role.accent}
-              x={x}
-              y={y}
-              opacity={dropT}
-              scale={scale}
-              settled={settled}
-              glowPulse={glowPulse}
+              startAt={startAt}
+              slotX={slot.x}
+              slotY={slot.y}
+              startX={startX}
+              startY={startY}
+              wave={drop.wave}
+              lastDropEnd={lastDropEnd}
             />
           )
         })}
@@ -359,35 +330,27 @@ function ComposeStage({
   )
 }
 
-function ComposeInventory({
-  time,
-  enter,
-  steps,
-  drops,
-  waveStart,
-  waveStagger,
-  dropDur,
-  width,
-}: {
-  time: number
-  enter: number
-  steps: string[]
-  drops: Drop[]
-  waveStart: number
-  waveStagger: number
-  dropDur: number
-  inventorySpacing: number
-  width: number
-}) {
+function ComposeInventory({ drops }: { drops: Drop[] }) {
+  const outerRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const enter = clamp((lt - 0.3) / 0.5, 0, 1)
+    if (outerRef.current) {
+      outerRef.current.style.opacity = String(enter)
+      outerRef.current.style.transform = `translateX(${(1 - enter) * -16}px)`
+    }
+  })
+
   return (
     <div
+      ref={outerRef}
       style={{
         position: 'absolute',
         left: 0,
         top: 0,
-        width,
-        opacity: enter,
-        transform: `translateX(${(1 - enter) * -16}px)`,
+        width: INVENTORY_WIDTH,
+        opacity: 0,
+        transform: 'translateX(-16px)',
       }}
     >
       <div
@@ -403,23 +366,46 @@ function ComposeInventory({
         inventario · 7 steps reusables
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {steps.map((stepId) => {
+        {INVENTORY_LIST.map((stepId) => {
           const uses = drops.filter((d) => d.step.id === stepId)
-          const inUse = uses.some((d) => {
-            const dropT = (time - waveStart - d.wave * waveStagger) / dropDur
-            return dropT > 0.1
-          })
+          const activationTimes = uses.map((d) => WAVE_START + d.wave * WAVE_STAGGER + 0.1 * DROP_DUR)
           const useCount = uses.length
           const step = REAL_STEPS_BY_ID[stepId]
           if (!step) return null
-          return <InventoryChip key={stepId} step={step} inUse={inUse} useCount={useCount} />
+          return (
+            <InventoryChip
+              key={stepId}
+              step={step}
+              useCount={useCount}
+              activationTimes={activationTimes}
+            />
+          )
         })}
       </div>
     </div>
   )
 }
 
-function InventoryChip({ step, inUse, useCount }: { step: { id: string; label: string }; inUse: boolean; useCount: number }) {
+const InventoryChip = React.memo(function InventoryChip({
+  step,
+  useCount,
+  activationTimes,
+}: {
+  step: { id: string; label: string }
+  useCount: number
+  activationTimes: number[]
+}) {
+  const [inUse, setInUse] = React.useState(false)
+  const prevRef = React.useRef(false)
+
+  useSpriteEffect((lt) => {
+    const newInUse = activationTimes.some((t) => lt >= t)
+    if (newInUse !== prevRef.current) {
+      prevRef.current = newInUse
+      setInUse(newInUse)
+    }
+  })
+
   return (
     <div
       style={{
@@ -467,9 +453,27 @@ function InventoryChip({ step, inUse, useCount }: { step: { id: string; label: s
       )}
     </div>
   )
-}
+})
 
-function TrackFrame({ role, y, glow }: { role: ComposeRole; y: number; glow: number }) {
+const TrackFrame = React.memo(function TrackFrame({
+  role,
+  y,
+  lastDropEnd,
+}: {
+  role: ComposeRole
+  y: number
+  lastDropEnd: number
+}) {
+  const glowBarRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const glowProgress = clamp((lt - lastDropEnd + 0.1) / 0.9, 0, 1)
+    if (glowBarRef.current) {
+      glowBarRef.current.style.width = `${glowProgress * 100}%`
+      glowBarRef.current.style.opacity = String(glowProgress > 0 ? 1 : 0)
+    }
+  })
+
   return (
     <div style={{ position: 'absolute', left: 0, top: y, right: 0, height: TRACK_H }}>
       <div
@@ -548,15 +552,16 @@ function TrackFrame({ role, y, glow }: { role: ComposeRole; y: number; glow: num
 
       <div style={{ position: 'relative', height: CARD_H }}>
         <div
+          ref={glowBarRef}
           style={{
             position: 'absolute',
             left: 0,
             top: CARD_H - 8,
-            width: `${glow * 100}%`,
+            width: '0%',
             height: 6,
             background: `linear-gradient(90deg, rgba(129,140,248,0) 0%, ${role.accent}cc 70%, #fff 100%)`,
             filter: 'blur(4px)',
-            opacity: glow > 0 ? 1 : 0,
+            opacity: 0,
             pointerEvents: 'none',
           }}
         />
@@ -590,9 +595,9 @@ function TrackFrame({ role, y, glow }: { role: ComposeRole; y: number; glow: num
       </div>
     </div>
   )
-}
+})
 
-function EmptySlot({
+const EmptySlot = React.memo(function EmptySlot({
   x,
   y,
   index,
@@ -629,56 +634,97 @@ function EmptySlot({
       {branch ? `branch · ${index}` : `slot · ${index}`}
     </div>
   )
-}
+})
 
-function FlyingRoleChip({
+const FlyingRoleChip = React.memo(function FlyingRoleChip({
   step,
   accent,
-  x,
-  y,
-  opacity,
-  scale,
-  settled,
-  glowPulse,
+  startAt,
+  slotX,
+  slotY,
+  startX,
+  startY,
+  wave,
+  lastDropEnd,
 }: {
   step: ComposeStep
   accent: string
-  x: number
-  y: number
-  opacity: number
-  scale: number
-  settled: boolean
-  glowPulse: number
+  startAt: number
+  slotX: number
+  slotY: number
+  startX: number
+  startY: number
+  wave: number
+  lastDropEnd: number
 }) {
+  const divRef = React.useRef<HTMLDivElement>(null)
+  const isForm = step.mode === 'form'
+
+  useSpriteEffect((lt) => {
+    const el = divRef.current
+    if (!el) return
+    if (lt < startAt) {
+      el.style.display = 'none'
+      return
+    }
+    el.style.display = 'flex'
+
+    const dropT = clamp((lt - startAt) / DROP_DUR, 0, 1)
+    const settled = dropT >= 1
+    const eased = Easing.easeInOutCubic(dropT)
+    const arcLift = -36 * Math.sin(dropT * Math.PI)
+    const x = startX + (slotX - startX) * eased
+    const y = startY + (slotY - startY) * eased + arcLift
+    const scale = 0.92 + eased * 0.08
+
+    el.style.left = `${x}px`
+    el.style.top = `${y}px`
+    el.style.opacity = String(dropT)
+    el.style.transform = `scale(${scale})`
+
+    const glowProgress = clamp((lt - lastDropEnd + 0.1) / 0.9, 0, 1)
+    const glowPulse = settled
+      ? clamp((glowProgress - wave / 6) * 5, 0, 1) - clamp((glowProgress - wave / 6 - 0.18) * 5, 0, 1)
+      : 0
+
+    if (settled) {
+      el.style.background = isForm
+        ? 'linear-gradient(180deg, #101a3a 0%, #0c1330 100%)'
+        : '#080d1f'
+      el.style.borderColor = isForm ? `${accent}66` : 'rgba(255,255,255,0.1)'
+      const base = isForm
+        ? `0 6px 16px ${accent}33, inset 0 0 0 1px ${accent}22`
+        : '0 4px 10px rgba(0,0,0,0.3)'
+      el.style.boxShadow = glowPulse > 0
+        ? `${base}, 0 0 ${(isForm ? 24 : 18) * glowPulse}px ${isForm ? accent : accent + 'aa'}`
+        : base
+    } else {
+      el.style.background = `linear-gradient(180deg, ${accent}40 0%, ${accent}22 100%)`
+      el.style.borderColor = `${accent}cc`
+      el.style.boxShadow = `0 14px 36px ${accent}66, 0 0 32px ${accent}80`
+    }
+  })
+
   const fullStep = REAL_STEPS_BY_ID[step.id]
   if (!fullStep) return null
-  const isForm = step.mode === 'form'
 
   return (
     <div
+      ref={divRef}
       style={{
         position: 'absolute',
-        left: x,
-        top: y,
+        left: startX,
+        top: startY,
         width: CARD_W,
         height: CARD_H,
         borderRadius: 6,
-        background: settled
-          ? isForm
-            ? 'linear-gradient(180deg, #101a3a 0%, #0c1330 100%)'
-            : '#080d1f'
-          : `linear-gradient(180deg, ${accent}40 0%, ${accent}22 100%)`,
-        border: settled ? (isForm ? `1px solid ${accent}66` : '1px solid rgba(255,255,255,0.1)') : `1px solid ${accent}cc`,
-        boxShadow: settled
-          ? isForm
-            ? `0 6px 16px ${accent}33, inset 0 0 0 1px ${accent}22${glowPulse > 0 ? `, 0 0 ${24 * glowPulse}px ${accent}` : ''}`
-            : `0 4px 10px rgba(0,0,0,0.3)${glowPulse > 0 ? `, 0 0 ${18 * glowPulse}px ${accent}aa` : ''}`
-          : `0 14px 36px ${accent}66, 0 0 32px ${accent}80`,
-        transform: `scale(${scale})`,
-        transformOrigin: 'center',
-        opacity,
+        background: `linear-gradient(180deg, ${accent}40 0%, ${accent}22 100%)`,
+        border: `1px solid ${accent}cc`,
+        boxShadow: `0 14px 36px ${accent}66, 0 0 32px ${accent}80`,
+        transform: 'scale(0.92)',
+        opacity: 0,
+        display: 'none',
         padding: '8px 10px',
-        display: 'flex',
         flexDirection: 'column',
         gap: 5,
         willChange: 'transform, opacity',
@@ -730,9 +776,9 @@ function FlyingRoleChip({
       </div>
     </div>
   )
-}
+})
 
-function ChipModeBadge({ mode, accent }: { mode: 'form' | 'visual'; accent: string }) {
+const ChipModeBadge = React.memo(function ChipModeBadge({ mode, accent }: { mode: 'form' | 'visual'; accent: string }) {
   const isForm = mode === 'form'
   return (
     <div
@@ -764,4 +810,4 @@ function ChipModeBadge({ mode, accent }: { mode: 'form' | 'visual'; accent: stri
       <span>{mode}</span>
     </div>
   )
-}
+})

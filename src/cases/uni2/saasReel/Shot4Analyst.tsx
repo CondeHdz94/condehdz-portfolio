@@ -1,31 +1,65 @@
 import React from 'react'
-import { useSprite, Easing, clamp } from '../../../components/animation'
+import { useSpriteEffect, SpriteStableContext, Easing, clamp } from '../../../components/animation'
 import { AnalystApp } from './AnalystApp'
 
-export function Shot4Analyst() {
-  const { localTime, duration } = useSprite()
-  const cursorRef = React.useRef<HTMLDivElement | null>(null)
+const HANDOFF_START = 9.0
 
-  const HANDOFF_START = 9.0
-  const appFade = clamp(1 - (localTime - HANDOFF_START) / 0.55, 0, 1)
-  const handoffEnter = clamp((localTime - (HANDOFF_START + 0.15)) / 0.55, 0, 1)
-  const showHandoff = localTime >= HANDOFF_START - 0.1
+export const Shot4Analyst = React.memo(function Shot4Analyst() {
+  const { duration } = React.useContext(SpriteStableContext)
+  const cameraRef = React.useRef<HTMLDivElement>(null)
+  const cursorRef = React.useRef<HTMLDivElement>(null)
+  const cursorPulseRef = React.useRef<HTMLDivElement>(null)
+  const [showHandoff, setShowHandoff] = React.useState(false)
+  const prevHandoffRef = React.useRef(false)
 
-  const t = localTime / duration
-  const camScale = 0.86 + Easing.easeOutCubic(clamp(localTime / 2, 0, 1)) * 0.06 + clamp((localTime - 8) / 4, 0, 1) * 0.04
-  const camX = -8 + t * 24
-  const camY = 10 - t * 20
+  useSpriteEffect((lt) => {
+    const t = lt / duration
+    const camScale = 0.86 + Easing.easeOutCubic(clamp(lt / 2, 0, 1)) * 0.06 + clamp((lt - 8) / 4, 0, 1) * 0.04
+    const camX = -8 + t * 24
+    const camY = 10 - t * 20
+    const appFade = clamp(1 - (lt - HANDOFF_START) / 0.55, 0, 1)
 
-  const cursorPos = computeAnalystCursorPos(localTime)
-
-  const clickPulse = (() => {
-    const events = [2.6, 8.6]
-    for (const ev of events) {
-      const dt = localTime - ev
-      if (dt > 0 && dt < 0.5) return clamp(dt / 0.5, 0, 1)
+    if (cameraRef.current) {
+      cameraRef.current.style.transform = `translate(calc(-50% + ${camX}px), calc(-50% + ${camY}px)) scale(${camScale})`
+      cameraRef.current.style.opacity = String(appFade)
     }
-    return -1
-  })()
+
+    const cursorPos = computeAnalystCursorPos(lt)
+    const cursorOpacity = cursorPos.opacity * appFade
+
+    if (cursorRef.current) {
+      cursorRef.current.style.left = `${cursorPos.x}px`
+      cursorRef.current.style.top = `${cursorPos.y}px`
+      cursorRef.current.style.opacity = String(cursorOpacity)
+    }
+
+    const events = [2.6, 8.6]
+    let clickPulse = -1
+    for (const ev of events) {
+      const dt = lt - ev
+      if (dt > 0 && dt < 0.5) { clickPulse = clamp(dt / 0.5, 0, 1); break }
+    }
+    if (cursorPulseRef.current) {
+      if (clickPulse < 0) {
+        cursorPulseRef.current.style.display = 'none'
+      } else {
+        cursorPulseRef.current.style.display = ''
+        cursorPulseRef.current.style.left = `${cursorPos.x}px`
+        cursorPulseRef.current.style.top = `${cursorPos.y}px`
+        cursorPulseRef.current.style.width = `${24 + clickPulse * 40}px`
+        cursorPulseRef.current.style.height = `${24 + clickPulse * 40}px`
+        cursorPulseRef.current.style.marginLeft = `${-12 - clickPulse * 20}px`
+        cursorPulseRef.current.style.marginTop = `${-12 - clickPulse * 20}px`
+        cursorPulseRef.current.style.opacity = String(1 - clickPulse)
+      }
+    }
+
+    const newShowHandoff = lt >= HANDOFF_START - 0.1
+    if (newShowHandoff !== prevHandoffRef.current) {
+      prevHandoffRef.current = newShowHandoff
+      setShowHandoff(newShowHandoff)
+    }
+  })
 
   return (
     <div
@@ -39,42 +73,137 @@ export function Shot4Analyst() {
       <div className="dotgrid" />
 
       <div
+        ref={cameraRef}
         style={{
           position: 'absolute',
           left: '50%',
           top: '50%',
-          transform: `translate(calc(-50% + ${camX}px), calc(-50% + ${camY}px)) scale(${camScale})`,
-          transformOrigin: 'center',
-          opacity: appFade,
+          transform: 'translate(calc(-50% + -8px), calc(-50% + 10px)) scale(0.86)',
+          opacity: 1,
           pointerEvents: 'none',
         }}
       >
-        <AnalystApp time={localTime} cursorRef={cursorRef} />
-        <AnimCursor x={cursorPos.x} y={cursorPos.y} opacity={cursorPos.opacity * appFade} clickPulse={clickPulse} />
+        <AnalystApp />
+
+        <div
+          ref={cursorRef}
+          style={{
+            position: 'absolute',
+            left: -60,
+            top: 800,
+            opacity: 0,
+            pointerEvents: 'none',
+            transform: 'translate(-2px, -2px)',
+            zIndex: 100,
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.55))' }}>
+            <path d="M5 3l4 16 3-7 7-3z" fill="#fff" stroke="#0e1530" strokeWidth="1.2" strokeLinejoin="round" />
+          </svg>
+        </div>
+
+        <div
+          ref={cursorPulseRef}
+          style={{
+            position: 'absolute',
+            left: -60,
+            top: 800,
+            width: 24,
+            height: 24,
+            borderRadius: '50%',
+            border: '2px solid rgba(129,140,248,0.7)',
+            display: 'none',
+            pointerEvents: 'none',
+            zIndex: 99,
+          }}
+        />
       </div>
 
-      {showHandoff && <HandoffScene progress={handoffEnter} localTime={localTime - HANDOFF_START} />}
+      {showHandoff && <HandoffScene />}
 
       <div className="vignette" />
     </div>
   )
-}
+})
 
-function HandoffScene({ progress, localTime }: { progress: number; localTime: number }) {
-  const titleEnter = clamp(localTime / 0.5, 0, 1)
-  const badgesEnter = clamp((localTime - 0.3) / 0.6, 0, 1)
-  const tripT = clamp((localTime - 1.6) / 1.1, 0, 1)
-  const eased = Easing.easeInOutCubic(tripT)
-  const footerEnter = clamp((localTime - 0.9) / 0.5, 0, 1)
+function HandoffScene() {
+  const containerRef = React.useRef<HTMLDivElement>(null)
+  const titleRef = React.useRef<HTMLDivElement>(null)
+  const bigTitleRef = React.useRef<HTMLDivElement>(null)
+  const badgesRef = React.useRef<HTMLDivElement>(null)
+  const footerRef = React.useRef<HTMLDivElement>(null)
+  const progressBarRef = React.useRef<HTMLDivElement>(null)
+  const flyingChipRef = React.useRef<HTMLDivElement>(null)
+  const rightBadgeRef = React.useRef<HTMLDivElement>(null)
 
-  const leftActive = localTime >= 0.9 && tripT < 1
-  const leftDone = tripT >= 1
-  const rightActive = tripT >= 1
+  const [leftActive, setLeftActive] = React.useState(false)
+  const [leftDone, setLeftDone] = React.useState(false)
+  const [rightActive, setRightActive] = React.useState(false)
+  const prevBadgeRef = React.useRef({ la: false, ld: false, ra: false })
 
-  const arrivedPulse = clamp((tripT - 0.92) / 0.08, 0, 1) * (1 - clamp((localTime - 2.95) / 0.3, 0, 1))
+  useSpriteEffect((lt) => {
+    const localTime = lt - HANDOFF_START
+    if (localTime < -0.1) return
+
+    const progress = clamp((lt - (HANDOFF_START + 0.15)) / 0.55, 0, 1)
+    const titleEnter = clamp(localTime / 0.5, 0, 1)
+    const badgesEnter = clamp((localTime - 0.3) / 0.6, 0, 1)
+    const tripT = clamp((localTime - 1.6) / 1.1, 0, 1)
+    const eased = Easing.easeInOutCubic(tripT)
+    const footerEnter = clamp((localTime - 0.9) / 0.5, 0, 1)
+
+    if (containerRef.current) containerRef.current.style.opacity = String(progress)
+    if (titleRef.current) {
+      titleRef.current.style.opacity = String(titleEnter)
+      titleRef.current.style.transform = `translateY(${(1 - titleEnter) * -10}px)`
+    }
+    if (bigTitleRef.current) {
+      bigTitleRef.current.style.opacity = String(titleEnter)
+      bigTitleRef.current.style.transform = `translateY(${(1 - titleEnter) * -12}px)`
+    }
+    if (badgesRef.current) {
+      badgesRef.current.style.opacity = String(badgesEnter)
+      badgesRef.current.style.transform = `translateY(${(1 - badgesEnter) * 14}px)`
+    }
+    if (footerRef.current) {
+      footerRef.current.style.opacity = String(footerEnter)
+      footerRef.current.style.transform = `translateY(${(1 - footerEnter) * 8}px)`
+    }
+    if (progressBarRef.current) {
+      progressBarRef.current.style.width = `${320 * eased}px`
+    }
+
+    const flying = tripT > 0 && tripT < 1
+    if (flyingChipRef.current) {
+      if (!flying) {
+        flyingChipRef.current.style.display = 'none'
+      } else {
+        flyingChipRef.current.style.display = 'flex'
+        flyingChipRef.current.style.left = `${10 + 320 * eased}px`
+        flyingChipRef.current.style.transform = `translate(-50%, -50%) scale(${0.92 + Math.sin(tripT * Math.PI) * 0.08})`
+      }
+    }
+
+    const arrivedPulse = clamp((tripT - 0.92) / 0.08, 0, 1) * (1 - clamp((localTime - 2.95) / 0.3, 0, 1))
+    if (rightBadgeRef.current) {
+      rightBadgeRef.current.style.transform = `scale(${1 + arrivedPulse * 0.06})`
+    }
+
+    const newLa = localTime >= 0.9 && tripT < 1
+    const newLd = tripT >= 1
+    const newRa = tripT >= 1
+    const prev = prevBadgeRef.current
+    if (newLa !== prev.la || newLd !== prev.ld || newRa !== prev.ra) {
+      prevBadgeRef.current = { la: newLa, ld: newLd, ra: newRa }
+      setLeftActive(newLa)
+      setLeftDone(newLd)
+      setRightActive(newRa)
+    }
+  })
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: 'absolute',
         inset: 0,
@@ -83,25 +212,27 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
         alignItems: 'center',
         justifyContent: 'center',
         gap: 60,
-        opacity: progress,
+        opacity: 0,
         pointerEvents: 'none',
       }}
     >
       <div
+        ref={titleRef}
         style={{
           fontFamily: 'var(--f-mono)',
           fontSize: 14,
           letterSpacing: '0.24em',
           textTransform: 'uppercase',
           color: '#818CF8',
-          opacity: titleEnter,
-          transform: `translateY(${(1 - titleEnter) * -10}px)`,
+          opacity: 0,
+          transform: 'translateY(-10px)',
         }}
       >
         07 · handoff entre roles
       </div>
 
       <div
+        ref={bigTitleRef}
         style={{
           fontFamily: 'var(--f-display)',
           fontSize: 86,
@@ -109,21 +240,22 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
           lineHeight: 1.0,
           letterSpacing: '-0.025em',
           textAlign: 'center',
-          opacity: titleEnter,
-          transform: `translateY(${(1 - titleEnter) * -12}px)`,
+          opacity: 0,
+          transform: 'translateY(-12px)',
         }}
       >
         The file <span style={{ fontStyle: 'italic' }}>moves forward.</span>
       </div>
 
       <div
+        ref={badgesRef}
         style={{
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
           gap: 80,
-          opacity: badgesEnter,
-          transform: `translateY(${(1 - badgesEnter) * 14}px)`,
+          opacity: 0,
+          transform: 'translateY(14px)',
         }}
       >
         <RoleBigBadge label="Role A" examples="committee · approver" active={leftActive} done={leftDone} accent="#A5B4FC" />
@@ -148,12 +280,13 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
           </svg>
 
           <div
+            ref={progressBarRef}
             style={{
               position: 'absolute',
               left: 10,
               top: '50%',
               marginTop: -2,
-              width: 320 * eased,
+              width: 0,
               height: 4,
               background: 'linear-gradient(90deg, rgba(165,180,252,0.9) 0%, rgba(129,140,248,0.95) 100%)',
               borderRadius: 2,
@@ -161,56 +294,49 @@ function HandoffScene({ progress, localTime }: { progress: number; localTime: nu
             }}
           />
 
-          {tripT > 0 && tripT < 1 && (
-            <div
-              style={{
-                position: 'absolute',
-                left: 10 + 320 * eased,
-                top: '50%',
-                transform: `translate(-50%, -50%) scale(${0.92 + Math.sin(tripT * Math.PI) * 0.08})`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '8px 16px',
-                background: 'linear-gradient(180deg, #101a3a 0%, #0a1227 100%)',
-                border: '1.5px solid rgba(129,140,248,0.7)',
-                borderRadius: 999,
-                boxShadow: '0 14px 36px rgba(79,70,229,0.5), 0 0 30px rgba(129,140,248,0.7)',
-                fontFamily: 'var(--f-mono)',
-                fontSize: 12,
-                color: '#ECECEA',
-                whiteSpace: 'nowrap',
-                willChange: 'transform, left',
-              }}
-            >
-              <span
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: 4,
-                  background: '#818CF8',
-                  boxShadow: '0 0 8px #818CF8',
-                  flexShrink: 0,
-                }}
-              />
-              <span style={{ color: '#818CF8', letterSpacing: '0.06em', fontWeight: 600 }}>SOL-04781</span>
-              <span style={{ color: 'rgba(236,236,234,0.7)' }}>· Tatiana Avilés</span>
-            </div>
-          )}
+          <div
+            ref={flyingChipRef}
+            style={{
+              position: 'absolute',
+              left: 10,
+              top: '50%',
+              display: 'none',
+              alignItems: 'center',
+              gap: 10,
+              padding: '8px 16px',
+              background: 'linear-gradient(180deg, #101a3a 0%, #0a1227 100%)',
+              border: '1.5px solid rgba(129,140,248,0.7)',
+              borderRadius: 999,
+              boxShadow: '0 14px 36px rgba(79,70,229,0.5), 0 0 30px rgba(129,140,248,0.7)',
+              fontFamily: 'var(--f-mono)',
+              fontSize: 12,
+              color: '#ECECEA',
+              whiteSpace: 'nowrap',
+              willChange: 'transform, left',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <span style={{ width: 7, height: 7, borderRadius: 4, background: '#818CF8', boxShadow: '0 0 8px #818CF8', flexShrink: 0 }} />
+            <span style={{ color: '#818CF8', letterSpacing: '0.06em', fontWeight: 600 }}>SOL-04781</span>
+            <span style={{ color: 'rgba(236,236,234,0.7)' }}>· Tatiana Avilés</span>
+          </div>
         </div>
 
-        <RoleBigBadge label="Role B" examples="treasury · operations" active={rightActive} done={false} accent="#818CF8" arrivedPulse={arrivedPulse} />
+        <div ref={rightBadgeRef} style={{ transform: 'scale(1)', transition: 'none' }}>
+          <RoleBigBadge label="Role B" examples="treasury · operations" active={rightActive} done={false} accent="#818CF8" />
+        </div>
       </div>
 
       <div
+        ref={footerRef}
         style={{
           fontFamily: 'var(--f-mono)',
           fontSize: 13,
           letterSpacing: '0.14em',
           color: 'rgba(236,236,234,0.5)',
           textAlign: 'center',
-          opacity: footerEnter,
-          transform: `translateY(${(1 - footerEnter) * 8}px)`,
+          opacity: 0,
+          transform: 'translateY(8px)',
           marginTop: 10,
         }}
       >
@@ -226,17 +352,14 @@ function RoleBigBadge({
   active,
   done,
   accent,
-  arrivedPulse = 0,
 }: {
   label: string
   examples: string
   active: boolean
   done: boolean
   accent: string
-  arrivedPulse?: number
 }) {
   const baseOp = active ? 1 : done ? 0.7 : 0.45
-  const pulseScale = 1 + arrivedPulse * 0.06
   return (
     <div
       style={{
@@ -245,8 +368,7 @@ function RoleBigBadge({
         alignItems: 'center',
         gap: 12,
         opacity: baseOp,
-        transform: `scale(${pulseScale})`,
-        transition: 'opacity 280ms, transform 280ms',
+        transition: 'opacity 280ms',
       }}
     >
       <div
@@ -301,14 +423,7 @@ function RoleBigBadge({
             }}
           >
             <svg width="18" height="18" viewBox="0 0 18 18">
-              <path
-                d="M4 9l3 3 7-7"
-                stroke="#06291d"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <path d="M4 9l3 3 7-7" stroke="#06291d" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
         )}
@@ -326,15 +441,7 @@ function RoleBigBadge({
         >
           rol
         </div>
-        <div
-          style={{
-            fontFamily: 'var(--f-mono)',
-            fontSize: 10,
-            color: 'rgba(236,236,234,0.4)',
-            fontStyle: 'italic',
-            letterSpacing: '0.02em',
-          }}
-        >
+        <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'rgba(236,236,234,0.4)', fontStyle: 'italic', letterSpacing: '0.02em' }}>
           ej. {examples}
         </div>
       </div>
@@ -371,44 +478,4 @@ function computeAnalystCursorPos(tNow: number) {
     return { x: BTN_X, y: BTN_Y + Math.sin((tNow - 8.4) * 20) * 2, opacity: 1 }
   }
   return { x: BTN_X, y: BTN_Y, opacity: 1 - clamp((tNow - 9.0) / 0.5, 0, 1) }
-}
-
-function AnimCursor({ x, y, opacity, clickPulse }: { x: number; y: number; opacity: number; clickPulse: number }) {
-  return (
-    <>
-      <div
-        style={{
-          position: 'absolute',
-          left: x,
-          top: y,
-          opacity,
-          pointerEvents: 'none',
-          transform: 'translate(-2px, -2px)',
-          zIndex: 100,
-        }}
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.55))' }}>
-          <path d="M5 3l4 16 3-7 7-3z" fill="#fff" stroke="#0e1530" strokeWidth="1.2" strokeLinejoin="round" />
-        </svg>
-      </div>
-      {clickPulse >= 0 && (
-        <div
-          style={{
-            position: 'absolute',
-            left: x,
-            top: y,
-            width: 24 + clickPulse * 40,
-            height: 24 + clickPulse * 40,
-            marginLeft: -12 - clickPulse * 20,
-            marginTop: -12 - clickPulse * 20,
-            borderRadius: '50%',
-            border: '2px solid rgba(129,140,248,0.7)',
-            opacity: 1 - clickPulse,
-            pointerEvents: 'none',
-            zIndex: 99,
-          }}
-        />
-      )}
-    </>
-  )
 }

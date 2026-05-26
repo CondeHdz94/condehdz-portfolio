@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sprite, useSprite, Easing } from '../../../components/animation'
+import { Sprite, SpriteStableContext, useSpriteEffect, Easing } from '../../../components/animation'
 
 type Position = 'top' | 'bottom' | 'center'
 type Tone = 'normal' | 'tech'
@@ -22,39 +22,48 @@ export function Caption({ start, end, children, position = 'bottom', tone = 'nor
   )
 }
 
-function CaptionInner({ position, tone, children }: { position: Position; tone: Tone; children: React.ReactNode }) {
-  const { localTime, duration } = useSprite()
-  const entryDur = 0.5
-  const exitDur = 0.5
-  const exitStart = duration - exitDur
-
-  let t = 1
-  let ty = 0
-  if (localTime < entryDur) {
-    const e = Easing.easeOutCubic(localTime / entryDur)
-    t = e
-    ty = (1 - e) * 18
-  } else if (localTime > exitStart) {
-    const e = Easing.easeInCubic((localTime - exitStart) / exitDur)
-    t = 1 - e
-    ty = -e * 10
-  }
-
+function CaptionInner({ position, tone: _tone, children }: { position: Position; tone: Tone; children: React.ReactNode }) {
+  const divRef = React.useRef<HTMLDivElement>(null)
+  const { duration } = React.useContext(SpriteStableContext)
   const isTop = position === 'top'
   const isCenter = position === 'center'
+  const tyBase = isCenter ? -50 : 0
+
+  useSpriteEffect((localTime) => {
+    const div = divRef.current
+    if (!div) return
+    const entryDur = 0.5
+    const exitDur = 0.5
+    const exitStart = duration - exitDur
+
+    let t = 1
+    let ty = 0
+    if (localTime < entryDur) {
+      const e = Easing.easeOutCubic(localTime / entryDur)
+      t = e
+      ty = (1 - e) * 18
+    } else if (localTime > exitStart) {
+      const e = Easing.easeInCubic((localTime - exitStart) / exitDur)
+      t = 1 - e
+      ty = -e * 10
+    }
+
+    div.style.opacity = String(t)
+    div.style.transform = `translateY(${tyBase}%) translateY(${ty}px)`
+  })
 
   return (
     <div
+      ref={divRef}
       style={{
         position: 'absolute',
         left: 80,
         right: 80,
         bottom: isTop ? 'auto' : isCenter ? 'auto' : 90,
         top: isTop ? 90 : isCenter ? '50%' : 'auto',
-        transform: `translateY(${isCenter ? -50 : 0}%) translateY(${ty}px)`,
-        opacity: t,
+        transform: `translateY(${tyBase}%)`,
+        opacity: 0,
         pointerEvents: 'none',
-        textAlign: tone === 'tech' ? 'left' : 'left',
         zIndex: 50,
       }}
     >

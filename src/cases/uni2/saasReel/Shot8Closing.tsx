@@ -1,12 +1,16 @@
-import { useSprite, Easing, clamp } from '../../../components/animation'
+import React from 'react'
+import { useSpriteEffect, Easing, clamp } from '../../../components/animation'
 import { Particles } from './animMocks'
 
-export function Shot8Closing({ techCredits = true }: { techCredits?: boolean }) {
-  const { localTime, duration } = useSprite()
+export const Shot8Closing = React.memo(function Shot8Closing({ techCredits = true }: { techCredits?: boolean }) {
+  const beam1Ref = React.useRef<HTMLDivElement>(null)
+  const beam2Ref = React.useRef<HTMLDivElement>(null)
 
-  const logoT = clamp(localTime / 0.7, 0, 1)
-  const taglineT = clamp((localTime - 0.5) / 0.6, 0, 1)
-  const beam = Math.sin(localTime * 0.6) * 0.3 + 0.7
+  useSpriteEffect((localTime) => {
+    const beam = Math.sin(localTime * 0.6) * 0.3 + 0.7
+    if (beam1Ref.current) beam1Ref.current.style.opacity = String(0.7 * beam)
+    if (beam2Ref.current) beam2Ref.current.style.opacity = String(0.7 * beam)
+  })
 
   return (
     <div
@@ -18,38 +22,50 @@ export function Shot8Closing({ techCredits = true }: { techCredits?: boolean }) 
       }}
     >
       <div
+        ref={beam1Ref}
         className="beam"
-        style={{ left: '25%', top: '-15%', width: 220, height: '120%', opacity: 0.7 * beam, transform: 'rotate(8deg)' }}
+        style={{ left: '25%', top: '-15%', width: 220, height: '120%', opacity: 0, transform: 'rotate(8deg)' }}
       />
       <div
+        ref={beam2Ref}
         className="beam"
-        style={{ right: '20%', top: '-15%', width: 220, height: '120%', opacity: 0.7 * beam, transform: 'rotate(-10deg)' }}
+        style={{ right: '20%', top: '-15%', width: 220, height: '120%', opacity: 0, transform: 'rotate(-10deg)' }}
       />
 
       <div className="dotgrid" style={{ opacity: 0.4 }} />
 
-      <ClosingLogo progress={logoT} />
-      <ClosingTagline progress={taglineT} />
+      <ClosingLogo />
+      <ClosingTagline />
 
-      {techCredits && <TechColumn time={localTime} duration={duration} />}
+      {techCredits && <TechColumn />}
 
-      <Particles count={26} localTime={localTime} seed={1337} />
+      <Particles count={26} seed={1337} />
       <div className="vignette" />
     </div>
   )
-}
+})
 
-function ClosingLogo({ progress }: { progress: number }) {
-  const eased = Easing.easeOutBack(progress)
-  const scale = 0.7 + eased * 0.3
+function ClosingLogo() {
+  const divRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const progress = clamp(lt / 0.7, 0, 1)
+    const eased = Easing.easeOutBack(progress)
+    const scale = 0.7 + eased * 0.3
+    if (!divRef.current) return
+    divRef.current.style.opacity = String(progress)
+    divRef.current.style.transform = `translate(-50%, -50%) scale(${scale})`
+  })
+
   return (
     <div
+      ref={divRef}
       style={{
         position: 'absolute',
         left: '50%',
         top: '46%',
-        transform: `translate(-50%, -50%) scale(${scale})`,
-        opacity: progress,
+        transform: 'translate(-50%, -50%) scale(0.7)',
+        opacity: 0,
         display: 'flex',
         alignItems: 'center',
         gap: 26,
@@ -98,17 +114,27 @@ function ClosingLogo({ progress }: { progress: number }) {
   )
 }
 
-function ClosingTagline({ progress }: { progress: number }) {
+function ClosingTagline() {
+  const divRef = React.useRef<HTMLDivElement>(null)
+
+  useSpriteEffect((lt) => {
+    const progress = clamp((lt - 0.5) / 0.6, 0, 1)
+    if (!divRef.current) return
+    divRef.current.style.opacity = String(progress)
+    divRef.current.style.transform = `translateY(${(1 - progress) * 12}px)`
+  })
+
   return (
     <div
+      ref={divRef}
       style={{
         position: 'absolute',
         left: 0,
         right: 0,
         top: '64%',
         textAlign: 'center',
-        opacity: progress,
-        transform: `translateY(${(1 - progress) * 12}px)`,
+        opacity: 0,
+        transform: 'translateY(12px)',
       }}
     >
       <div
@@ -139,13 +165,31 @@ function ClosingTagline({ progress }: { progress: number }) {
   )
 }
 
-function TechColumn({ time }: { time: number; duration: number }) {
-  const labels = [
-    { label: 'React 18 · TypeScript · Vite', start: 0.4 },
-    { label: 'Tailwind 4 · Zustand · React Query', start: 1.2 },
-    { label: 'Zod · React Hook Form · Framer Motion', start: 2.0 },
-    { label: 'Feature-Sliced Design · Credit Template', start: 2.8 },
-  ]
+const TECH_LABELS = [
+  { label: 'React 18 · TypeScript · Vite', start: 0.4 },
+  { label: 'Tailwind 4 · Zustand · React Query', start: 1.2 },
+  { label: 'Zod · React Hook Form · Framer Motion', start: 2.0 },
+  { label: 'Feature-Sliced Design · Credit Template', start: 2.8 },
+]
+
+function TechColumn() {
+  const r0 = React.useRef<HTMLDivElement>(null)
+  const r1 = React.useRef<HTMLDivElement>(null)
+  const r2 = React.useRef<HTMLDivElement>(null)
+  const r3 = React.useRef<HTMLDivElement>(null)
+  const refs = [r0, r1, r2, r3]
+
+  useSpriteEffect((time) => {
+    refs.forEach((ref, i) => {
+      if (!ref.current) return
+      const l = TECH_LABELS[i]
+      const entry = clamp((time - l.start) / 0.45, 0, 1)
+      const exit = clamp((time - (l.start + 1.8)) / 0.4, 0, 1)
+      const op = entry * (1 - exit)
+      ref.current.style.opacity = String(op)
+      ref.current.style.transform = `translateX(${(1 - entry) * -14}px)`
+    })
+  })
 
   return (
     <div
@@ -173,44 +217,39 @@ function TechColumn({ time }: { time: number; duration: number }) {
       >
         stack
       </div>
-      {labels.map((l, i) => {
-        const entry = clamp((time - l.start) / 0.45, 0, 1)
-        const exit = clamp((time - (l.start + 1.8)) / 0.4, 0, 1)
-        const op = entry * (1 - exit)
-        return (
+      {TECH_LABELS.map((l, i) => (
+        <div
+          key={i}
+          ref={refs[i]}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            opacity: 0,
+          }}
+        >
           <div
-            key={i}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 14,
-              opacity: op,
-              transform: `translateX(${(1 - entry) * -14}px)`,
+              width: 28,
+              height: 1,
+              background: '#818CF8',
+              boxShadow: '0 0 6px #818CF8',
+              flexShrink: 0,
+            }}
+          />
+          <div
+            style={{
+              fontFamily: 'var(--f-mono)',
+              fontSize: 14,
+              letterSpacing: '0.06em',
+              color: '#ECECEA',
+              lineHeight: 1.35,
             }}
           >
-            <div
-              style={{
-                width: 28,
-                height: 1,
-                background: '#818CF8',
-                boxShadow: '0 0 6px #818CF8',
-                flexShrink: 0,
-              }}
-            />
-            <div
-              style={{
-                fontFamily: 'var(--f-mono)',
-                fontSize: 14,
-                letterSpacing: '0.06em',
-                color: '#ECECEA',
-                lineHeight: 1.35,
-              }}
-            >
-              {l.label}
-            </div>
+            {l.label}
           </div>
-        )
-      })}
+        </div>
+      ))}
     </div>
   )
 }

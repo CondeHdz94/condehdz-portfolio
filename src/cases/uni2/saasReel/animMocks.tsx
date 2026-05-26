@@ -1,5 +1,5 @@
 import React from 'react'
-import { clamp } from '../../../components/animation'
+import { clamp, useSpriteEffect } from '../../../components/animation'
 
 // ── Brand mark ───────────────────────────────────────────────────────────────
 
@@ -104,19 +104,20 @@ export function mulberry32(seed: number) {
   }
 }
 
+// Particles draws imperatively via useSpriteEffect — no per-frame React re-renders.
 export function Particles({
   count = 24,
-  localTime = 0,
   seed = 8412,
   color = '#b0caff',
   glowColor = 'rgba(129,140,248,0.8)',
 }: {
   count?: number
-  localTime?: number
   seed?: number
   color?: string
   glowColor?: string
 }) {
+  const canvasRef = React.useRef<HTMLCanvasElement>(null)
+
   const particles = React.useMemo(() => {
     const rng = mulberry32(seed)
     return Array.from({ length: count }, () => ({
@@ -129,29 +130,45 @@ export function Particles({
     }))
   }, [count, seed])
 
+  useSpriteEffect((localTime) => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    const w = canvas.width
+    const h = canvas.height
+    ctx.clearRect(0, 0, w, h)
+    for (const p of particles) {
+      const y = ((p.baseY + Math.sin(localTime * p.speed + p.phase) * 4) % 100 + 100) % 100
+      const px = (p.x / 100) * w
+      const py = (y / 100) * h
+      ctx.beginPath()
+      ctx.arc(px, py, p.size * 3.5, 0, Math.PI * 2)
+      ctx.fillStyle = glowColor
+      ctx.globalAlpha = p.opacity * 0.22
+      ctx.fill()
+      ctx.beginPath()
+      ctx.arc(px, py, p.size, 0, Math.PI * 2)
+      ctx.fillStyle = color
+      ctx.globalAlpha = p.opacity
+      ctx.fill()
+    }
+    ctx.globalAlpha = 1
+  })
+
   return (
-    <>
-      {particles.map((p, i) => {
-        const y = (p.baseY + Math.sin(localTime * p.speed + p.phase) * 4) % 100
-        return (
-          <div
-            key={i}
-            style={{
-              position: 'absolute',
-              left: `${p.x}%`,
-              top: `${y}%`,
-              width: p.size,
-              height: p.size,
-              borderRadius: '50%',
-              background: color,
-              boxShadow: `0 0 ${p.size * 3}px ${glowColor}`,
-              opacity: p.opacity,
-              pointerEvents: 'none',
-            }}
-          />
-        )
-      })}
-    </>
+    <canvas
+      ref={canvasRef}
+      width={1920}
+      height={1080}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+      }}
+    />
   )
 }
 
