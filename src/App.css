@@ -300,7 +300,9 @@
   height: 100%;
 }
 
-.hero-blob-canvas  { z-index: 0; }
+.hero-blob-canvas  { z-index: 0; 
+  filter: blur(40px);
+}
 
 .hero-cc-wrap {
   position: absolute;

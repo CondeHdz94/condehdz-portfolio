@@ -306,17 +306,13 @@ export default function TJCase() {
 
       {/* Outcomes */}
       <CaseSection>
-        <CaseLabel num="05">Outcomes</CaseLabel>
-        <p className="case-body reveal reveal-delay-1">
-          40 operators on rebuilt web interfaces. 200 document types automated. Paper-based
-          signing replaced end-to-end. Batch migrations running unattended overnight — four
-          modernization tracks, delivered in parallel, across nearly three years.
-        </p>
-        <p className="case-body reveal reveal-delay-2">
-          The 40-year-old COBOL core: untouched, still processing, still running. No rewrite,
-          no migration, no business logic touched. Fresche Presto as a production modernization
-          path — validated at scale.
-        </p>
+        <CaseLabel num="05">What changed</CaseLabel>
+        <ul className="case-outcomes reveal reveal-delay-1">
+          <li>40 operators moved to rebuilt web interfaces — the 5250 green-screen replaced without touching the COBOL core underneath.</li>
+          <li>200 document types automated through a parametric PDF engine driven by AS/400 table config, not hardcoded templates.</li>
+          <li>Paper-based signing replaced end-to-end — TOPAZ LCD pads integrated directly into the Presto rendering layer.</li>
+          <li>Batch migrations running unattended overnight — four modernization tracks delivered in parallel across nearly three years, zero business logic rewritten.</li>
+        </ul>
       </CaseSection>
 
       {/* Footer */}

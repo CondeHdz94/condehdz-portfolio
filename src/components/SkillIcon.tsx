@@ -1,11 +1,11 @@
-import type { ReactNode, SVGProps } from 'react'
+import type { ReactNode } from 'react'
 
-const s: SVGProps<SVGElement> = {
+const s = {
   fill: 'none',
   stroke: 'currentColor',
   strokeWidth: 1.35,
-  strokeLinecap: 'round',
-  strokeLinejoin: 'round',
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
 }
 
 interface MarkProps {
