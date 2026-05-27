@@ -575,7 +575,7 @@
   .case-nav       { height: var(--nav-height-mobile); padding: 0 24px; }
   .case-nav-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .case-section   { padding: 0 24px; }
-  .case-hero      { padding-bottom: 64px; }
+  .case-hero      { align-items: center; padding-top: calc(var(--nav-height-mobile) + 48px); padding-bottom: 80px; }
   .case-hero-inner { padding: 0 24px; }
   .case-footer    { padding: 40px 24px 72px; }
 
