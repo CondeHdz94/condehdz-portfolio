@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
 import { SceneAS400toPDF, SchemaAS400 } from './scenesCase02'
@@ -31,6 +31,8 @@ export default function TJCase() {
   const [toggleAnim, setToggleAnim] = useState(false)
   const [activeCaseIdx, setActiveCaseIdx] = useState(0)
   const caseRatios = useRef<number[]>([0, 0, 0, 0])
+  const navigate = useNavigate()
+  const handleBack = () => window.history.length > 1 ? navigate(-1) : navigate('/', { viewTransition: true })
   useLenis()
   useScrollReveal()
   useBloomFollow()
@@ -77,7 +79,7 @@ export default function TJCase() {
 
       {/* Nav */}
       <header className="case-nav">
-        <Link to="/" viewTransition className="case-nav-back">← Camilo Conde</Link>
+        <button onClick={handleBack} className="case-nav-back">← Camilo Conde</button>
         <span className="case-nav-title">Taylor &amp; Johnson · 2018–2021</span>
         <button
           className="theme-toggle"

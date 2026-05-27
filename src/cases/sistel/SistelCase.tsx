@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
@@ -75,6 +75,8 @@ export default function SistelCase() {
   const [toggleAnim, setToggleAnim] = useState(false)
   const [paletteIdx, setPaletteIdx] = useState(0)
   const [guide, setGuide] = useState<GuideStyle>('geometric')
+  const navigate = useNavigate()
+  const handleBack = () => window.history.length > 1 ? navigate(-1) : navigate('/', { viewTransition: true })
   useLenis()
   useScrollReveal()
   useBloomFollow()
@@ -102,7 +104,7 @@ export default function SistelCase() {
 
       {/* Nav */}
       <header className="case-nav">
-        <Link to="/" viewTransition className="case-nav-back">← Camilo Conde</Link>
+        <button onClick={handleBack} className="case-nav-back">← Camilo Conde</button>
         <span className="case-nav-title">Sistel · 2017–2018</span>
         <button
           className="theme-toggle"

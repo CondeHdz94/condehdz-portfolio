@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
@@ -31,6 +31,8 @@ export default function Uni2Case() {
   const [toggleAnim, setToggleAnim] = useState(false)
   const [activePlatformIdx, setActivePlatformIdx] = useState(0)
   const platformRatios = useRef<number[]>([0, 0, 0])
+  const navigate = useNavigate()
+  const handleBack = () => window.history.length > 1 ? navigate(-1) : navigate('/', { viewTransition: true })
   useLenis()
   useScrollReveal()
   useBloomFollow()
@@ -77,7 +79,7 @@ export default function Uni2Case() {
 
       {/* Nav */}
       <header className="case-nav">
-        <Link to="/" viewTransition className="case-nav-back">← Camilo Conde</Link>
+        <button onClick={handleBack} className="case-nav-back">← Camilo Conde</button>
         <span className="case-nav-title">UNI2 · 2021 – Present</span>
         <button
           className="theme-toggle"
