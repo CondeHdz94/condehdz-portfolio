@@ -38,37 +38,34 @@ const PILL_SECTIONS = [
 ] as const
 
 function useSectionColor() {
-  const ratios = useRef<Map<string, number>>(new Map())
   const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const id = entry.target.getAttribute('data-section')!
-          ratios.current.set(id, entry.intersectionRatio)
-        })
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-section]'))
 
-        let maxRatio = 0
-        let active = 'hero'
-        ratios.current.forEach((ratio, id) => {
-          if (ratio > maxRatio) {
-            maxRatio = ratio
-            active = id
-          }
-        })
+    const update = () => {
+      const centerY = window.scrollY + window.innerHeight * 0.35
+      let active = 'hero'
 
-        document.documentElement.style.setProperty(
-          '--accent',
-          active === 'hero' ? 'var(--accent-neutral)' : SECTION_COLORS[active]
-        )
-        setActiveSection(active)
-      },
-      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
-    )
+      for (const el of sections) {
+        const top = el.offsetTop
+        const bottom = top + el.offsetHeight
+        if (centerY >= top && centerY < bottom) {
+          active = el.dataset.section!
+          break
+        }
+      }
 
-    document.querySelectorAll('[data-section]').forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+      document.documentElement.style.setProperty(
+        '--accent',
+        active === 'hero' ? 'var(--accent-neutral)' : SECTION_COLORS[active]
+      )
+      setActiveSection(active)
+    }
+
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+    return () => window.removeEventListener('scroll', update)
   }, [])
 
   return activeSection
