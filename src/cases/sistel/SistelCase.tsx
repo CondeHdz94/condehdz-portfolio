@@ -4,6 +4,7 @@ import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { useBloomFollow } from '../../hooks/useBloomFollow'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import { SceneSistel, type GuideStyle } from './sceneSistel'
 import './SistelCase.css'
@@ -76,6 +77,7 @@ export default function SistelCase() {
   const [guide, setGuide] = useState<GuideStyle>('geometric')
   useLenis()
   useScrollReveal()
+  useBloomFollow()
 
   const handleThemeToggle = () => {
     toggleDark()
@@ -93,6 +95,10 @@ export default function SistelCase() {
     <div className="case-page case-page--sistel">
 
       <a href="#case-main" className="case-skip-link">Skip to content</a>
+
+      <div className="ambient-bloom" aria-hidden="true">
+        <div className="ambient-bloom-glow" />
+      </div>
 
       {/* Nav */}
       <header className="case-nav">

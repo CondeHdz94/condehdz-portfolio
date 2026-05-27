@@ -11,10 +11,49 @@
   --case-accent-border: rgba(22, 101, 52, 0.25);
   --case-accent-bg:     rgba(22, 101, 52, 0.06);
 
+  /* Bridge: bloom uses var(--accent), cases use var(--case-accent) */
+  --accent: var(--case-accent);
+
   background-color: var(--case-bg);
   color: var(--case-text);
   font-family: 'Epilogue', system-ui, sans-serif;
   min-height: 100svh;
+}
+
+/* ─── Ambient bloom (cases) ───────────────────────────── */
+
+.case-page .ambient-bloom {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.case-page .ambient-bloom-glow {
+  position: absolute;
+  width: 44vmin;
+  height: 44vmin;
+  border-radius: 50%;
+  left: 0;
+  top: 0;
+  transform: translate(calc(var(--bloom-x, 65vw) - 50%), calc(var(--bloom-y, 36vh) - 50%));
+  background-color: var(--accent);
+  opacity: 0.09;
+  filter: blur(80px);
+  transition: background-color 0.8s ease;
+  will-change: transform;
+}
+
+.dark .case-page .ambient-bloom-glow {
+  opacity: 0.06;
+}
+
+@media (hover: none) {
+  .case-page .ambient-bloom-glow {
+    transform: translate(calc(50vw - 50%), calc(30vh - 50%));
+    opacity: 0.12;
+  }
+  .dark .case-page .ambient-bloom-glow { opacity: 0.09; }
 }
 
 .dark .case-page {

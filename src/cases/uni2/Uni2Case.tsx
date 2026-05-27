@@ -4,6 +4,7 @@ import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { useBloomFollow } from '../../hooks/useBloomFollow'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import { Uni2SaaSReel } from './saasReel/Uni2SaaSReel'
 import './Uni2Case.css'
@@ -32,6 +33,7 @@ export default function Uni2Case() {
   const platformRatios = useRef<number[]>([0, 0, 0])
   useLenis()
   useScrollReveal()
+  useBloomFollow()
 
   const handleThemeToggle = () => {
     toggleDark()
@@ -68,6 +70,10 @@ export default function Uni2Case() {
     <div className="case-page case-page--uni2">
 
       <a href="#case-main" className="case-skip-link">Skip to content</a>
+
+      <div className="ambient-bloom" aria-hidden="true">
+        <div className="ambient-bloom-glow" />
+      </div>
 
       {/* Nav */}
       <header className="case-nav">
