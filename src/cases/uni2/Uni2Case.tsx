@@ -100,10 +100,8 @@ export default function Uni2Case() {
             Banking software for thirty roles, built from the frontend.
           </h1>
           <p className="case-subhead reveal reveal-delay-2">
-            Four-plus years shipping on the frontend of a live banking core — then a clean start:
-            architecting Uni2Lite from the first commit as sole frontend engineer,
-            building not just a credit platform but a composable engine to assemble
-            any credit process from configuration, not code.
+            Four years on a live banking core. Then a clean start: architecting a composable engine
+            where any credit process assembles from configuration, not code.
           </p>
         </div>
       </section>
