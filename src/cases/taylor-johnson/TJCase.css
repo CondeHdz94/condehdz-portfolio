@@ -56,14 +56,14 @@
   .dark .case-page .ambient-bloom-glow { opacity: 0.09; }
 }
 
-.dark .case-page {
+/* ── Taylor & Johnson modifier — dark accent ── */
+.case-page--tj {}
+
+.dark .case-page--tj {
   --case-accent:        #4ADE80;
   --case-accent-border: rgba(74, 222, 128, 0.3);
   --case-accent-bg:     rgba(74, 222, 128, 0.05);
 }
-
-/* ── Taylor & Johnson modifier (hook for TJ-specific overrides) ── */
-.case-page--tj {}
 
 /* ─── Skip link ───────────────────────────────────────── */
 
