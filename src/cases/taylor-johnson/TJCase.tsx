@@ -313,6 +313,9 @@ export default function TJCase() {
           <li>Paper-based signing replaced end-to-end — TOPAZ LCD pads integrated directly into the Presto rendering layer.</li>
           <li>Batch migrations running unattended overnight — four modernization tracks delivered in parallel across nearly three years, zero business logic rewritten.</li>
         </ul>
+        <p className="case-body reveal reveal-delay-2">
+          The 40-year-old COBOL core: untouched, still processing, still running. No rewrite, no migration, no business logic touched.
+        </p>
       </CaseSection>
 
       {/* Footer */}

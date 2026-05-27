@@ -358,6 +358,9 @@ export default function Uni2Case() {
           <li>Downstream rejection rates from the banking core reduced — the Zod + RHF validation layer catches field schema mismatches at input, before they reach the core.</li>
           <li>Frontend onboarding measurably faster — Feature-Sliced Design's explicit, unidirectional boundaries mean a new contributor can navigate the codebase without implicit coupling to trace.</li>
         </ul>
+        <p className="case-body reveal reveal-delay-2">
+          This isn't a form wizard. It's a process orchestrator — multi-step, stateful, compliant, integrated against a real banking core.
+        </p>
       </CaseSection>
 
       {/* Footer */}

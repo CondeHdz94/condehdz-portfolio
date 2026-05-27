@@ -222,6 +222,10 @@
   margin-top: 20px;
 }
 
+.case-outcomes + .case-body {
+  margin-top: 32px;
+}
+
 .case-meta-block {
   display: flex;
   flex-direction: column;

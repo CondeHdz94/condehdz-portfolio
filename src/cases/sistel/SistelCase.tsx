@@ -276,6 +276,9 @@ export default function SistelCase() {
           <li>Every module built from scratch per client: palette, character system, and interaction language aligned to brand guidelines, not adapted from a shared template.</li>
           <li>Topics covered across engagements: occupational health, information security, product launches, corporate onboarding, and retail ergonomics — each requiring domain-specific interaction design, not a reused course shell.</li>
         </ul>
+        <p className="case-body reveal reveal-delay-2">
+          Each engagement built around a specific brand, domain, and learning goal — not adapted from a shared template.
+        </p>
       </CaseSection>
 
       {/* Footer */}
