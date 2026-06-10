@@ -143,7 +143,6 @@
 
 .case-nav-back:hover {
   color: var(--case-text);
-  transform: translateX(-4px);
 }
 
 .case-nav-title {
@@ -347,7 +346,7 @@
   border: 1px solid var(--case-border);
   background: transparent;
   color: var(--case-muted);
-  transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease;
+  transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease, transform 0.15s ease;
 }
 
 .case-scene-btn.is-active,
@@ -456,7 +455,6 @@
 .case-skill-tag:hover {
   color: var(--case-accent);
   border-color: var(--case-accent-border);
-  transform: translateY(-2px);
 }
 
 /* ─── Footer ──────────────────────────────────────────── */
@@ -484,14 +482,9 @@
   transition: color 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.case-footer-nav-link--prev:hover {
-  color: var(--case-text);
-  transform: translateX(-4px);
-}
-
+.case-footer-nav-link--prev:hover,
 .case-footer-nav-link--next:hover {
   color: var(--case-text);
-  transform: translateX(4px);
 }
 
 /* ─── Touch active states ─────────────────────────────── */
@@ -512,6 +505,21 @@
   .case-footer-nav-link:active {
     color: var(--case-text);
   }
+}
+
+/* ─── Hover-capable devices: transforms + press feedback ─ */
+
+@media (hover: hover) and (pointer: fine) {
+  .case-nav-back:hover             { transform: translateX(-4px); }
+  .case-nav-back:active            { transform: scale(0.97); }
+
+  .case-skill-tag:hover            { transform: translateY(-2px); }
+
+  .case-scene-btn:active           { transform: scale(0.97); }
+
+  .case-footer-nav-link--prev:hover { transform: translateX(-4px); }
+  .case-footer-nav-link--next:hover { transform: translateX(4px); }
+  .case-footer-nav-link:active      { transform: scale(0.97); }
 }
 
 /* ─── Cases region (sticky sidebar) ──────────────────── */
