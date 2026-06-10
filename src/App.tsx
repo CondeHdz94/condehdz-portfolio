@@ -291,7 +291,7 @@ export default function App() {
           </h2>
           <div className="about-grid">
             <blockquote className="about-quote reveal">
-              "The best way to face challenges is with an open mind and an insatiable curiosity."
+              "The best interfaces come from being curious about the problem before being clever about the solution."
             </blockquote>
             <div className="about-text">
               <p className="reveal reveal-delay-1">
