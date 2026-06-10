@@ -76,7 +76,7 @@ export default function SistelCase() {
   const [paletteIdx, setPaletteIdx] = useState(0)
   const [guide, setGuide] = useState<GuideStyle>('geometric')
   const navigate = useNavigate()
-  const handleBack = () => window.history.length > 1 ? navigate(-1) : navigate('/', { viewTransition: true })
+  const handleBack = () => navigate('/', { viewTransition: true })
   useLenis()
   useScrollReveal()
   useBloomFollow()

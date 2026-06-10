@@ -32,7 +32,7 @@ export default function Uni2Case() {
   const [activePlatformIdx, setActivePlatformIdx] = useState(0)
   const platformRatios = useRef<number[]>([0, 0, 0])
   const navigate = useNavigate()
-  const handleBack = () => window.history.length > 1 ? navigate(-1) : navigate('/', { viewTransition: true })
+  const handleBack = () => navigate('/', { viewTransition: true })
   useLenis()
   useScrollReveal()
   useBloomFollow()
