@@ -154,6 +154,14 @@ export default function App() {
   }
 
   useEffect(() => {
+    const saved = sessionStorage.getItem('home-scroll')
+    if (saved) {
+      window.scrollTo({ top: parseInt(saved, 10), behavior: 'instant' })
+      sessionStorage.removeItem('home-scroll')
+    }
+  }, [])
+
+  useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -331,7 +339,7 @@ export default function App() {
                 <p className="timeline-tags">{tags.join(' · ')}</p>
                 <p className="timeline-desc">{desc}</p>
                 {caseStudy && (
-                  <Link to={caseStudy.href} viewTransition className="timeline-case-card">
+                  <Link to={caseStudy.href} viewTransition className="timeline-case-card" onClick={() => sessionStorage.setItem('home-scroll', String(window.scrollY))}>
                     <div className="timeline-case-card-body">
                       <div className="timeline-case-card-top">
                         <span className="timeline-case-label">Case study</span>
