@@ -31,11 +31,12 @@ export function SkillsLedger() {
 
             <div className="ledger-body">
               <div className="ledger-chips">
-                {group.items.map(skill => (
+                {group.items.map((skill, si) => (
                   <span
                     key={skill.id}
                     className="ledger-chip"
                     data-tier={skill.tier}
+                    style={{ animationDelay: `${150 + si * 35}ms` }}
                     onMouseEnter={() => setHoveredId(skill.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >

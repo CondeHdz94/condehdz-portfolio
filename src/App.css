@@ -190,7 +190,7 @@
 @media (prefers-reduced-motion: no-preference) {
   @keyframes toggle-switch {
     0%   { transform: scale(1)   rotate(0deg); }
-    45%  { transform: scale(0.4) rotate(180deg); }
+    45%  { transform: scale(0.6) rotate(180deg); }
     100% { transform: scale(1)   rotate(360deg); }
   }
 
@@ -438,13 +438,16 @@
   letter-spacing: 0.04em;
   line-height: 1;
   color: var(--text);
-  transition: border-color 0.4s ease, color 0.4s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-link:hover {
   border-color: var(--text-strong);
   color: var(--text-strong);
-  transform: translateY(-2px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-link:hover { transform: translateY(-2px); }
 }
 
 .hero-link--primary {
@@ -484,7 +487,7 @@
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: var(--text-muted);
@@ -492,9 +495,9 @@
 }
 
 @keyframes scroll-slide {
-  0%   { left: -100%; }
-  50%  { left: 0%; }
-  100% { left: 100%; }
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
 }
 
 /* ─── About ───────────────────────────────────────────── */
@@ -559,7 +562,10 @@
 
 .timeline-item:hover .timeline-company {
   color: var(--accent);
-  transform: translateX(6px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .timeline-item:hover .timeline-company { transform: translateX(6px); }
 }
 
 .timeline-num {
@@ -638,6 +644,10 @@
 .timeline-case-card:hover {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .timeline-case-card:hover { transform: translateY(-1px); }
 }
 
 .timeline-case-card-body {
@@ -761,6 +771,25 @@
   gap: 6px;
 }
 
+@keyframes chip-in {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+.ledger-group .ledger-chip {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.ledger-group.is-visible .ledger-chip {
+  animation: chip-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ledger-group .ledger-chip        { opacity: 1; transform: none; }
+  .ledger-group.is-visible .ledger-chip { animation: none; }
+}
+
 .ledger-chip {
   display: inline-flex;
   align-items: center;
@@ -799,8 +828,11 @@
 .ledger-chip:hover {
   border-color: var(--accent);
   color: var(--accent);
-  transform: translateY(-2px);
   border-style: solid;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ledger-chip:hover { transform: translateY(-2px); }
 }
 
 .ledger-chip:hover .skill-icon {
@@ -835,11 +867,13 @@
   font-size: var(--text-secondary);
   color: var(--text-muted);
   opacity: 1;
-  transition: opacity 0.2s ease;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ledger-note-slot.is-idle {
   opacity: 0;
+  transform: translateY(4px);
   pointer-events: none;
 }
 
@@ -903,7 +937,7 @@
   background-color: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .contact-link:hover {
@@ -930,7 +964,10 @@
 
 .social-link:hover {
   color: var(--accent);
-  transform: translateY(-2px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .social-link:hover { transform: translateY(-2px); }
 }
 
 /* ─── Floating pill — mobile nav ─────────────────────── */
@@ -1097,6 +1134,23 @@
   .contact-link:active::after        { transform: scaleX(1); }
   .social-link:active       { color: var(--accent); }
   .timeline-case-card:active { border-color: var(--accent); }
+  .ledger-chip:active        { border-color: var(--accent); color: var(--accent); }
+}
+
+/* ─── Desktop active states ───────────────────────────── */
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-link:active,
+  .theme-toggle:active,
+  .timeline-case-card:active,
+  .pill-trigger:active,
+  .pill-item:active,
+  .nav-logo:active,
+  .contact-link:active,
+  .social-link:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+  }
 }
 
 /* Scroll-driven hover — mirrors desktop hover, triggered by scroll center */
