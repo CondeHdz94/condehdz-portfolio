@@ -261,8 +261,7 @@ export default function App() {
           <p className="hero-title">Design Engineer</p>
           <p className="hero-bio">
             I build the parts of a frontend that other people don't want to:{' '}
-            <strong>form engines, table abstractions, design systems that survive their second team.</strong>{' '}
-            Currently architecting Uni2 Lite's credit-application flow.
+            <strong>form engines, table abstractions, design systems that survive their second team.</strong>
           </p>
           <div className="hero-links">
             {HERO_LINKS.map((link) => (
