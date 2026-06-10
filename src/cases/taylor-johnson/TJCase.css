@@ -57,7 +57,6 @@
 }
 
 /* ── Taylor & Johnson modifier — dark accent ── */
-.case-page--tj {}
 
 .dark .case-page--tj {
   --case-accent:        #4ADE80;

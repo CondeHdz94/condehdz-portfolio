@@ -58,59 +58,6 @@
   color: var(--case-muted);
 }
 
-/* ─── Library migration table ─────────────────────────── */
-
-.uni2-lib-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid var(--case-border);
-  border-radius: 4px;
-  overflow: hidden;
-  margin: 40px 0;
-}
-
-.uni2-lib-table thead th {
-  padding: 10px 16px;
-  text-align: left;
-  font-size: var(--text-micro);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--case-muted);
-  background: var(--case-surface);
-  border-bottom: 1px solid var(--case-border);
-}
-
-.uni2-lib-table tbody td {
-  padding: 13px 16px;
-  font-size: var(--text-sm);
-  color: var(--case-muted);
-  border-bottom: 1px solid var(--case-border);
-  vertical-align: top;
-  line-height: 1.6;
-}
-
-.uni2-lib-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.uni2-lib-table td:first-child {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: var(--text-xs);
-  color: var(--case-text);
-  white-space: nowrap;
-  font-weight: 500;
-}
-
-.uni2-lib-table td:nth-child(2) {
-  font-weight: 500;
-  white-space: nowrap;
-  color: var(--case-muted);
-}
-
-.uni2-lib-table [data-action="removed"] td:nth-child(2)  { color: #EF4444; }
-.uni2-lib-table [data-action="migrated"] td:nth-child(2) { color: var(--case-accent); }
-.uni2-lib-table [data-action="updated"] td:nth-child(2)  { color: var(--case-muted); }
 
 /* ─── Feature-Sliced Design layers ───────────────────── */
 
