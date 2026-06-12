@@ -57,9 +57,11 @@ function useSectionColor() {
         }
       }
 
+      const color = active === 'hero' ? 'var(--accent-neutral)' : SECTION_COLORS[active]
+      document.documentElement.style.setProperty('--accent', color)
       document.documentElement.style.setProperty(
-        '--accent',
-        active === 'hero' ? 'var(--accent-neutral)' : SECTION_COLORS[active]
+        '--bloom-color',
+        active === 'hero' ? 'var(--bloom-neutral)' : color
       )
       setActiveSection(active)
     }

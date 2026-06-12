@@ -22,7 +22,7 @@
   left: 0;
   top: 0;
   transform: translate(calc(var(--bloom-x, 65vw) - 50%), calc(var(--bloom-y, 36vh) - 50%));
-  background-color: var(--accent);
+  background-color: var(--bloom-color, var(--accent));
   opacity: 0.22;
   filter: blur(80px);
   transition: background-color 0.8s ease;
