@@ -202,13 +202,15 @@ export default function App() {
           className="pill-trigger"
           onClick={() => setPillOpen(o => !o)}
           aria-expanded={pillOpen}
+          aria-haspopup="true"
+          aria-controls="pill-menu"
           aria-label="Navigate to section"
         >
           <span className="pill-dot" />
           <span className="pill-name">{SECTION_LABELS[activeSection]}</span>
           <span className="pill-chevron" aria-hidden="true">▲</span>
         </button>
-        <nav className={`pill-menu${pillOpen ? ' is-open' : ''}`} aria-label="Page sections">
+        <nav id="pill-menu" className={`pill-menu${pillOpen ? ' is-open' : ''}`} aria-label="Page sections">
           <ul role="list">
             {PILL_SECTIONS.map(({ key, label }) => (
               <li key={key}>

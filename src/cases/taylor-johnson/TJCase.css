@@ -421,8 +421,10 @@
 
 .case-outcome-line {
   margin-top: 24px;
-  padding: 13px 18px 13px 16px;
-  border-left: 2px solid var(--case-accent-border);
+  padding: 12px 16px;
+  border: 1px solid var(--case-accent-border);
+  border-radius: 4px;
+  background: var(--case-accent-bg);
   font-size: var(--text-xs);
   line-height: 1.65;
   color: var(--case-muted);

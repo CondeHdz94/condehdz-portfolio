@@ -3,9 +3,9 @@ import { CATEGORIES, SKILLS } from '../content/skills'
 import { SkillIcon } from './SkillIcon'
 
 export function SkillsLedger() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [activeId, setActiveId] = useState<string | null>(null)
 
-  const hoveredSkill = hoveredId ? (SKILLS.find(s => s.id === hoveredId) ?? null) : null
+  const hoveredSkill = activeId ? (SKILLS.find(s => s.id === activeId) ?? null) : null
 
   const grouped = CATEGORIES.map((cat, i) => ({
     ...cat,
@@ -32,22 +32,30 @@ export function SkillsLedger() {
             <div className="ledger-body">
               <div className="ledger-chips">
                 {group.items.map((skill, si) => (
-                  <span
+                  <button
                     key={skill.id}
+                    type="button"
                     className="ledger-chip"
                     data-tier={skill.tier}
                     style={{ animationDelay: `${150 + si * 35}ms` }}
-                    onMouseEnter={() => setHoveredId(skill.id)}
-                    onMouseLeave={() => setHoveredId(null)}
+                    aria-label={`${skill.name}, ${skill.years} años`}
+                    onMouseEnter={() => setActiveId(skill.id)}
+                    onMouseLeave={() => setActiveId(null)}
+                    onFocus={() => setActiveId(skill.id)}
+                    onBlur={() => setActiveId(null)}
                   >
                     <SkillIcon name={skill.icon} size={14} />
                     <span>{skill.name}</span>
                     <span className="ledger-chip-years">{skill.years}y</span>
-                  </span>
+                  </button>
                 ))}
               </div>
 
-              <div className={`ledger-note-slot${activeNote ? '' : ' is-idle'}`}>
+              <div
+                className={`ledger-note-slot${activeNote ? '' : ' is-idle'}`}
+                aria-live="polite"
+                aria-atomic="true"
+              >
                 {activeNote && (
                   <>
                     <span className="ledger-note-name">{activeNote.name}</span>
