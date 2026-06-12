@@ -27,6 +27,7 @@
   --accent: #9E9891;
   --accent-neutral: #9E9891;
   --bloom-neutral: #9E9891;
+  --bloom-color: #9E9891;
 
   --nav-height: 74px;
   --nav-height-mobile: 66px;
@@ -74,6 +75,7 @@
   --accent: #C8C3BC;
   --accent-neutral: #C8C3BC;
   --bloom-neutral: #1A1715;
+  --bloom-color: #1A1715;
 
   --color-about:      #D97706;
   --color-experience: #60A5FA;
