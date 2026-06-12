@@ -126,6 +126,10 @@
   opacity: 0.65;
 }
 
+.dark .nav-logo:hover {
+  opacity: 1;
+}
+
 .nav-links {
   display: flex;
   gap: 28px;
