@@ -1068,10 +1068,12 @@
   padding: 6px;
   min-width: 176px;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transition:
     opacity 0.2s ease,
-    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s 0.2s;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -1082,8 +1084,13 @@
 
 .pill-menu.is-open {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: translateX(-50%) translateY(0) scale(1);
+  transition:
+    opacity 0.2s ease,
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s;
 }
 
 .pill-item {
