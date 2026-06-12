@@ -1,6 +1,7 @@
 import { StrictMode, useEffect, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { LangProvider } from './i18n/LangContext'
 import './index.css'
 import App from './App.tsx'
 
@@ -16,14 +17,16 @@ function ScrollToTop() {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/case/uni2" element={<Suspense fallback={null}><Uni2Case /></Suspense>} />
-        <Route path="/case/taylor-johnson" element={<Suspense fallback={null}><TJCase /></Suspense>} />
-        <Route path="/case/sistel" element={<Suspense fallback={null}><SistelCase /></Suspense>} />
-      </Routes>
-    </BrowserRouter>
+    <LangProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/case/uni2" element={<Suspense fallback={null}><Uni2Case /></Suspense>} />
+          <Route path="/case/taylor-johnson" element={<Suspense fallback={null}><TJCase /></Suspense>} />
+          <Route path="/case/sistel" element={<Suspense fallback={null}><SistelCase /></Suspense>} />
+        </Routes>
+      </BrowserRouter>
+    </LangProvider>
   </StrictMode>,
 )

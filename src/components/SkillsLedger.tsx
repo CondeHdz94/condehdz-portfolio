@@ -1,16 +1,20 @@
 import { useState } from 'react'
 import { CATEGORIES, SKILLS } from '../content/skills'
 import { SkillIcon } from './SkillIcon'
+import { useLang } from '../i18n/LangContext'
 
 export function SkillsLedger() {
   const [activeId, setActiveId] = useState<string | null>(null)
+  const { t } = useLang()
 
   const hoveredSkill = activeId ? (SKILLS.find(s => s.id === activeId) ?? null) : null
 
   const grouped = CATEGORIES.map((cat, i) => ({
     ...cat,
-    num: String(i + 1).padStart(2, '0'),
+    num:   String(i + 1).padStart(2, '0'),
     items: SKILLS.filter(s => s.cat === cat.id),
+    title: t.skills.categories[cat.id].title,
+    hint:  t.skills.categories[cat.id].hint,
   }))
 
   return (
@@ -38,7 +42,7 @@ export function SkillsLedger() {
                     className="ledger-chip"
                     data-tier={skill.tier}
                     style={{ animationDelay: `${150 + si * 35}ms` }}
-                    aria-label={`${skill.name}, ${skill.years} años`}
+                    aria-label={`${skill.name}, ${skill.years} ${t.skills.yearsLabel}`}
                     onMouseEnter={() => setActiveId(skill.id)}
                     onMouseLeave={() => setActiveId(null)}
                     onFocus={() => setActiveId(skill.id)}
@@ -60,7 +64,7 @@ export function SkillsLedger() {
                   <>
                     <span className="ledger-note-name">{activeNote.name}</span>
                     <span className="ledger-note-sep">·</span>
-                    <span className="ledger-note-text">{activeNote.note}</span>
+                    <span className="ledger-note-text">{t.skills.notes[activeNote.id]}</span>
                   </>
                 )}
               </div>

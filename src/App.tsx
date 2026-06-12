@@ -5,6 +5,7 @@ import { useLenis } from './hooks/useLenis'
 import { useScrollReveal } from './hooks/useScrollReveal'
 import { useHeroBlobs } from './hooks/useHeroBlobs'
 import { useBloomFollow } from './hooks/useBloomFollow'
+import { useLang } from './i18n/LangContext'
 import { EXPERIENCE } from './content/experience'
 import { SkillsLedger } from './components/SkillsLedger'
 import { HERO_LINKS, CONTACT_LINKS, SOCIAL_LINKS } from './content/contact'
@@ -17,10 +18,7 @@ const SECTION_COLORS: Record<string, string> = {
   contact:    'var(--color-contact)',
 }
 
-const SECTION_LABELS: Record<string, string> = {
-  hero: 'top', about: 'about', experience: 'experience',
-  skills: 'skills', contact: 'contact',
-}
+const PILL_KEYS = ['hero', 'about', 'experience', 'skills', 'contact'] as const
 
 const PILL_COLORS: Record<string, string> = {
   hero:       'var(--accent-neutral)',
@@ -29,14 +27,6 @@ const PILL_COLORS: Record<string, string> = {
   skills:     'var(--color-skills)',
   contact:    'var(--color-contact)',
 }
-
-const PILL_SECTIONS = [
-  { key: 'hero',       label: 'Top'        },
-  { key: 'about',      label: 'About'      },
-  { key: 'experience', label: 'Experience' },
-  { key: 'skills',     label: 'Skills'     },
-  { key: 'contact',    label: 'Contact'    },
-] as const
 
 function useSectionColor() {
   const [activeSection, setActiveSection] = useState('hero')
@@ -49,7 +39,7 @@ function useSectionColor() {
       let active = 'hero'
 
       for (const el of sections) {
-        const top = el.offsetTop
+        const top    = el.offsetTop
         const bottom = top + el.offsetHeight
         if (centerY >= top && centerY < bottom) {
           active = el.dataset.section!
@@ -85,7 +75,7 @@ function useMobileScrollActive() {
 
     const update = () => {
       const viewCenter = window.innerHeight / 2
-      const threshold = window.innerHeight * 0.55
+      const threshold  = window.innerHeight * 0.55
 
       groups.forEach(items => {
         if (!items.length) return
@@ -132,10 +122,11 @@ function useParallax() {
 
 export default function App() {
   const { toggle: toggleDark } = useDarkMode()
-  const [scrolled, setScrolled] = useState(false)
-  const [toggleAnim, setToggleAnim] = useState(false)
-  const [pillOpen, setPillOpen] = useState(false)
-  const pillRef = useRef<HTMLDivElement>(null)
+  const { lang, toggle: toggleLang, t } = useLang()
+  const [scrolled, setScrolled]       = useState(false)
+  const [toggleAnim, setToggleAnim]   = useState(false)
+  const [pillOpen, setPillOpen]       = useState(false)
+  const pillRef        = useRef<HTMLDivElement>(null)
   const pillTriggerRef = useRef<HTMLButtonElement>(null)
   const blobRef  = useRef<HTMLCanvasElement>(null)
   const glassRef = useRef<HTMLCanvasElement>(null)
@@ -189,10 +180,12 @@ export default function App() {
     }
   }, [])
 
+  const NAV_SECTIONS = ['about', 'experience', 'skills', 'contact'] as const
+
   return (
     <div className="app">
 
-      <a href="#main" className="skip-link">Skip to content</a>
+      <a href="#main" className="skip-link">{t.nav.skipLink}</a>
 
       <div className="ambient-bloom" aria-hidden="true">
         <div className="ambient-bloom-glow" />
@@ -206,15 +199,15 @@ export default function App() {
           aria-expanded={pillOpen}
           aria-haspopup="true"
           aria-controls="pill-menu"
-          aria-label="Navigate to section"
+          aria-label={t.nav.ariaLabel}
         >
           <span className="pill-dot" />
-          <span className="pill-name">{SECTION_LABELS[activeSection]}</span>
+          <span className="pill-name">{t.nav.sectionLabel[activeSection]}</span>
           <span className="pill-chevron" aria-hidden="true">▲</span>
         </button>
-        <nav id="pill-menu" className={`pill-menu${pillOpen ? ' is-open' : ''}`} aria-label="Page sections">
+        <nav id="pill-menu" className={`pill-menu${pillOpen ? ' is-open' : ''}`} aria-label={t.nav.ariaLabel}>
           <ul role="list">
-            {PILL_SECTIONS.map(({ key, label }) => (
+            {PILL_KEYS.map((key) => (
               <li key={key}>
                 <a
                   href={key === 'hero' ? '#' : `#${key}`}
@@ -222,7 +215,7 @@ export default function App() {
                   onClick={() => setPillOpen(false)}
                 >
                   <span className="pill-item-dot" style={{ background: PILL_COLORS[key] }} />
-                  <span className="pill-item-label">{label}</span>
+                  <span className="pill-item-label">{t.nav.pillLabel[key]}</span>
                 </a>
               </li>
             ))}
@@ -231,23 +224,32 @@ export default function App() {
       </div>
 
       <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
-        <a href="#" className="nav-logo" aria-label="Back to top">CC</a>
-        <nav className="nav-links" aria-label="Page sections">
-          {(['about', 'experience', 'skills', 'contact'] as const).map((s) => (
+        <a href="#" className="nav-logo" aria-label={t.nav.backToTop}>CC</a>
+        <nav className="nav-links" aria-label={t.nav.ariaLabel}>
+          {NAV_SECTIONS.map((s) => (
             <a key={s} href={`#${s}`} className={`nav-link${activeSection === s ? ' is-active' : ''}`}>
-              {s}
+              {t.nav[s]}
             </a>
           ))}
         </nav>
-        <button
-          className="theme-toggle"
-          onClick={handleThemeToggle}
-          aria-label="Toggle dark mode"
-        >
-          <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">
-            ●
-          </span>
-        </button>
+        <div className="nav-actions">
+          <button
+            className="lang-toggle"
+            onClick={toggleLang}
+            aria-label={t.nav.toggleLang}
+          >
+            {lang === 'en' ? 'ES' : 'EN'}
+          </button>
+          <button
+            className="theme-toggle"
+            onClick={handleThemeToggle}
+            aria-label={t.nav.toggleTheme}
+          >
+            <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">
+              ●
+            </span>
+          </button>
+        </div>
       </header>
 
       <main id="main" tabIndex={-1}>
@@ -263,18 +265,15 @@ export default function App() {
         </div>
         <p className="hero-eyebrow">
           <span className="hero-pulse" aria-hidden="true" />
-          Open to new roles · Remote / Cali
+          {t.hero.eyebrow}
         </p>
         <h1 className="hero-name">
           <span className="name-line"><span className="name-text">Camilo</span></span>
           <span className="name-line"><span className="name-text">Conde</span></span>
         </h1>
         <div className="hero-meta">
-          <p className="hero-title">Design Engineer</p>
-          <p className="hero-bio">
-            I build the parts of a frontend that other people don't want to:{' '}
-            <strong>form engines, table abstractions, design systems that survive their second team.</strong>
-          </p>
+          <p className="hero-title">{t.hero.title}</p>
+          <p className="hero-bio">{t.hero.bio}</p>
           <div className="hero-links">
             {HERO_LINKS.map((link) => (
               <a
@@ -283,13 +282,13 @@ export default function App() {
                 className={`hero-link${'primary' in link ? ' hero-link--primary' : ''}`}
                 {...('external' in link ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
-                {link.label}
+                {'primary' in link ? t.hero.emailCta : link.label}
               </a>
             ))}
           </div>
         </div>
         <div className="scroll-hint" aria-hidden="true">
-          <span>Scroll</span>
+          <span>{t.hero.scroll}</span>
           <div className="scroll-line" />
         </div>
       </section>
@@ -299,26 +298,15 @@ export default function App() {
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">01</span>
-            <span className="section-name">About</span>
+            <span className="section-name">{t.nav.pillLabel.about}</span>
           </h2>
           <div className="about-grid">
             <blockquote className="about-quote reveal">
-              "The best interfaces come from being curious about the problem before being clever about the solution."
+              {t.about.quote}
             </blockquote>
             <div className="about-text">
-              <p className="reveal reveal-delay-1">
-                Multimedia Engineer from Universidad de San Buenaventura, fluent in Figma and fluent
-                in the codebase. Five years taking products from sketch to production in{' '}
-                <strong>React + TypeScript</strong>, with a visual eye sharpened by a background in
-                motion graphics and post-production.
-              </p>
-              <p className="reveal reveal-delay-2">
-                Currently architecting <strong>Uni2 Lite</strong> — a credit-application orchestrator
-                built on <strong>Feature-Sliced Design</strong>, a declarative form engine over{' '}
-                <strong>Zod + React Hook Form</strong>, a decoupled stepper with dual
-                edit/visual/consult modes, and a service layer with chained Axios interceptors.
-                The kind of code that survives its second team.
-              </p>
+              <p className="reveal reveal-delay-1">{t.about.p1}</p>
+              <p className="reveal reveal-delay-2">{t.about.p2}</p>
             </div>
           </div>
         </div>
@@ -329,36 +317,39 @@ export default function App() {
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">02</span>
-            <span className="section-name">Experience</span>
+            <span className="section-name">{t.nav.pillLabel.experience}</span>
           </h2>
           <ul className="timeline">
-            {EXPERIENCE.map(({ company, role, period, tags, desc, caseStudy }, i) => (
-              <li key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
-                <span className="timeline-num">0{i + 1}</span>
-                <div className="timeline-header">
-                  <span className="timeline-company">{company}</span>
-                  <span className="timeline-period">{period}</span>
-                </div>
-                <p className="timeline-role">{role}</p>
-                <p className="timeline-tags">{tags.join(' · ')}</p>
-                <p className="timeline-desc">{desc}</p>
-                {caseStudy && (
-                  <Link to={caseStudy.href} viewTransition className="timeline-case-card" onClick={() => sessionStorage.setItem('home-scroll', String(window.scrollY))}>
-                    <div className="timeline-case-card-body">
-                      <div className="timeline-case-card-top">
-                        <span className="timeline-case-label">Case study</span>
-                        {caseStudy.badge === 'current' && (
-                          <span className="timeline-case-badge">Current</span>
-                        )}
+            {EXPERIENCE.map(({ company, role, period, tags, key, caseStudy }, i) => {
+              const entry = t.experience.entries[key]
+              return (
+                <li key={company} className={`timeline-item reveal reveal-delay-${i + 1}`}>
+                  <span className="timeline-num">0{i + 1}</span>
+                  <div className="timeline-header">
+                    <span className="timeline-company">{company}</span>
+                    <span className="timeline-period">{period}</span>
+                  </div>
+                  <p className="timeline-role">{role}</p>
+                  <p className="timeline-tags">{tags.join(' · ')}</p>
+                  <p className="timeline-desc">{entry.desc}</p>
+                  {caseStudy && (
+                    <Link to={caseStudy.href} viewTransition className="timeline-case-card" onClick={() => sessionStorage.setItem('home-scroll', String(window.scrollY))}>
+                      <div className="timeline-case-card-body">
+                        <div className="timeline-case-card-top">
+                          <span className="timeline-case-label">{t.experience.caseStudyLabel}</span>
+                          {caseStudy.badge === 'current' && (
+                            <span className="timeline-case-badge">{t.experience.currentBadge}</span>
+                          )}
+                        </div>
+                        <span className="timeline-case-title">{entry.caseLabel}</span>
+                        <span className="timeline-case-meta">{entry.caseMeta}</span>
                       </div>
-                      <span className="timeline-case-title">{caseStudy.label}</span>
-                      <span className="timeline-case-meta">{caseStudy.meta}</span>
-                    </div>
-                    <span className="timeline-case-arrow" aria-hidden="true">→</span>
-                  </Link>
-                )}
-              </li>
-            ))}
+                      <span className="timeline-case-arrow" aria-hidden="true">→</span>
+                    </Link>
+                  )}
+                </li>
+              )
+            })}
           </ul>
         </div>
       </section>
@@ -368,11 +359,9 @@ export default function App() {
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">03</span>
-            <span className="section-name">Skills</span>
+            <span className="section-name">{t.nav.pillLabel.skills}</span>
           </h2>
-          <p className="section-headline reveal reveal-delay-1">
-            The stack I&apos;ve earned, ordered by how often it ships. Each row is a tool I&apos;d <em>still pick</em> on a Monday.
-          </p>
+          <p className="section-headline reveal reveal-delay-1">{t.skills.headline}</p>
           <SkillsLedger />
         </div>
       </section>
@@ -382,9 +371,9 @@ export default function App() {
         <div className="section-inner">
           <h2 className="section-label reveal">
             <span className="section-num">04</span>
-            <span className="section-name">Contact</span>
+            <span className="section-name">{t.nav.pillLabel.contact}</span>
           </h2>
-          <p className="contact-headline reveal reveal-delay-1">Let's build something together.</p>
+          <p className="contact-headline reveal reveal-delay-1">{t.contact.headline}</p>
           <div className="contact-links reveal reveal-delay-2">
             {CONTACT_LINKS.map(({ href, label }) => (
               <a key={href} href={href} className="contact-link">{label}</a>

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
 import { SceneAS400toPDF, SchemaAS400 } from './scenesCase02'
@@ -10,28 +10,25 @@ import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { useBloomFollow } from '../../hooks/useBloomFollow'
+import { useLang } from '../../i18n/LangContext'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import './TJCase.css'
 
-const SCENES = [
-  { key: 'M1', label: 'Formulario', comp: SceneM1, dur: 10 },
-  { key: 'M2', label: 'Tabla',      comp: SceneM2, dur: 10 },
-  { key: 'M3', label: 'Detalle',    comp: SceneM3, dur: 10 },
-] as const
+const SCENE_COMPS = { M1: SceneM1, M2: SceneM2, M3: SceneM3 } as const
+const SCENE_DURS  = { M1: 10, M2: 10, M3: 10 } as const
+type SceneKey = keyof typeof SCENE_COMPS
 
-type SceneKey = typeof SCENES[number]['key']
-
-const CASE_IDS     = ['case-01', 'case-02', 'case-03', 'case-04']
-const CASE_LABELS  = ['Interface', 'Documents', 'Signature', 'Automation']
+const CASE_IDS = ['case-01', 'case-02', 'case-03', 'case-04']
 
 export default function TJCase() {
-  const [active, setActive] = useState<SceneKey>('M1')
-  const scene = SCENES.find((s) => s.key === active)!
-  const { toggle: toggleDark } = useDarkMode()
-  const [toggleAnim, setToggleAnim] = useState(false)
+  const [active, setActive]           = useState<SceneKey>('M1')
+  const { toggle: toggleDark }        = useDarkMode()
+  const { lang, toggle: toggleLang, t } = useLang()
+  const tc = t.cases.tj
+  const [toggleAnim, setToggleAnim]   = useState(false)
   const [activeCaseIdx, setActiveCaseIdx] = useState(0)
   const caseRatios = useRef<number[]>([0, 0, 0, 0])
-  const navigate = useNavigate()
+  const navigate   = useNavigate()
   const handleBack = () => navigate('/', { viewTransition: true })
   useLenis()
   useScrollReveal()
@@ -51,7 +48,7 @@ export default function TJCase() {
 
   useEffect(() => {
     const thresholds = Array.from({ length: 21 }, (_, i) => i / 20)
-    const observer = new IntersectionObserver((entries) => {
+    const observer   = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         const idx = CASE_IDS.indexOf((entry.target as HTMLElement).id)
         if (idx >= 0) caseRatios.current[idx] = entry.intersectionRatio
@@ -68,10 +65,13 @@ export default function TJCase() {
     return () => observer.disconnect()
   }, [])
 
+  const SceneComp = SCENE_COMPS[active]
+  const sceneDur  = SCENE_DURS[active]
+
   return (
     <div className="case-page case-page--tj">
 
-      <a href="#case-main" className="case-skip-link">Skip to content</a>
+      <a href="#case-main" className="case-skip-link">{t.nav.skipLink}</a>
 
       <div className="ambient-bloom" aria-hidden="true">
         <div className="ambient-bloom-glow" />
@@ -80,29 +80,27 @@ export default function TJCase() {
       {/* Nav */}
       <header className="case-nav">
         <button onClick={handleBack} className="case-nav-back">← Camilo Conde</button>
-        <span className="case-nav-title">Taylor &amp; Johnson · 2018–2021</span>
-        <button
-          className="theme-toggle"
-          onClick={handleThemeToggle}
-          aria-label="Toggle dark mode"
-        >
-          <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">●</span>
-        </button>
+        <span className="case-nav-title">{tc.navTitle}</span>
+        <div className="nav-actions">
+          <button className="lang-toggle" onClick={toggleLang} aria-label={t.nav.toggleLang}>
+            {lang === 'en' ? 'ES' : 'EN'}
+          </button>
+          <button
+            className="theme-toggle"
+            onClick={handleThemeToggle}
+            aria-label={t.nav.toggleTheme}
+          >
+            <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">●</span>
+          </button>
+        </div>
       </header>
 
       {/* Hero */}
       <section id="case-main" tabIndex={-1} className="case-hero">
         <div className="case-hero-inner">
-          <p className="case-eyebrow reveal">
-            Taylor &amp; Johnson International · Multimedia Engineer · 2018–2021
-          </p>
-          <h1 className="case-headline reveal reveal-delay-1">
-            Bridging 40 years of COBOL banking infrastructure to the modern web.
-          </h1>
-          <p className="case-subhead reveal reveal-delay-2">
-            A legacy 5250 green-screen core, still processing real transactions daily, modernized
-            to responsive web interfaces without touching the business logic underneath.
-          </p>
+          <p className="case-eyebrow reveal">{tc.eyebrow}</p>
+          <h1 className="case-headline reveal reveal-delay-1">{tc.headline}</h1>
+          <p className="case-subhead reveal reveal-delay-2">{tc.subhead}</p>
         </div>
       </section>
 
@@ -111,34 +109,17 @@ export default function TJCase() {
         <CaseLabel num="00">Context</CaseLabel>
         <div className="case-overview-grid">
           <div className="reveal reveal-delay-1">
-            <h3 className="case-section-title">The system that couldn't stop.</h3>
-            <p className="case-body">
-              The banking core ran on IBM AS/400 hardware with 5250 terminals, a technology
-              stack from the 1980s still processing transactions daily. Operators navigated
-              green-screen menus with keyboard shortcuts memorized over decades. The system
-              worked. That was the problem.
-            </p>
-            <p className="case-body">
-              Replacing it wasn't viable. Instead, Fresche Solutions' Presto acted as a
-              translation layer — injecting a web rendering engine between the 5250 programs
-              and the browser. The COBOL logic stayed untouched. The surface was rebuilt
-              from scratch.
-            </p>
-            <p className="case-body">
-              Over the engagement, the role extended beyond implementation. For document
-              processes and new integrations in particular, I became the technical reference —
-              the person other team members consulted before starting anything new in that
-              domain. That meant attending cross-area meetings to align on requirements and,
-              on some occasions, joining client sessions directly to validate goals and
-              constraints.
-            </p>
+            <h3 className="case-section-title">{tc.context.sectionTitle}</h3>
+            <p className="case-body">{tc.context.p1}</p>
+            <p className="case-body">{tc.context.p2}</p>
+            <p className="case-body">{tc.context.p3}</p>
           </div>
           <div className="case-meta-block reveal reveal-delay-2">
             {[
-              { label: 'Company',  value: 'Taylor & Johnson International' },
-              { label: 'Role',     value: 'Multimedia Engineer' },
-              { label: 'Duration', value: '2 years · 11 months' },
-              { label: 'Location', value: 'Cali, Colombia' },
+              { label: t.meta.company,  value: tc.context.company  },
+              { label: t.meta.role,     value: tc.context.role     },
+              { label: t.meta.duration, value: tc.context.duration },
+              { label: t.meta.location, value: tc.context.location },
             ].map(({ label, value }) => (
               <div key={label} className="case-meta-item">
                 <span className="case-meta-label">{label}</span>
@@ -151,8 +132,8 @@ export default function TJCase() {
 
       {/* Cases 01–04 with sticky sidebar */}
       <div className="cases-region">
-        <nav className="cases-sidebar" aria-label="Case navigator">
-          {CASE_LABELS.map((label, i) => (
+        <nav className="cases-sidebar" aria-label={tc.caseNavAriaLabel}>
+          {tc.caseLabels.map((label, i) => (
             <a
               key={label}
               href={`#case-0${i + 1}`}
@@ -167,23 +148,17 @@ export default function TJCase() {
 
         {/* Case 01 — Interface Modernization */}
         <CaseSection id="case-01">
-          <CaseLabel num="01">Interface Modernization</CaseLabel>
-          <p className="case-body reveal reveal-delay-1">
-            Translated legacy 5250 terminal screens into responsive web UIs via Presto — every
-            workflow rebuilt in HTML, JavaScript, and CSS while the COBOL business logic
-            underneath stayed untouched. Operators went from memorizing keyboard shortcuts on
-            green-screen menus to navigating purpose-built interfaces with proper hierarchy,
-            feedback, and visual consistency.
-          </p>
+          <CaseLabel num="01">{tc.caseLabels[0]}</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">{tc.case01.p1}</p>
           <div className="case-stage-header reveal reveal-delay-2">
             <div className="case-scene-switcher">
-              {SCENES.map((s) => (
+              {(Object.keys(SCENE_COMPS) as SceneKey[]).map((key) => (
                 <button
-                  key={s.key}
-                  onClick={() => setActive(s.key)}
-                  className={`case-scene-btn${active === s.key ? ' is-active' : ''}`}
+                  key={key}
+                  onClick={() => setActive(key)}
+                  className={`case-scene-btn${active === key ? ' is-active' : ''}`}
                 >
-                  {s.label}
+                  {tc.sceneLabels[key]}
                 </button>
               ))}
             </div>
@@ -193,38 +168,29 @@ export default function TJCase() {
               key={active}
               width={1920}
               height={1080}
-              duration={scene.dur}
+              duration={sceneDur}
               background="#0A1408"
               persistKey={`presto-${active}`}
               initialTime={0}
               forcePlay={activeCaseIdx === 0}
             >
-              <Sprite start={0} end={scene.dur} keepMounted={activeCaseIdx === 0}>
-                <scene.comp />
+              <Sprite start={0} end={sceneDur} keepMounted={activeCaseIdx === 0}>
+                <SceneComp />
               </Sprite>
             </Stage>
           </div>
-          <p className="case-outcome-line reveal reveal-delay-3">
-            <strong>~40 operators</strong> migrated from daily green-screen sessions to purpose-built web interfaces — zero retraining downtime during cutover.
-          </p>
+          <p className="case-outcome-line reveal reveal-delay-3">{tc.case01.outcome}</p>
           <SkillTags skills={['HTML', 'CSS', 'JavaScript', 'jQuery', 'Presto']} className="reveal reveal-delay-3" />
         </CaseSection>
 
         {/* Case 02 — Parametric Document Generation */}
         <CaseSection id="case-02">
-          <CaseLabel num="02">Parametric Document Generation</CaseLabel>
-          <p className="case-body reveal reveal-delay-1">
-            Built a document engine — jointly defined with the COBOL team — that generated
-            banking documents from SQL queries and web service calls. Every parameter
-            (typography, spacing, colors, logo, signature placement) was configurable from a
-            table in AS/400, so any document type could be restyled without touching code.
-            A client-facing layer, exposing that same control through a Presto-modernized
-            interface, was in late stages of development at departure.
-          </p>
+          <CaseLabel num="02">{tc.caseLabels[1]}</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">{tc.case02.p1}</p>
           <div className="case-schema-wrap reveal reveal-delay-2">
             <SchemaAS400 />
           </div>
-          <p className="case-caption reveal reveal-delay-2">Illustrative example · PDFP001 · columns and data adjusted for clarity · the actual screen was not visible to the end user</p>
+          <p className="case-caption reveal reveal-delay-2">{tc.case02.schemaCaption}</p>
           <div className="case-stage-wrap reveal reveal-delay-3">
             <Stage
               width={1920}
@@ -240,22 +206,14 @@ export default function TJCase() {
               </Sprite>
             </Stage>
           </div>
-          <p className="case-outcome-line reveal reveal-delay-4">
-            <strong>~200 parametric document types</strong> automated through the JsPDF engine, replacing manual drafting in AS/400.
-          </p>
+          <p className="case-outcome-line reveal reveal-delay-4">{tc.case02.outcome}</p>
           <SkillTags skills={['JsPDF.js', 'SQL', 'Web Services', 'AS/400']} className="reveal reveal-delay-4" />
         </CaseSection>
 
         {/* Case 03 — Digital Signature Integration */}
         <CaseSection id="case-03">
-          <CaseLabel num="03">Digital Signature Integration</CaseLabel>
-          <p className="case-body reveal reveal-delay-1">
-            Integrated TOPAZ LCD signature pads directly into the Presto layer, enabling
-            in-branch document signing without leaving the web interface. Once captured, the
-            signature surfaced in the Presto screen and flowed into the corresponding document,
-            replacing a paper-based process and anchoring signature integrity to the banking
-            operation in the ERP.
-          </p>
+          <CaseLabel num="03">{tc.caseLabels[2]}</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">{tc.case03.p1}</p>
           <div className="case-stage-wrap reveal reveal-delay-2">
             <Stage
               width={1920}
@@ -273,21 +231,14 @@ export default function TJCase() {
               </Sprite>
             </Stage>
           </div>
-          <p className="case-outcome-line reveal reveal-delay-3">
-            Paper-based in-branch signing <strong>replaced end-to-end</strong> — signature captured on TOPAZ pad, surfaced in Presto, embedded in the document, anchored to the ERP record.
-          </p>
+          <p className="case-outcome-line reveal reveal-delay-3">{tc.case03.outcome}</p>
           <SkillTags skills={['Presto', 'TOPAZ LCD', 'ERP Integration']} className="reveal reveal-delay-3" />
         </CaseSection>
 
         {/* Case 04 — Process Automation */}
         <CaseSection id="case-04">
-          <CaseLabel num="04">Process Automation</CaseLabel>
-          <p className="case-body reveal reveal-delay-1">
-            Built a Selenium-based automation to migrate records from our system into a
-            third-party client's platform. The process was parameterized against a web service
-            data source, allowing any batch size to be fed programmatically, replacing a
-            manual, error-prone data entry operation for each client integration.
-          </p>
+          <CaseLabel num="04">{tc.caseLabels[3]}</CaseLabel>
+          <p className="case-body reveal reveal-delay-1">{tc.case04.p1}</p>
           <div className="case-stage-wrap reveal reveal-delay-2">
             <Stage
               width={1920}
@@ -305,9 +256,7 @@ export default function TJCase() {
               </Sprite>
             </Stage>
           </div>
-          <p className="case-outcome-line reveal reveal-delay-3">
-            First batch <strong>migrated ahead of schedule</strong>. Subsequent runs unattended during off-hours — parameterized, repeatable, no manual input per client.
-          </p>
+          <p className="case-outcome-line reveal reveal-delay-3">{tc.case04.outcome}</p>
           <SkillTags skills={['Python', 'Selenium', 'Web Services']} className="reveal reveal-delay-3" />
         </CaseSection>
       </div>
@@ -316,14 +265,9 @@ export default function TJCase() {
       <CaseSection>
         <CaseLabel num="05">What changed</CaseLabel>
         <ul className="case-outcomes reveal reveal-delay-1">
-          <li>40 operators moved to rebuilt web interfaces — the 5250 green-screen replaced without touching the COBOL core underneath.</li>
-          <li>200 document types automated through a parametric PDF engine driven by AS/400 table config, not hardcoded templates.</li>
-          <li>Paper-based signing replaced end-to-end — TOPAZ LCD pads integrated directly into the Presto rendering layer.</li>
-          <li>Batch migrations running unattended overnight — four modernization tracks delivered in parallel across nearly three years, zero business logic rewritten.</li>
+          {tc.outcomes.items.map((item, i) => <li key={i}>{item}</li>)}
         </ul>
-        <p className="case-body reveal reveal-delay-2">
-          The 40-year-old COBOL core: untouched, still processing, still running. No rewrite, no migration, no business logic touched.
-        </p>
+        <p className="case-body reveal reveal-delay-2">{tc.outcomes.closing}</p>
       </CaseSection>
 
       {/* Footer */}

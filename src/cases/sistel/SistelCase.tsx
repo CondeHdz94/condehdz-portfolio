@@ -1,10 +1,11 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { useBloomFollow } from '../../hooks/useBloomFollow'
+import { useLang } from '../../i18n/LangContext'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
 import { SceneSistel, type GuideStyle } from './sceneSistel'
 import './SistelCase.css'
@@ -20,9 +21,9 @@ const PALETTES = [
 
 const GUIDE_OPTIONS: { value: GuideStyle; label: string }[] = [
   { value: 'geometric', label: 'Geometric' },
-  { value: 'riso',      label: 'Riso' },
-  { value: 'line',      label: 'Line' },
-  { value: 'mascot',    label: 'Mascot' },
+  { value: 'riso',      label: 'Riso'      },
+  { value: 'line',      label: 'Line'      },
+  { value: 'mascot',    label: 'Mascot'    },
 ]
 
 const CLIENTS = {
@@ -30,52 +31,14 @@ const CLIENTS = {
   regional: ['Emcali', 'Comfandi', 'Totto', 'G&F', 'Uninorte', 'B-Secure', 'Interdinco', 'Manpower', 'Johnson Controls'],
 }
 
-const WORKFLOW_STEPS = [
-  {
-    num: '01',
-    label: 'Source Script',
-    items: ['Client brief & objectives', 'Domain expert content', 'Slide-by-slide material'],
-  },
-  {
-    num: '02',
-    label: 'Analysis',
-    items: ['Decision point mapping', 'Interaction opportunities', 'Branching architecture'],
-  },
-  {
-    num: '03',
-    label: 'Interactive Module',
-    items: ['UX/UI visual design', 'Animated feedback', 'Branching scenarios'],
-  },
-]
-
-function WorkflowDiagram() {
-  return (
-    <div className="sistel-workflow" role="img" aria-label="Design pipeline: source script to interactive module">
-      {WORKFLOW_STEPS.map(({ num, label, items }, i) => (
-        <Fragment key={num}>
-          <div className="sistel-workflow-step">
-            <span className="sistel-workflow-num">{num}</span>
-            <span className="sistel-workflow-label">{label}</span>
-            <ul className="sistel-workflow-items">
-              {items.map(item => <li key={item}>{item}</li>)}
-            </ul>
-          </div>
-          {i < WORKFLOW_STEPS.length - 1 && (
-            <span className="sistel-workflow-sep" aria-hidden="true">→</span>
-          )}
-        </Fragment>
-      ))}
-    </div>
-  )
-}
-
-
 export default function SistelCase() {
-  const { toggle: toggleDark } = useDarkMode()
+  const { toggle: toggleDark }          = useDarkMode()
+  const { lang, toggle: toggleLang, t } = useLang()
+  const tc = t.cases.sistel
   const [toggleAnim, setToggleAnim] = useState(false)
   const [paletteIdx, setPaletteIdx] = useState(0)
-  const [guide, setGuide] = useState<GuideStyle>('geometric')
-  const navigate = useNavigate()
+  const [guide, setGuide]           = useState<GuideStyle>('geometric')
+  const navigate   = useNavigate()
   const handleBack = () => navigate('/', { viewTransition: true })
   useLenis()
   useScrollReveal()
@@ -93,10 +56,16 @@ export default function SistelCase() {
     return () => { document.title = 'Camilo Conde — Design Engineer' }
   }, [])
 
+  const workflowSteps = [
+    tc.workflow.step1,
+    tc.workflow.step2,
+    tc.workflow.step3,
+  ]
+
   return (
     <div className="case-page case-page--sistel">
 
-      <a href="#case-main" className="case-skip-link">Skip to content</a>
+      <a href="#case-main" className="case-skip-link">{t.nav.skipLink}</a>
 
       <div className="ambient-bloom" aria-hidden="true">
         <div className="ambient-bloom-glow" />
@@ -105,30 +74,27 @@ export default function SistelCase() {
       {/* Nav */}
       <header className="case-nav">
         <button onClick={handleBack} className="case-nav-back">← Camilo Conde</button>
-        <span className="case-nav-title">Sistel · 2017–2018</span>
-        <button
-          className="theme-toggle"
-          onClick={handleThemeToggle}
-          aria-label="Toggle dark mode"
-        >
-          <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">●</span>
-        </button>
+        <span className="case-nav-title">{tc.navTitle}</span>
+        <div className="nav-actions">
+          <button className="lang-toggle" onClick={toggleLang} aria-label={t.nav.toggleLang}>
+            {lang === 'en' ? 'ES' : 'EN'}
+          </button>
+          <button
+            className="theme-toggle"
+            onClick={handleThemeToggle}
+            aria-label={t.nav.toggleTheme}
+          >
+            <span className={`toggle-icon${toggleAnim ? ' is-spinning' : ''}`} aria-hidden="true">●</span>
+          </button>
+        </div>
       </header>
 
       {/* Hero */}
       <section id="case-main" tabIndex={-1} className="case-hero">
         <div className="case-hero-inner">
-          <p className="case-eyebrow reveal">
-            Sistel Ltda. · Web Course Developer · 2017–2018
-          </p>
-          <h1 className="case-headline reveal reveal-delay-1">
-            Turning scripts into interactive learning experiences.
-          </h1>
-          <p className="case-subhead reveal reveal-delay-2">
-            Corporate knowledge that lived in slide decks and procedure manuals — rebuilt as
-            HTML5 modules with branching scenarios, animated feedback, and visual design
-            calibrated to how adults actually learn.
-          </p>
+          <p className="case-eyebrow reveal">{tc.eyebrow}</p>
+          <h1 className="case-headline reveal reveal-delay-1">{tc.headline}</h1>
+          <p className="case-subhead reveal reveal-delay-2">{tc.subhead}</p>
         </div>
       </section>
 
@@ -137,27 +103,16 @@ export default function SistelCase() {
         <CaseLabel num="00">Context</CaseLabel>
         <div className="case-overview-grid">
           <div className="reveal reveal-delay-1">
-            <h3 className="case-section-title">When the content exists but the experience doesn't.</h3>
-            <p className="case-body">
-              Corporate training at Sistel always started the same way: subject matter experts
-              with deep domain knowledge, and a slide deck — or a Word document — to show for it.
-              The brief was well-intentioned: here's the content, make it a course. The gap between
-              that and something a learner would actually complete was the design problem.
-            </p>
-            <p className="case-body">
-              Working with Articulate Storyline, Flash, and HTML5, each course was rebuilt from
-              script to published module — storyboard first, then interaction design, then the
-              visual layer. The goal wasn't to digitize a presentation: it was to turn passive
-              content into active decisions, using andragogy principles to structure pacing and
-              ludic design to drive engagement.
-            </p>
+            <h3 className="case-section-title">{tc.context.sectionTitle}</h3>
+            <p className="case-body">{tc.context.p1}</p>
+            <p className="case-body">{tc.context.p2}</p>
           </div>
           <div className="case-meta-block reveal reveal-delay-2">
             {[
-              { label: 'Company',  value: 'Sistel Ltda.' },
-              { label: 'Role',     value: 'Web Course Developer' },
-              { label: 'Duration', value: '1 year · 5 months' },
-              { label: 'Location', value: 'Cali, Colombia' },
+              { label: t.meta.company,  value: tc.context.company  },
+              { label: t.meta.role,     value: tc.context.role     },
+              { label: t.meta.duration, value: tc.context.duration },
+              { label: t.meta.location, value: tc.context.location },
             ].map(({ label, value }) => (
               <div key={label} className="case-meta-item">
                 <span className="case-meta-label">{label}</span>
@@ -169,26 +124,26 @@ export default function SistelCase() {
         <div className="sistel-stats reveal reveal-delay-1">
           <div className="sistel-stats-item">
             <div className="sistel-stat-value">15+</div>
-            <div className="sistel-stat-label">Modules delivered</div>
+            <div className="sistel-stat-label">{tc.stats.modules}</div>
           </div>
           <div className="sistel-stats-item">
             <div className="sistel-stat-value">14</div>
-            <div className="sistel-stat-label">Clients</div>
+            <div className="sistel-stat-label">{tc.stats.clients}</div>
           </div>
           <div className="sistel-stats-item">
             <div className="sistel-stat-value">18mo</div>
-            <div className="sistel-stat-label">Delivery window</div>
+            <div className="sistel-stat-label">{tc.stats.window}</div>
           </div>
         </div>
         <div className="sistel-clients reveal reveal-delay-2">
           <div className="sistel-clients-group sistel-clients-group--intl">
-            <span className="sistel-clients-label">International</span>
+            <span className="sistel-clients-label">{tc.clientsIntlLabel}</span>
             <div className="sistel-clients-list">
               {CLIENTS.intl.map(c => <span key={c} className="sistel-client-chip">{c}</span>)}
             </div>
           </div>
           <div className="sistel-clients-group">
-            <span className="sistel-clients-label">Regional</span>
+            <span className="sistel-clients-label">{tc.clientsRegionalLabel}</span>
             <div className="sistel-clients-list">
               {CLIENTS.regional.map(c => <span key={c} className="sistel-client-chip">{c}</span>)}
             </div>
@@ -199,23 +154,27 @@ export default function SistelCase() {
       {/* 01 From Script to Interaction */}
       <CaseSection>
         <CaseLabel num="01">From Script to Interaction</CaseLabel>
-        <p className="case-body reveal reveal-delay-1">
-          Every course started as a content brief — objectives, procedures, regulations —
-          formatted for a classroom or a static presentation. The design process reversed the
-          delivery: identify the decisions the learner needs to make, then build interactions
-          around those decision points. A regulatory compliance module became a branching scenario.
-          A product training became a guided simulation. What was passive became active.
-        </p>
-        <p className="case-body reveal reveal-delay-1">
-          Articulate Storyline handled branching logic and state tracking; HTML5 and CSS extended
-          the visual layer with custom animations beyond what the platform alone could produce.
-          Ludic design principles — progression, feedback loops, small wins — were embedded in
-          the structure from the storyboard stage, not applied at the end.
-        </p>
+        <p className="case-body reveal reveal-delay-1">{tc.script.p1}</p>
+        <p className="case-body reveal reveal-delay-1">{tc.script.p2}</p>
         <div className="case-schema-wrap reveal reveal-delay-2" style={{ marginTop: 48 }}>
-          <WorkflowDiagram />
+          <div className="sistel-workflow" role="img" aria-label={tc.workflowAriaLabel}>
+            {workflowSteps.map((step, i) => (
+              <Fragment key={step.label}>
+                <div className="sistel-workflow-step">
+                  <span className="sistel-workflow-num">0{i + 1}</span>
+                  <span className="sistel-workflow-label">{step.label}</span>
+                  <ul className="sistel-workflow-items">
+                    {step.items.map(item => <li key={item}>{item}</li>)}
+                  </ul>
+                </div>
+                {i < workflowSteps.length - 1 && (
+                  <span className="sistel-workflow-sep" aria-hidden="true">→</span>
+                )}
+              </Fragment>
+            ))}
+          </div>
         </div>
-        <p className="case-caption reveal reveal-delay-2">Design pipeline · from source script to published interactive module</p>
+        <p className="case-caption reveal reveal-delay-2">{tc.script.pipelineCaption}</p>
         <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 48 }}>
           <Stage
             width={1920}
@@ -234,7 +193,7 @@ export default function SistelCase() {
         </div>
 
         <p className="case-caption reveal reveal-delay-3" style={{ marginTop: 32 }}>
-          Each course was rebranded for the client. Try the most common palette systems →
+          {tc.script.animCaption}
         </p>
         <div className="sistel-tweaks reveal reveal-delay-3">
           <div className="sistel-tweaks-group">
@@ -280,13 +239,9 @@ export default function SistelCase() {
       <CaseSection>
         <CaseLabel num="02">What changed</CaseLabel>
         <ul className="case-outcomes reveal reveal-delay-1">
-          <li>Passive slide decks and procedure manuals replaced end-to-end with HTML5 interactive modules — branching scenarios, animated feedback, self-paced progression — published to LMS platforms for async delivery.</li>
-          <li>Every module built from scratch per client: palette, character system, and interaction language aligned to brand guidelines, not adapted from a shared template.</li>
-          <li>Topics covered across engagements: occupational health, information security, product launches, corporate onboarding, and retail ergonomics — each requiring domain-specific interaction design, not a reused course shell.</li>
+          {tc.outcomes.items.map((item, i) => <li key={i}>{item}</li>)}
         </ul>
-        <p className="case-body reveal reveal-delay-2">
-          Each engagement built around a specific brand, domain, and learning goal — not adapted from a shared template.
-        </p>
+        <p className="case-body reveal reveal-delay-2">{tc.outcomes.closing}</p>
       </CaseSection>
 
       {/* Footer */}

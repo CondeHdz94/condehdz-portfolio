@@ -153,8 +153,11 @@
   color: var(--case-muted);
 }
 
-/* ─── Theme toggle (override hover accent for case context) ── */
+/* ─── Lang + Theme toggles (override hover accent for case context) ── */
 
+.case-page .lang-toggle { display: none; }
+
+.case-page .lang-toggle:hover,
 .case-page .theme-toggle:hover {
   border-color: var(--case-accent-border);
   color: var(--case-accent);

@@ -169,8 +169,43 @@
   transform: translateX(-50%) scale(1);
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.lang-toggle {
+  display: none !important;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 100px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  font-family: inherit;
+  line-height: 1;
+  transition: border-color 0.5s ease, color 0.5s ease;
+}
+
+.lang-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.lang-toggle:focus-visible {
+  outline-offset: 4px;
+  border-radius: 100px;
+}
+
 .theme-toggle {
-  justify-self: end;
   background: none;
   border: 1px solid var(--border);
   color: var(--text-muted);
