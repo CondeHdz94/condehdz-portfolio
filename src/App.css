@@ -1184,6 +1184,17 @@
 
 /* ─── Responsive ──────────────────────────────────────── */
 
+@media (max-width: 900px) {
+  .ledger-group {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ledger-group-hint {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .nav {
     height: var(--nav-height-mobile);
