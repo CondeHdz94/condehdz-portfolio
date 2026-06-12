@@ -442,16 +442,12 @@
   letter-spacing: 0.04em;
   line-height: 1;
   color: var(--text);
-  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-link:hover {
   border-color: var(--text-strong);
   color: var(--text-strong);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hero-link:hover { transform: translateY(-2px); }
 }
 
 .hero-link--primary {
@@ -467,8 +463,8 @@
 }
 
 .dark .hero-link--primary:hover {
-  background: #FFFFFF;
-  border-color: #FFFFFF;
+  background: var(--text-strong);
+  border-color: var(--text-strong);
 }
 
 .scroll-hint {
