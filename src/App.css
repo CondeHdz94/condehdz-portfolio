@@ -466,6 +466,11 @@
   color: var(--bg);
 }
 
+.dark .hero-link--primary:hover {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
 .scroll-hint {
   position: absolute;
   bottom: 40px;
