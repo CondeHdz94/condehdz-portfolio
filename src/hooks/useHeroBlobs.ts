@@ -115,6 +115,7 @@ export function useHeroBlobs(
     let lastTime = performance.now()
     let mouseNX = 0.5, mouseNY = 0.35
     let rafId: number
+    let isVisible = true
 
     function resize() {
       const w = blobCanvas.offsetWidth
@@ -319,6 +320,18 @@ export function useHeroBlobs(
       if (el) io.observe(el)
     }
 
+    const canvasIO = new IntersectionObserver(entries => {
+      const wasVisible = isVisible
+      isVisible = entries[0].isIntersecting
+      if (isVisible && !wasVisible) {
+        lastTime = performance.now()
+        rafId = requestAnimationFrame(draw)
+      } else if (!isVisible) {
+        cancelAnimationFrame(rafId)
+      }
+    }, { threshold: 0 })
+    canvasIO.observe(blobCanvas)
+
     resize()
     rafId = requestAnimationFrame(draw)
 
@@ -326,6 +339,7 @@ export function useHeroBlobs(
       cancelAnimationFrame(rafId)
       ro.disconnect()
       io.disconnect()
+      canvasIO.disconnect()
       heroSection?.removeEventListener('mousemove', onMouseMove as EventListener)
     }
   }, [blobRef, glassRef, ccRef])

@@ -38,6 +38,8 @@
   --color-skills:     #15803D;
   --color-contact:    #9333EA;
 
+  --pill-bg: #1C1917;
+
   /* ── Type scale ──────────────────────────────────── */
   --text-micro:     0.625rem;                            /* 10px — captions, meta-labels    */
   --text-xs:        0.6875rem;                           /* 11px — micro-labels, eyebrows  */
@@ -75,6 +77,8 @@
   --color-experience: #60A5FA;
   --color-skills:     #22C55E;
   --color-contact:    #C084FC;
+
+  --pill-bg: #E8E5E0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
