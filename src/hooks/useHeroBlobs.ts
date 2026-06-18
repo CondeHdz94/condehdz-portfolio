@@ -95,10 +95,10 @@ export function useHeroBlobs(
   ccRef: RefObject<HTMLSpanElement | null>,
 ) {
   useEffect(() => {
+    if (!blobRef.current || !glassRef.current || !ccRef.current) return
     const blobCanvas  = blobRef.current
     const glassCanvas = glassRef.current
     const ccSpan      = ccRef.current
-    if (!blobCanvas || !glassCanvas || !ccSpan) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const blobCtx  = blobCanvas.getContext('2d')!
