@@ -15,6 +15,18 @@ const FSD_ACTIVE      = new Set(['processes', 'steps'])
 
 const PLATFORM_IDS = ['platform-01', 'platform-02', 'platform-03']
 
+// Anatomy figure — one FieldConfig line maps to one behavior (badges 01–04).
+// The object is code (neutral, untranslated); behavior copy lives in i18n.
+const ANATOMY_CONFIG: { k: string; v: string; badge: number | null }[] = [
+  { k: 'name',         v: '"vehicle_line"',         badge: null },
+  { k: 'label',        v: '"Línea"',                badge: null },
+  { k: 'type',         v: '"autocomplete"',         badge: 0 },
+  { k: 'url',          v: '"/base/vehicle-lines/"', badge: 1 },
+  { k: 'dependencies', v: '["vehicle_brand"]',      badge: 2 },
+  { k: 'validation',   v: '{ required }',           badge: 3 },
+]
+const ANATOMY_KEYS = ['type', 'url', 'dependencies', 'validation']
+
 export default function Uni2Case() {
   const { toggle: toggleDark } = useDarkMode()
   const { lang, toggle: toggleLang, t } = useLang()
@@ -181,15 +193,18 @@ export default function Uni2Case() {
           <p className="case-body reveal reveal-delay-1">{tc.platform.libraries.p1}</p>
           <p className="case-outcome-line reveal reveal-delay-2">{tc.platform.libraries.outcome}</p>
         </CaseSection>
-      </div>
 
-      {/* Platform skills */}
-      <CaseSection>
-        <SkillTags
-          skills={['React 16', 'Redux', 'Redux-Saga', 'Material-UI', 'SCSS', 'Bootstrap', 'AWS Amplify', 'Axios', 'JWT', 'GitHub Actions', 'Docker', 'Git Flow']}
-          className="reveal"
-        />
-      </CaseSection>
+        {/* Platform stack — closes chapter 01 */}
+        <CaseSection>
+          <div className="uni2-stack reveal">
+            <span className="uni2-stack-label">{tc.platform.stackLabel}</span>
+            <SkillTags
+              skills={['React 16', 'Redux', 'Redux-Saga', 'Material-UI', 'SCSS', 'Bootstrap', 'AWS Amplify']}
+              className="uni2-stack-tags"
+            />
+          </div>
+        </CaseSection>
+      </div>
 
       {/* 02 — Uni2 SaaS */}
       <CaseSection>
@@ -220,6 +235,58 @@ export default function Uni2Case() {
           </li>
         </ol>
 
+        <figure
+          className="uni2-anatomy reveal reveal-delay-2"
+          aria-label={`${tc.anatomy.eyebrow}: ${tc.anatomy.title} ${tc.anatomy.titleItalic}`}
+        >
+          <figcaption className="uni2-anatomy-head">
+            <span className="uni2-anatomy-eyebrow">{tc.anatomy.eyebrow}</span>
+            <span className="uni2-anatomy-title">
+              {tc.anatomy.title} <em>{tc.anatomy.titleItalic}</em>
+            </span>
+          </figcaption>
+
+          <div className="uni2-anatomy-grid">
+            {/* Config object — the single source of truth */}
+            <div className="uni2-anatomy-config">
+              <div className="uni2-anatomy-filename">fields.InfoCreditForm.ts</div>
+              <div className="uni2-anatomy-code">
+                <div className="uni2-anatomy-line">{'{'}</div>
+                {ANATOMY_CONFIG.map(({ k, v, badge }) => (
+                  <div className="uni2-anatomy-line uni2-anatomy-line--indent" key={k}>
+                    <span className="uni2-anatomy-codetext">
+                      <span className="uni2-anatomy-key">{k}</span>
+                      <span className="uni2-anatomy-punc">: </span>
+                      <span className="uni2-anatomy-val">{v}</span>
+                      <span className="uni2-anatomy-punc">,</span>
+                    </span>
+                    {badge !== null && (
+                      <span className="uni2-anatomy-badge">{String(badge + 1).padStart(2, '0')}</span>
+                    )}
+                  </div>
+                ))}
+                <div className="uni2-anatomy-line">{'}'}</div>
+              </div>
+            </div>
+
+            {/* Derived behaviors — one line of config each */}
+            <ul className="uni2-anatomy-map">
+              {tc.anatomy.map.map((m, i) => (
+                <li className="uni2-anatomy-row" key={i}>
+                  <span className="uni2-anatomy-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="uni2-anatomy-rowtext">
+                    <span className="uni2-anatomy-rowtitle">{m.title}</span>
+                    <span className="uni2-anatomy-rowdetail">{m.detail}</span>
+                  </span>
+                  <code className="uni2-anatomy-rowkey">{ANATOMY_KEYS[i]}</code>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="case-caption uni2-anatomy-caption">{tc.anatomy.caption}</p>
+        </figure>
+
         <div
           className="uni2-arch reveal reveal-delay-2"
           role="img"
@@ -249,10 +316,13 @@ export default function Uni2Case() {
         </div>
         <p className="case-caption reveal reveal-delay-3">{tc.uni2saas.animCaption}</p>
 
-        <SkillTags
-          skills={['React 18', 'TypeScript', 'Vite', 'TailwindCSS 4', 'Zustand', 'React Query', 'React Hook Form', 'Zod', 'Framer Motion', 'React Router 7', 'Axios', 'pnpm', 'Claude Code']}
-          className="reveal reveal-delay-3"
-        />
+        <div className="uni2-stack reveal reveal-delay-3">
+          <span className="uni2-stack-label">{tc.uni2saas.stackLabel}</span>
+          <SkillTags
+            skills={['React 18', 'TypeScript', 'Vite', 'TailwindCSS 4', 'Zustand', 'React Query', 'React Hook Form', 'Zod', 'Framer Motion', 'React Router 7', 'Claude Code']}
+            className="uni2-stack-tags"
+          />
+        </div>
       </CaseSection>
 
       {/* 03 — Outcomes */}

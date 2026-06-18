@@ -113,6 +113,7 @@ export const es: Translations = {
         stats:    { commits: 'Commits firmados', files: 'Archivos tocados', lines: 'Líneas agregadas' },
         platformNavAriaLabel: 'Highlights de plataforma',
         platformLabels: ['Biométrico', 'Sistema Modal', 'Librerías'],
+        stackLabel: 'Stack · plataforma core',
         biometric: {
           p1:      'Pipeline de autorización digital y onboarding biométrico — el feature de mayor impacto entregado en todo el proyecto. AWS Amplify Face Liveness para captura biométrica, DECEVAL para firma electrónica, y Verifik para validación de identidad y consultas a centrales de riesgo.',
           p2:      'El flujo gestiona entrega de tokens, comparación de número de documento, reenvío con feedback en pantalla, y un rol dedicado de Aliado Digital para operaciones asistidas en campo — asesores que acompañan a los clientes en el proceso cuando el autoservicio no es viable. Reemplazó procesos de aprobación presenciales en papel con un pipeline completamente remoto.',
@@ -141,6 +142,7 @@ export const es: Translations = {
         fsdAriaLabel: 'Capas de Feature-Sliced Design: pages, processes, steps, features, domains, components',
         fsdCaption:   'Feature-Sliced Design (adaptado) · las capas superiores importan de las inferiores, nunca al revés · elimina un proceso sin romper nada',
         animCaption:  'Uni2 SaaS · resumen ~31s · originación composable · captura declarativa · decisión del analista · composable por rol · multi-tenant',
+        stackLabel:   'Stack · Uni2 SaaS',
       },
       reel: {
         brandSublabel: 'resumen',
@@ -195,6 +197,18 @@ export const es: Translations = {
           'decision':           'Decisión',
         },
         closing: { title: 'Originación', titleItalic: 'a tu medida.' },
+      },
+      anatomy: {
+        eyebrow:     'anatomía de un campo',
+        title:       'Un objeto define',
+        titleItalic: 'todo.',
+        map: [
+          { title: 'Input con búsqueda',       detail: 'la UI se elige sola según el tipo' },
+          { title: 'Opciones desde la API',    detail: 'sin listas quemadas en el front' },
+          { title: 'Depende de "Marca"',       detail: 'se habilita y filtra en cascada' },
+          { title: 'Validación Zod · español', detail: 'mensaje de error automático' },
+        ],
+        caption: 'Seis líneas de config definen UI, datos, dependencias y validación. Agregar un campo es una línea — no un PR.',
       },
       outcomes: {
         items: [

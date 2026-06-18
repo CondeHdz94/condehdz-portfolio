@@ -113,6 +113,7 @@ export const en: Translations = {
         stats:    { commits: 'Commits signed', files: 'Files touched', lines: 'Lines added' },
         platformNavAriaLabel: 'Platform highlights',
         platformLabels: ['Biometric', 'Modal System', 'Libraries'],
+        stackLabel: 'Stack · core platform',
         biometric: {
           p1:      'Digital authorization and biometric onboarding pipeline — the highest-impact feature delivered across the engagement. AWS Amplify Face Liveness for biometric capture, DECEVAL for electronic signature, and Verifik for identity validation and credit bureau queries.',
           p2:      "The flow handles token delivery, document number comparison, re-send with on-screen feedback, and a dedicated Digital Ally role for field-assisted operations — credit officers who accompany clients through the process when self-service isn't viable. It replaced paper-based, in-person approval processes with a fully remote pipeline.",
@@ -141,6 +142,7 @@ export const en: Translations = {
         fsdAriaLabel: 'Feature-Sliced Design layers: pages, processes, steps, features, domains, components',
         fsdCaption:   'Feature-Sliced Design (adapted) · upper layers import from lower, never the reverse · delete a process without breaking anything',
         animCaption:  'Uni2 SaaS · ~31s overview · composable origination · declarative capture · analyst decision · role-composable · multi-tenant',
+        stackLabel:   'Stack · Uni2 SaaS',
       },
       reel: {
         brandSublabel: 'overview',
@@ -195,6 +197,18 @@ export const en: Translations = {
           'decision':           'Decision',
         },
         closing: { title: 'Origination,', titleItalic: 'your way.' },
+      },
+      anatomy: {
+        eyebrow:     'anatomy of one field',
+        title:       'One object defines',
+        titleItalic: 'everything.',
+        map: [
+          { title: 'Search-as-you-type input', detail: 'the UI picks itself from the type' },
+          { title: 'Options from the API',     detail: 'no lists hardcoded in the front end' },
+          { title: 'Depends on "Brand"',       detail: 'enables and cascade-filters' },
+          { title: 'Zod validation · Spanish', detail: 'error message generated automatically' },
+        ],
+        caption: 'Six lines of config define UI, data, dependencies and validation. Adding a field is one line — not a PR.',
       },
       outcomes: {
         items: [

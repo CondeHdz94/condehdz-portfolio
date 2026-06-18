@@ -151,6 +151,201 @@
   padding: 0.05em 0.35em;
 }
 
+/* ─── Field anatomy figure — one config line → one behavior ─ */
+
+.uni2-anatomy {
+  margin: 44px 0;
+}
+
+.uni2-anatomy-head {
+  margin-bottom: 24px;
+}
+
+.uni2-anatomy-eyebrow {
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: var(--text-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--case-accent);
+  margin-bottom: 9px;
+}
+
+.uni2-anatomy-title {
+  display: block;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--case-text);
+  line-height: 1.15;
+}
+
+.uni2-anatomy-title em {
+  font-style: italic;
+  color: var(--case-accent);
+}
+
+.uni2-anatomy-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* config card */
+.uni2-anatomy-config {
+  border: 1px solid var(--case-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--case-surface);
+}
+
+.uni2-anatomy-filename {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: var(--text-micro);
+  letter-spacing: 0.04em;
+  color: var(--case-muted);
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--case-border);
+  background: var(--case-bg);
+}
+
+.uni2-anatomy-code {
+  padding: 18px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: var(--text-sm);
+  line-height: 1.95;
+}
+
+.uni2-anatomy-line {
+  display: block;
+  color: var(--case-muted);
+  white-space: nowrap;
+}
+
+.uni2-anatomy-line--indent {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-left: 22px;
+}
+
+.uni2-anatomy-codetext {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uni2-anatomy-key  { color: var(--case-accent); }
+.uni2-anatomy-val  { color: var(--case-text); }
+.uni2-anatomy-punc { color: var(--case-muted); }
+
+.uni2-anatomy-badge {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--case-accent);
+  background: var(--case-accent-bg);
+  border: 1px solid var(--case-accent-border);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* mapped behaviors */
+.uni2-anatomy-map {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.uni2-anatomy-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--case-border);
+  border-radius: 4px;
+  background: var(--case-surface);
+}
+
+.uni2-anatomy-num {
+  flex-shrink: 0;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--case-accent);
+  background: var(--case-accent-bg);
+  border: 1px solid var(--case-accent-border);
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.uni2-anatomy-rowtext {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.uni2-anatomy-rowtitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--case-text);
+}
+
+.uni2-anatomy-rowdetail {
+  font-size: var(--text-micro);
+  color: var(--case-muted);
+}
+
+.uni2-anatomy-rowkey {
+  flex-shrink: 0;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--case-muted);
+  background: var(--case-bg);
+  border: 1px solid var(--case-border);
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+
+.uni2-anatomy-caption {
+  margin-top: 20px;
+}
+
+/* ─── Stack strips — one per chapter, labelled ───────────── */
+
+.uni2-stack {
+  margin-top: 40px;
+}
+
+/* inside the platform region the section padding already separates it */
+.cases-region .uni2-stack {
+  margin-top: 0;
+}
+
+.uni2-stack-label {
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: var(--text-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+}
+
+.uni2-stack .case-skill-tags {
+  margin-top: 14px;
+}
+
 /* ─── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 768px) {
@@ -165,6 +360,10 @@
 
   .uni2-arch {
     flex-direction: column;
+  }
+
+  .uni2-anatomy-grid {
+    grid-template-columns: 1fr;
   }
 
   .uni2-arch-layer {

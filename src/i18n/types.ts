@@ -88,6 +88,7 @@ export interface Uni2T {
     stats: { commits: string; files: string; lines: string }
     platformNavAriaLabel: string
     platformLabels: [string, string, string]
+    stackLabel: string
     biometric: { p1: string; p2: string; outcome: string }
     modal:     { p1: string; p2: string; outcome: string }
     libraries: { p1: string; outcome: string }
@@ -105,6 +106,7 @@ export interface Uni2T {
     fsdAriaLabel: string
     fsdCaption:   string
     animCaption:  string
+    stackLabel:   string
   }
   reel: {
     brandSublabel:   string
@@ -125,6 +127,18 @@ export interface Uni2T {
     tenants:  Record<string, { name: string; tagline: string }>
     stepLabels: Record<string, string>
     closing:  { title: string; titleItalic: string }
+  }
+  anatomy: {
+    eyebrow:     string
+    title:       string
+    titleItalic: string
+    map: [
+      { title: string; detail: string },
+      { title: string; detail: string },
+      { title: string; detail: string },
+      { title: string; detail: string },
+    ]
+    caption: string
   }
   outcomes: {
     items:   [string, string, string, string]
