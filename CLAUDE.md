@@ -52,7 +52,7 @@ src/
 │   ├── cases.config.ts             # CASES array + getCaseNav() for footer prev/next
 │   ├── CaseLayout.tsx              # Shared: CaseSection, CaseLabel, SkillTags, CaseFooterNav
 │   ├── uni2/
-│   │   ├── Uni2Case.tsx            # UNI2 case page (Platform contribution + Uni2Lite founding eng)
+│   │   ├── Uni2Case.tsx            # UNI2 case page (Platform contribution + Uni2 SaaS founding eng)
 │   │   ├── Uni2Case.css            # Imports TJCase.css, overrides indigo accent
 │   │   └── saasReel/               # 45s animated SaaS reel (Shot1–Shot8 + AnalystApp + captions)
 │   ├── taylor-johnson/
@@ -141,7 +141,7 @@ Key exports:
 ### UNI2 (`/case/uni2`)
 Current role (2021–present). Two chapters:
 - **Platform contribution** — 4+ years on a 30-role banking platform (React + Redux + MUI). Three platform highlights with sidebar nav: Biometric Pipeline, Modal System, Library Modernization. Stats: +3,140 commits, +5,300 files, +470K lines.
-- **Uni2Lite founding engineer** — new platform from scratch (Feb 2025). FSD architecture, declarative form engine (Zod + RHF), agnostic stepper, dual edit/consult mode. Animated 45s SaaS reel (`saasReel/`).
+- **Uni2 SaaS founding engineer** — new platform from scratch (Feb 2025). FSD architecture, declarative form engine (Zod + RHF), agnostic stepper, dual edit/consult mode. Animated 45s SaaS reel (`saasReel/`).
 
 Accent: indigo `#4F46E5` light / `#818CF8` dark.
 

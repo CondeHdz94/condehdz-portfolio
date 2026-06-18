@@ -92,7 +92,7 @@ export interface Uni2T {
     modal:     { p1: string; p2: string; outcome: string }
     libraries: { p1: string; outcome: string }
   }
-  uni2lite: {
+  uni2saas: {
     sectionTitle: string
     p1:      string
     p2:      string
@@ -105,6 +105,26 @@ export interface Uni2T {
     fsdAriaLabel: string
     fsdCaption:   string
     animCaption:  string
+  }
+  reel: {
+    brandSublabel:   string
+    caption:  { kicker: string; line: string }
+    thesis:   { kicker: string; title: string; titleItalic: string; sub: string; addStep: string }
+    steps:    string[]
+    chaptersHeading: string
+    pillars: [
+      { name: string; line: string },
+      { name: string; line: string },
+      { name: string; line: string },
+      { name: string; line: string },
+    ]
+    captura:  { formTitle: string; fieldLabels: Record<string, string> }
+    decision: { scoreLabel: string; riskLabel: string; rules: [string, string, string]; rulesCount: string; approve: string }
+    roles:    { chipSuffix: string; lanes: [{ name: string; role: string }, { name: string; role: string }, { name: string; role: string }] }
+    tenant:   { flowLabel: string }
+    tenants:  Record<string, { name: string; tagline: string }>
+    stepLabels: Record<string, string>
+    closing:  { title: string; titleItalic: string }
   }
   outcomes: {
     items:   [string, string, string, string]

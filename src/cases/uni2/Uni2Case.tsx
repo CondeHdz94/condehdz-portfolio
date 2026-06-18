@@ -59,7 +59,7 @@ export default function Uni2Case() {
     return () => observer.disconnect()
   }, [])
 
-  const { d1, d2, d3, d4, d5 } = tc.uni2lite
+  const { d1, d2, d3, d4, d5 } = tc.uni2saas
 
   return (
     <div className="case-page case-page--uni2">
@@ -191,13 +191,13 @@ export default function Uni2Case() {
         />
       </CaseSection>
 
-      {/* 02 — Uni2Lite */}
+      {/* 02 — Uni2 SaaS */}
       <CaseSection>
-        <CaseLabel num="02">Uni2Lite — Founding Engineer</CaseLabel>
+        <CaseLabel num="02">Uni2 SaaS — Founding Engineer</CaseLabel>
 
-        <h3 className="case-section-title reveal">{tc.uni2lite.sectionTitle}</h3>
-        <p className="case-body reveal reveal-delay-1">{tc.uni2lite.p1}</p>
-        <p className="case-body reveal reveal-delay-1">{tc.uni2lite.p2}</p>
+        <h3 className="case-section-title reveal">{tc.uni2saas.sectionTitle}</h3>
+        <p className="case-body reveal reveal-delay-1">{tc.uni2saas.p1}</p>
+        <p className="case-body reveal reveal-delay-1">{tc.uni2saas.p2}</p>
 
         <ol className="uni2-differentiators reveal reveal-delay-2">
           <li>
@@ -223,31 +223,31 @@ export default function Uni2Case() {
         <div
           className="uni2-arch reveal reveal-delay-2"
           role="img"
-          aria-label={tc.uni2lite.fsdAriaLabel}
+          aria-label={tc.uni2saas.fsdAriaLabel}
         >
           {FSD_LAYER_NAMES.map((name, i) => (
             <div key={name} className={`uni2-arch-layer${FSD_ACTIVE.has(name) ? ' uni2-arch-layer--active' : ''}`}>
               <div className="uni2-arch-layer-name">{name}</div>
-              <div className="uni2-arch-layer-desc">{tc.uni2lite.fsdLayers[i]}</div>
+              <div className="uni2-arch-layer-desc">{tc.uni2saas.fsdLayers[i]}</div>
             </div>
           ))}
         </div>
-        <p className="case-caption reveal reveal-delay-2">{tc.uni2lite.fsdCaption}</p>
+        <p className="case-caption reveal reveal-delay-2">{tc.uni2saas.fsdCaption}</p>
 
-        {/* Animated scene · 45s SaaS reel */}
+        {/* Animated scene · 30.7s SaaS reel (resumen) */}
         <div className="case-stage-wrap reveal reveal-delay-3" style={{ marginTop: 48 }}>
           <Stage
             width={1920}
             height={1080}
-            duration={45}
+            duration={30.7}
             background="#03060f"
-            persistKey="uni2-saas-anim"
+            persistKey="uni2-saas-overview"
             initialTime={0}
           >
             <Uni2SaaSReel />
           </Stage>
         </div>
-        <p className="case-caption reveal reveal-delay-3">{tc.uni2lite.animCaption}</p>
+        <p className="case-caption reveal reveal-delay-3">{tc.uni2saas.animCaption}</p>
 
         <SkillTags
           skills={['React 18', 'TypeScript', 'Vite', 'TailwindCSS 4', 'Zustand', 'React Query', 'React Hook Form', 'Zod', 'Framer Motion', 'React Router 7', 'Axios', 'pnpm', 'Claude Code']}

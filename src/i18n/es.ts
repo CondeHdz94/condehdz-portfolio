@@ -24,15 +24,15 @@ export const es: Translations = {
   about: {
     quote: '"Las mejores interfaces nacen de ser curioso con el problema antes de ser ingenioso con la solución."',
     p1:    'Ingeniero Multimedia de la Universidad de San Buenaventura, fluido en Figma y en el codebase. Cinco años llevando productos del boceto a producción en React + TypeScript, con un ojo visual afinado por un background en motion graphics y posproducción.',
-    p2:    'Actualmente arquitecturando Uni2 Lite — un orquestador de solicitudes de crédito construido sobre Feature-Sliced Design, un motor declarativo de formularios sobre Zod + React Hook Form, un stepper desacoplado con modos dual edición/consulta, y una capa de servicios con interceptores Axios encadenados. El tipo de código que sobrevive al segundo equipo.',
+    p2:    'Actualmente arquitecturando Uni2 SaaS — un orquestador de solicitudes de crédito construido sobre Feature-Sliced Design, un motor declarativo de formularios sobre Zod + React Hook Form, un stepper desacoplado con modos dual edición/consulta, y una capa de servicios con interceptores Axios encadenados. El tipo de código que sobrevive al segundo equipo.',
   },
   experience: {
     caseStudyLabel: 'Caso de estudio',
     currentBadge:   'Actual',
     entries: {
       uni2: {
-        desc:      'Cuatro años contribuyendo a una plataforma bancaria de 30 roles (React + Redux) — actualmente como Sr. Frontend Lead e Ingeniero Fundador de Uni2 Lite: arquitectura FSD, motor declarativo de formularios sobre Zod + RHF, stepper desacoplado con modos dual edición/consulta.',
-        caseLabel: 'Uni2 Lite — Orquestador de crédito',
+        desc:      'Cuatro años contribuyendo a una plataforma bancaria de 30 roles (React + Redux) — actualmente como Sr. Frontend Lead e Ingeniero Fundador de Uni2 SaaS: arquitectura FSD, motor declarativo de formularios sobre Zod + RHF, stepper desacoplado con modos dual edición/consulta.',
+        caseLabel: 'Uni2 SaaS — Orquestador de crédito',
         caseMeta:  'FSD · Zod + RHF · +470K líneas',
       },
       tj: {
@@ -57,7 +57,7 @@ export const es: Translations = {
       systems:     { title: 'Sistemas e Higiene',    hint: 'Arquitectura, pruebas, accesibilidad.' },
     },
     notes: {
-      react:       'Diario. Arquitecturando Uni2 Lite sobre hooks + patrones suspense.',
+      react:       'Diario. Arquitecturando Uni2 SaaS sobre hooks + patrones suspense.',
       typescript:  'Modo estricto por defecto. Genéricos en lugar de comentarios.',
       javascript:  'El sustrato.',
       css:         'Variables CSS, container queries, lo nuevo.',
@@ -94,15 +94,15 @@ export const es: Translations = {
   cases: {
     uni2: {
       navTitle: 'UNI2 · 2021 – Presente',
-      eyebrow:  'UNI2 Microcrédito · Sr. Frontend Lead · Ingeniero Fundador, Uni2Lite · 2021 – Presente',
+      eyebrow:  'UNI2 Microcrédito · Sr. Frontend Lead · Ingeniero Fundador, Uni2 SaaS · 2021 – Presente',
       headline: 'Software bancario para treinta roles, construido desde el frontend.',
       subhead:  'Cuatro años en un núcleo bancario en producción. Luego un inicio limpio: arquitecturando un motor composable donde cualquier proceso de crédito se ensambla desde configuración, no desde código.',
       context: {
         sectionTitle: 'Una plataforma bancaria en producción, con operaciones diarias, treinta roles de usuario y cero tolerancia al tiempo de inactividad.',
         p1:       'UNI2 es la interfaz web interna de una empresa colombiana de microcrédito — la plataforma a través de la cual se origina, aprueba, desembolsa y hace seguimiento de cada operación de crédito. Los usuarios no son usuarios abstractos: son asesores de crédito gestionando solicitudes, aprobadores revisando riesgo, gerentes de cartera monitoreando recuperación, contadores cerrando libros mensuales y directores regionales rastreando desempeño comercial. Más de treinta roles con menús, permisos y flujos de navegación distintos. El sistema no tolera tiempo de inactividad.',
-        p2:       'Este proyecto tiene dos capítulos conectados. Los primeros cuatro años y más: contribuidor a un codebase establecido de React + Redux con un dominio complejo, mejoras técnicas progresivas junto a la entrega de features, y el tipo de aprendizaje que solo viene de ver las consecuencias de las decisiones en producción. Inicio de 2025: Uni2Lite — una plataforma separada construida desde el primer commit por un único desarrollador frontend, con el objetivo explícito de dejar la arquitectura correcta para el equipo que eventualmente se unirá.',
+        p2:       'Este proyecto tiene dos capítulos conectados. Los primeros cuatro años y más: contribuidor a un codebase establecido de React + Redux con un dominio complejo, mejoras técnicas progresivas junto a la entrega de features, y el tipo de aprendizaje que solo viene de ver las consecuencias de las decisiones en producción. Inicio de 2025: Uni2 SaaS — una plataforma separada construida desde el primer commit por un único desarrollador frontend, con el objetivo explícito de dejar la arquitectura correcta para el equipo que eventualmente se unirá.',
         company:  'UNI2 Microcrédito',
-        role:     'Sr. Frontend Lead\nIngeniero Fundador (Uni2Lite)',
+        role:     'Sr. Frontend Lead\nIngeniero Fundador (Uni2 SaaS)',
         duration: '4 años 6 meses · En curso',
         location: 'Cali, Colombia',
       },
@@ -128,9 +128,9 @@ export const es: Translations = {
           outcome: 'Peso del bundle reducido con cada eliminación — ninguna librería eliminada sin una justificación documentada y un reemplazo que se ganó su lugar.',
         },
       },
-      uni2lite: {
+      uni2saas: {
         sectionTitle: 'No es un formulario de crédito. Es un motor para ensamblar cualquier proceso de originación — en horas, no en sprints.',
-        p1:   'A inicios de 2025, la empresa inició Uni2Lite: una plataforma separada para su segmento de servicios. Sin legado que heredar — una config Vite en blanco y una pregunta fundamental: qué tipo de codebase construir. La restricción: un solo desarrollador frontend, la expectativa de que otros se unirían eventualmente, y la responsabilidad de dejarles una base que valiera la pena heredar.',
+        p1:   'A inicios de 2025, la empresa inició Uni2 SaaS: una plataforma separada para su segmento de servicios. Sin legado que heredar — una config Vite en blanco y una pregunta fundamental: qué tipo de codebase construir. La restricción: un solo desarrollador frontend, la expectativa de que otros se unirían eventualmente, y la responsabilidad de dejarles una base que valiera la pena heredar.',
         p2:   'El insight que lo definió todo: en productos financieros, los procesos cambian más rápido que el código. Nueva regulación, nuevo producto, nuevo segmento de socios — si cada cambio de proceso requiere un sprint de refactoring, ya perdiste. La respuesta es un motor composable de originación de crédito. No una app. Una fábrica de apps. Los steps — preaprobación, cliente, crédito, contacto, asegurabilidad, firma OTP, documentos — son piezas independientes. Los procesos los ensamblan. Un step no sabe en qué proceso vive. Cinco decisiones hicieron esto posible:',
         d1: { title: 'Modo dual nativo.',     pre: 'El mismo componente',    post: 'renderiza en modo edición para el cliente que completa la solicitud y en modo consulta (solo lectura) para el analista que la revisa desde su cola de trabajo. Una sola fuente de verdad, dos experiencias, cero duplicación de componentes.' },
         d2: { title: 'Formularios declarativos.', pre: 'Los campos se describen como', post: '. Un builder genera automáticamente el schema Zod con mensajes de validación en español, el grid responsivo y la conexión con React Hook Form. Agregar un campo es una línea de config, no un PR de 200 líneas.' },
@@ -140,7 +140,61 @@ export const es: Translations = {
         fsdLayers:    ['puntos de entrada', 'flujos multi-step', 'pasos de formulario', 'features de dominio', 'modelos de datos', 'primitivos de UI'],
         fsdAriaLabel: 'Capas de Feature-Sliced Design: pages, processes, steps, features, domains, components',
         fsdCaption:   'Feature-Sliced Design (adaptado) · las capas superiores importan de las inferiores, nunca al revés · elimina un proceso sin romper nada',
-        animCaption:  'Uni2 SaaS · 45s · originación composable · ingreso declarativo · roles · multi-tenant · drag-to-compose',
+        animCaption:  'Uni2 SaaS · resumen ~31s · originación composable · captura declarativa · decisión del analista · composable por rol · multi-tenant',
+      },
+      reel: {
+        brandSublabel: 'resumen',
+        caption: { kicker: 'el problema', line: 'Originar un crédito era lento.' },
+        thesis: {
+          kicker:      'uni2 · saas de originación',
+          title:       'Originación',
+          titleItalic: 'composable.',
+          sub:         'Un motor · piezas reusables.',
+          addStep:     '+ tu propio step',
+        },
+        steps: ['Pre-aprobación', 'Info cliente', 'Info crédito', 'Info contacto', 'Asegurabilidad', 'Habeas data', 'Documentos', 'Biometría', 'Firma electrónica', 'Listas · KYC', 'Capacidad de pago', 'Referencias', 'Comité', 'Desembolso', 'Decisión'],
+        chaptersHeading: 'cómo funciona · 4 piezas',
+        pillars: [
+          { name: 'Captura declarativa',        line: 'Cada formulario nace de un config. No de código.' },
+          { name: 'Decisión del analista',      line: 'Identidad, score y reglas en una sola pantalla.' },
+          { name: 'Composable por rol',         line: 'Un expediente. Cada rol ve y hace sólo lo suyo.' },
+          { name: 'Multi-tenant · white-label', line: 'Una plataforma. Tu marca. Tu proceso.' },
+        ],
+        captura: {
+          formTitle: 'info crédito · formulario',
+          fieldLabels: { channel_partner: 'Almacén', vehicle_brand: 'Marca', vehicle_line: 'Línea', model_year: 'Modelo' },
+        },
+        decision: {
+          scoreLabel: 'Score',
+          riskLabel:  'A− · riesgo bajo',
+          rules:      ['Identidad verificada', 'Ingresos consistentes', 'Score ≥ 680'],
+          rulesCount: '✓ 6/6 reglas',
+          approve:    'Aprobar crédito',
+        },
+        roles: {
+          chipSuffix: '· Tatiana Avilés · mismo expediente',
+          lanes: [
+            { name: 'Rol A', role: 'captura' },
+            { name: 'Rol B', role: 'documenta' },
+            { name: 'Rol C', role: 'decide' },
+          ],
+        },
+        tenant: { flowLabel: 'flujo' },
+        tenants: {
+          'acme-bank':                { name: 'ACME Bank',                tagline: 'Banca · Crédito Vehicular' },
+          'solidaridad-microcredito': { name: 'Solidaridad Microcrédito', tagline: 'Microcrédito · Productivo' },
+        },
+        stepLabels: {
+          'pre-approver':       'Pre-aprobación',
+          'info-client':        'Info cliente',
+          'info-credit':        'Info crédito',
+          'info-contact':       'Info contacto',
+          'insurability':       'Asegurabilidad',
+          'data-authorization': 'Autorización habeas',
+          'documents':          'Documentos',
+          'decision':           'Decisión',
+        },
+        closing: { title: 'Originación', titleItalic: 'a tu medida.' },
       },
       outcomes: {
         items: [
