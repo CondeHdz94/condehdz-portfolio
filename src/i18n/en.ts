@@ -19,7 +19,7 @@ export const en: Translations = {
     title:    'Design Engineer',
     bio:       'The usual path into design engineering starts with code and picks up design later. Mine ran the other way, from multimedia engineering. I build what everyone else avoids —form engines, tables, design systems— where ',
     bioStrong: 'design and engineering are the same decision.',
-    emailCta: 'Email me →',
+    emailCta: 'Email me',
     scroll:   'Scroll',
   },
   about: {

@@ -84,7 +84,7 @@ export default function Uni2Case() {
 
       {/* Nav */}
       <header className="case-nav">
-        <button onClick={handleBack} className="case-nav-back">← Camilo Conde</button>
+        <button onClick={handleBack} className="case-nav-back"><span className="case-nav-arrow" aria-hidden="true">←</span>Camilo Conde</button>
         <span className="case-nav-title">{tc.navTitle}</span>
         <div className="nav-actions">
           <button className="lang-toggle" onClick={toggleLang} aria-label={t.nav.toggleLang}>
