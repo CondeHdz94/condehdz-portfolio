@@ -28,7 +28,7 @@ export const SKILLS: Skill[] = ([
   { id: 'typescript', name: 'TypeScript',    cat: 'foundations', tier: 'core',      years: 3, icon: 'ts'       },
   { id: 'javascript', name: 'JavaScript',    cat: 'foundations', tier: 'core',      years: 7, icon: 'js'       },
   { id: 'css',        name: 'CSS / SASS',    cat: 'foundations', tier: 'core',      years: 7, icon: 'css'      },
-  { id: 'tailwind',   name: 'Tailwind',      cat: 'foundations', tier: 'working',   years: 3, icon: 'tailwind' },
+  { id: 'tailwind',   name: 'Tailwind',      cat: 'foundations', tier: 'core',      years: 3, icon: 'tailwind' },
   { id: 'svelte',     name: 'Svelte',        cat: 'foundations', tier: 'exploring', years: 1, icon: 'svelte'   },
   { id: 'astro',      name: 'Astro',         cat: 'foundations', tier: 'exploring', years: 1, icon: 'astro'    },
 

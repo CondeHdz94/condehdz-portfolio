@@ -17,14 +17,15 @@ export const es: Translations = {
   hero: {
     eyebrow:  'Disponible para nuevas oportunidades · Remoto / Cali',
     title:    'Design Engineer',
-    bio:      'Construyo las partes del frontend que nadie más quiere construir: motores de formularios, abstracciones de tablas, sistemas de diseño que sobreviven al segundo equipo.',
+    bio:       'El camino habitual al Design Engineering empieza en el código y suma diseño después. El mío fue al revés, desde la ingeniería multimedia. Construyo lo que el resto evita —form engines, tablas, design systems— donde ',
+    bioStrong: 'diseño e ingeniería son la misma decisión.',
     emailCta: 'Escríbeme →',
     scroll:   'Desplaza',
   },
   about: {
     quote: '"Las mejores interfaces nacen de ser curioso con el problema antes de ser ingenioso con la solución."',
     p1:    'Ingeniero Multimedia de la Universidad de San Buenaventura, fluido en Figma y en el codebase. Cinco años llevando productos del boceto a producción en React + TypeScript, con un ojo visual afinado por un background en motion graphics y posproducción.',
-    p2:    'Actualmente arquitecturando Uni2 SaaS — un orquestador de solicitudes de crédito construido sobre Feature-Sliced Design, un motor declarativo de formularios sobre Zod + React Hook Form, un stepper desacoplado con modos dual edición/consulta, y una capa de servicios con interceptores Axios encadenados. El tipo de código que sobrevive al segundo equipo.',
+    p2:    'Actualmente diseñando la arquitectura de Uni2 SaaS — un orquestador de solicitudes de crédito construido sobre Feature-Sliced Design, un motor declarativo de formularios sobre Zod + React Hook Form, un stepper desacoplado con modos dual edición/consulta, y una capa de servicios con interceptores Axios encadenados. El tipo de código que sobrevive al segundo equipo.',
   },
   experience: {
     caseStudyLabel: 'Caso de estudio',
@@ -36,28 +37,28 @@ export const es: Translations = {
         caseMeta:  'FSD · Zod + RHF · +470K líneas',
       },
       tj: {
-        desc:      'Modernizó un núcleo bancario COBOL desde pantallas verde 5250 hacia la web via Fresche Presto. Generación paramétrica de documentos, firma digital con TOPAZ, y automatización de procesos con Python + Selenium.',
+        desc:      'Modernicé un núcleo bancario COBOL desde pantallas verdes 5250 hacia la web vía Fresche Presto. Generación paramétrica de documentos, firma digital con TOPAZ y automatización de procesos con Python + Selenium.',
         caseLabel: 'Taylor & Johnson — Modernización COBOL',
         caseMeta:  'Presto · JsPDF · TOPAZ · Selenium · 4 escenas',
       },
       sistel: {
-        desc:      'Diseñó y construyó experiencias e-learning interactivas en HTML5 y Articulate, combinando interactividad, diseño lúdico y andragogía para impulsar el engagement en programas de capacitación corporativa.',
+        desc:      'Diseñé y construí experiencias e-learning interactivas en HTML5 y Articulate, combinando interactividad, diseño lúdico y andragogía para impulsar el engagement en programas de capacitación corporativa.',
         caseLabel: 'Sistel — Diseño e-learning',
         caseMeta:  'Identidad visual · autoría interactiva · LMS',
       },
     },
   },
   skills: {
-    headline:   'El stack que me gané, ordenado por con qué frecuencia entra a producción. Cada fila es una herramienta que elegiría de nuevo un lunes.',
+    headline:   'Mi stack de confianza, ordenado por nivel de uso en producción. Cada fila es una herramienta que, sin pensarlo dos veces, volvería a elegir para empezar el lunes.',
     yearsLabel: 'años',
     categories: {
-      foundations: { title: 'Fundamentos',          hint: 'Interfaces que sobreviven al segundo equipo.' },
+      foundations: { title: 'Fundamentos',          hint: 'La base sobre la que se construye todo lo demás.' },
       forms:       { title: 'Formularios y Estado',  hint: 'Las partes difíciles que nadie más quiere escribir.' },
       motion:      { title: 'Movimiento y Visual',   hint: 'Donde se ensaya el lenguaje de diseño.' },
       systems:     { title: 'Sistemas e Higiene',    hint: 'Arquitectura, pruebas, accesibilidad.' },
     },
     notes: {
-      react:       'Diario. Arquitecturando Uni2 SaaS sobre hooks + patrones suspense.',
+      react:       'Diario. Diseñando la arquitectura de Uni2 SaaS sobre hooks + patrones suspense.',
       typescript:  'Modo estricto por defecto. Genéricos en lugar de comentarios.',
       javascript:  'El sustrato.',
       css:         'Variables CSS, container queries, lo nuevo.',
@@ -96,11 +97,11 @@ export const es: Translations = {
       navTitle: 'UNI2 · 2021 – Presente',
       eyebrow:  'UNI2 Microcrédito · Sr. Frontend Lead · Ingeniero Fundador, Uni2 SaaS · 2021 – Presente',
       headline: 'Software bancario para treinta roles, construido desde el frontend.',
-      subhead:  'Cuatro años en un núcleo bancario en producción. Luego un inicio limpio: arquitecturando un motor composable donde cualquier proceso de crédito se ensambla desde configuración, no desde código.',
+      subhead:  'Cuatro años construyendo sobre un núcleo bancario en producción. Luego, un arranque desde cero: un motor donde cualquier proceso de crédito se ensambla desde configuración, no desde código.',
       context: {
         sectionTitle: 'Una plataforma bancaria en producción, con operaciones diarias, treinta roles de usuario y cero tolerancia al tiempo de inactividad.',
         p1:       'UNI2 es la interfaz web interna de una empresa colombiana de microcrédito — la plataforma a través de la cual se origina, aprueba, desembolsa y hace seguimiento de cada operación de crédito. Los usuarios no son usuarios abstractos: son asesores de crédito gestionando solicitudes, aprobadores revisando riesgo, gerentes de cartera monitoreando recuperación, contadores cerrando libros mensuales y directores regionales rastreando desempeño comercial. Más de treinta roles con menús, permisos y flujos de navegación distintos. El sistema no tolera tiempo de inactividad.',
-        p2:       'Este proyecto tiene dos capítulos conectados. Los primeros cuatro años y más: contribuidor a un codebase establecido de React + Redux con un dominio complejo, mejoras técnicas progresivas junto a la entrega de features, y el tipo de aprendizaje que solo viene de ver las consecuencias de las decisiones en producción. Inicio de 2025: Uni2 SaaS — una plataforma separada construida desde el primer commit por un único desarrollador frontend, con el objetivo explícito de dejar la arquitectura correcta para el equipo que eventualmente se unirá.',
+        p2:       'Este proyecto tiene dos capítulos conectados. Más de cuatro años: contribuidor a un codebase establecido de React + Redux con un dominio complejo, mejoras técnicas progresivas junto a la entrega de features, y el tipo de aprendizaje que solo viene de ver las consecuencias de las decisiones en producción. Inicio de 2025: Uni2 SaaS — una plataforma separada que lleva la originación de crédito a otras empresas como producto multi-tenant. Construida desde el primer commit por un único desarrollador frontend, con el objetivo explícito de dejar la arquitectura correcta para el equipo que eventualmente se unirá.',
         company:  'UNI2 Microcrédito',
         role:     'Sr. Frontend Lead\nIngeniero Fundador (Uni2 SaaS)',
         duration: '4 años 6 meses · En curso',
@@ -108,7 +109,7 @@ export const es: Translations = {
       },
       platform: {
         sectionTitle: 'Más de cuatro años de entrega continua en una plataforma bancaria en producción — actualmente como Frontend Lead.',
-        intro:    'Hoy el rol es Frontend Lead — el referente técnico para el trabajo frontend del equipo en el dominio de crédito, mientras sigo contribuyendo directamente a la plataforma principal. Los diseños de proceso y decisiones de implementación clave pasan por revisión mía antes de enviarse a producción. Más allá de la supervisión técnica, organicé y facilité la inducción práctica del equipo a herramientas de IA, traduciendo una iniciativa corporativa en una inducción estructurada sobre cómo integrar herramientas como Claude Code en el flujo de desarrollo diario.',
+        intro:    'Hoy mi rol es Frontend Lead — el referente técnico para el trabajo frontend del equipo en el dominio de crédito, mientras sigo contribuyendo directamente a la plataforma principal. Los diseños de proceso y las decisiones de implementación clave pasan por mi revisión antes de salir a producción. Más allá de la supervisión técnica, organicé y facilité la incorporación práctica del equipo a las herramientas de IA, convirtiendo una iniciativa corporativa en una inducción estructurada sobre cómo integrar herramientas como Claude Code en el flujo de desarrollo diario.',
         p2:       'La plataforma corre sobre React con Redux y Redux-Saga para gestión de estado, Material-UI para componentes, y SCSS con Bootstrap para estilos. Cada uno de los más de 30 roles operativos tiene su propia configuración de menú, conjunto de permisos y flujo de navegación — gestionados en archivos de configuración individuales por rol. Los cambios en componentes compartidos requieren rastrear todos los consumidores descendentes. Contribuir a un sistema de esta escala durante cuatro años significa aprender a leer el dominio antes de tocar el código.',
         stats:    { commits: 'Commits firmados', files: 'Archivos tocados', lines: 'Líneas agregadas' },
         platformNavAriaLabel: 'Highlights de plataforma',
@@ -121,7 +122,7 @@ export const es: Translations = {
         },
         modal: {
           p1:      'Patrón modal unificado — variantes central, lateral y de alerta con overlay y manejo de scroll consistentes — adoptado en todos los roles.',
-          p2:      'Antes, los modales se implementaban de forma independiente por feature: conflictos de z-index superpuestos, comportamiento de cierre inconsistente, sin scroll lock compartido. Un único sistema composable los reemplazó a todos. El componente compartido de resumen de solicitud, construido junto al sistema modal, eliminó implementaciones divergidas acumuladas durante años de trabajo paralelo en features.',
+          p2:      'Antes, los modales se implementaban de forma independiente por feature: conflictos de z-index superpuestos, comportamiento de cierre inconsistente, sin scroll lock compartido. Un único sistema modular los reemplazó a todos, dando coherencia de diseño y estructura a los modales de la plataforma. El componente compartido de resumen de solicitud, construido junto al sistema modal, eliminó implementaciones divergentes acumuladas durante años de trabajo paralelo en features.',
           outcome: 'Adoptado como estándar de plataforma en los 30+ roles — cada módulo y feature construido después usa el sistema. Cero conflictos de z-index por feature desde entonces.',
         },
         libraries: {
@@ -131,13 +132,13 @@ export const es: Translations = {
       },
       uni2saas: {
         sectionTitle: 'No es un formulario de crédito. Es un motor para ensamblar cualquier proceso de originación — en horas, no en sprints.',
-        p1:   'A inicios de 2025, la empresa inició Uni2 SaaS: una plataforma separada para su segmento de servicios. Sin legado que heredar — una config Vite en blanco y una pregunta fundamental: qué tipo de codebase construir. La restricción: un solo desarrollador frontend, la expectativa de que otros se unirían eventualmente, y la responsabilidad de dejarles una base que valiera la pena heredar.',
-        p2:   'El insight que lo definió todo: en productos financieros, los procesos cambian más rápido que el código. Nueva regulación, nuevo producto, nuevo segmento de socios — si cada cambio de proceso requiere un sprint de refactoring, ya perdiste. La respuesta es un motor composable de originación de crédito. No una app. Una fábrica de apps. Los steps — preaprobación, cliente, crédito, contacto, asegurabilidad, firma OTP, documentos — son piezas independientes. Los procesos los ensamblan. Un step no sabe en qué proceso vive. Cinco decisiones hicieron esto posible:',
+        p1:   'A inicios de 2025, la empresa inició Uni2 SaaS: una plataforma separada para ofrecer la originación de crédito como producto a otras empresas. Sin legado que heredar — una config Vite en blanco y una pregunta fundamental: qué tipo de codebase construir. La restricción: un solo desarrollador frontend, la expectativa de que otros se unirían eventualmente, y la responsabilidad de dejarles una base que valiera la pena heredar.',
+        p2:   'El insight que lo definió todo: en productos financieros, los procesos cambian más rápido que el código. Nueva regulación, nuevo producto, nuevo segmento de socios — si cada cambio de proceso requiere un sprint de refactoring, ya perdiste. La respuesta es un motor modular de originación de crédito. No una app. Una fábrica de apps. Los pasos — preaprobación, cliente, crédito, contacto, asegurabilidad, firma OTP, documentos, y el que haga falta — son piezas independientes. Los procesos los ensamblan. Un paso no sabe en qué proceso vive. Cinco decisiones hicieron esto posible:',
         d1: { title: 'Modo dual nativo.',     pre: 'El mismo componente',    post: 'renderiza en modo edición para el cliente que completa la solicitud y en modo consulta (solo lectura) para el analista que la revisa desde su cola de trabajo. Una sola fuente de verdad, dos experiencias, cero duplicación de componentes.' },
         d2: { title: 'Formularios declarativos.', pre: 'Los campos se describen como', post: '. Un builder genera automáticamente el schema Zod con mensajes de validación en español, el grid responsivo y la conexión con React Hook Form. Agregar un campo es una línea de config, no un PR de 200 líneas.' },
-        d3: { title: 'Stepper agnóstico.',    pre: 'El stepper orquesta sin saber lo que hace cada step. Cada step se registra via', mid: 'o', ret: 'y retorna', post: 'Un step de OTP, uno de carga de documentos y uno de formulario de 40 campos son idénticos desde la perspectiva del motor.' },
+        d3: { title: 'Stepper agnóstico.',    pre: 'El stepper orquesta sin saber lo que hace cada paso. Cada paso se registra vía', mid: 'o', ret: 'y retorna', post: 'Un paso de OTP, uno de carga de documentos y uno de formulario de 40 campos son idénticos desde la perspectiva del motor.' },
         d4: { title: 'Separación real de roles.', pre: 'Rutas públicas para firma del cliente (', mid: '),', suf: 'privada para analistas, distribuidores, administradores. Cada rol ve exactamente su superficie.' },
-        d5: { title: 'Arquitectura que aguanta.', body: 'Feature-Sliced Design con flujo de dependencias unidireccional. Un step nunca importa de otro step. Una feature nunca importa de otra feature. Elimina un proceso completo sin romper nada más.' },
+        d5: { title: 'Arquitectura que aguanta.', body: 'Feature-Sliced Design con flujo de dependencias unidireccional. Un paso nunca importa desde otro paso. Una feature nunca importa desde otra feature. Elimina un proceso completo sin romper nada más.' },
         fsdLayers:    ['puntos de entrada', 'flujos multi-step', 'pasos de formulario', 'features de dominio', 'modelos de datos', 'primitivos de UI'],
         fsdAriaLabel: 'Capas de Feature-Sliced Design: pages, processes, steps, features, domains, components',
         fsdCaption:   'Feature-Sliced Design (adaptado) · las capas superiores importan de las inferiores, nunca al revés · elimina un proceso sin romper nada',
@@ -152,7 +153,7 @@ export const es: Translations = {
           title:       'Originación',
           titleItalic: 'composable.',
           sub:         'Un motor · piezas reusables.',
-          addStep:     '+ tu propio step',
+          addStep:     '+ tu propio paso',
         },
         steps: ['Pre-aprobación', 'Info cliente', 'Info crédito', 'Info contacto', 'Asegurabilidad', 'Habeas data', 'Documentos', 'Biometría', 'Firma electrónica', 'Listas · KYC', 'Capacidad de pago', 'Referencias', 'Comité', 'Desembolso', 'Decisión'],
         chaptersHeading: 'cómo funciona · 4 piezas',
@@ -212,6 +213,7 @@ export const es: Translations = {
       },
       outcomes: {
         items: [
+          'Pipeline biométrico de autorización digital que redujo la aprobación de días o semanas a minutos — captura facial, firma electrónica y validación de identidad corriendo end-to-end y de forma remota, sin papel ni coordinación presencial.',
           'Flujo de originación de crédito reducido de coordinación manual de varios días a una sola sesión guiada — los operadores gestionan solicitudes end-to-end sin salir de la plataforma.',
           'La revisión de cumplimiento se movió dentro de la interfaz de originación — el modo dual edición/consulta del stepper eliminó formularios en papel paralelos que rastreaban los mismos datos en dos sistemas separados.',
           'Tasas de rechazo downstream del núcleo bancario reducidas — la capa de validación Zod + RHF detecta discrepancias de schema en el input, antes de llegar al núcleo.',
@@ -244,7 +246,7 @@ export const es: Translations = {
         outcome: '~40 operadores migrados de sesiones diarias en pantalla verde a interfaces web diseñadas específicamente — cero tiempo de inactividad por reentrenamiento durante el corte.',
       },
       case02: {
-        p1:           'Construí un motor de documentos — definido conjuntamente con el equipo COBOL — que generaba documentos bancarios desde consultas SQL y llamadas a servicios web. Cada parámetro (tipografía, espaciado, colores, logo, ubicación de firma) era configurable desde una tabla en AS/400, de modo que cualquier tipo de documento podía re-estilizarse sin tocar código. Una capa orientada al cliente, exponiendo ese mismo control a través de una interfaz modernizada con Presto, estaba en etapas finales de desarrollo al momento de la salida.',
+        p1:           'Construí un motor de documentos — definido conjuntamente con el equipo COBOL — que generaba documentos bancarios desde consultas SQL y llamadas a servicios web. Cada parámetro (tipografía, espaciado, colores, logo, ubicación de firma) era configurable desde una tabla en AS/400, de modo que cualquier tipo de documento podía re-estilizarse sin tocar código. Sobre esa base se estaba habilitando una herramienta para llevar esa parametrización del AS/400 —hasta entonces una tarea técnica— a una interfaz amigable, de modo que cualquier usuario pudiera configurar sus propios documentos sin intervención técnica.',
         schemaCaption:'Ejemplo ilustrativo · PDFP001 · columnas y datos ajustados para mayor claridad · la pantalla real no era visible para el usuario final',
         outcome:      '~200 tipos de documentos paramétricos automatizados mediante el motor JsPDF, reemplazando el diseño manual en AS/400.',
       },
@@ -275,7 +277,7 @@ export const es: Translations = {
       context: {
         sectionTitle: 'Cuando el contenido existe pero la experiencia no.',
         p1:       'La capacitación corporativa en Sistel siempre empezaba igual: expertos en la materia con conocimiento profundo del dominio, y una presentación — o un documento Word — para mostrarlo. El brief era bien intencionado: aquí está el contenido, conviértelo en un curso. La brecha entre eso y algo que un aprendiz realmente completaría era el problema de diseño.',
-        p2:       'Trabajando con Articulate Storyline, Flash y HTML5, cada curso se reconstruía desde el guión hasta el módulo publicado — primero el storyboard, luego el diseño de interacción, luego la capa visual. El objetivo no era digitalizar una presentación: era convertir contenido pasivo en decisiones activas, usando principios de andragogía para estructurar el ritmo y diseño lúdico para impulsar el engagement.',
+        p2:       'Trabajando con Articulate Storyline, Flash y HTML5, el trabajo abarcaba del guión al módulo publicado — primero el storyboard, luego el diseño de interacción, luego la capa visual. El objetivo no era digitalizar una presentación: era convertir contenido pasivo en decisiones activas, usando principios de andragogía para estructurar el ritmo y diseño lúdico para impulsar el engagement.',
         company:  'Sistel Ltda.',
         role:     'Web Course Developer',
         duration: '1 año · 5 meses',
@@ -295,7 +297,7 @@ export const es: Translations = {
       },
       workflowAriaLabel: 'Pipeline de diseño: del guión fuente al módulo interactivo',
       script: {
-        p1:             'Cada curso comenzaba como un brief de contenido — objetivos, procedimientos, regulaciones — formateado para un salón de clases o una presentación estática. El proceso de diseño invirtió la entrega: identificar las decisiones que el aprendiz necesita tomar, luego construir interacciones alrededor de esos puntos de decisión. Un módulo de cumplimiento normativo se convirtió en un escenario ramificado. Una capacitación de producto se convirtió en una simulación guiada. Lo que era pasivo se volvió activo.',
+        p1:             'Los cursos solían empezar como un brief de contenido — objetivos, procedimientos, regulaciones — formateado para un salón de clases o una presentación estática. El proceso de diseño invirtió la entrega: identificar las decisiones que el aprendiz necesita tomar, luego construir interacciones alrededor de esos puntos de decisión. Un módulo de cumplimiento normativo se convirtió en un escenario ramificado. Una capacitación de producto se convirtió en una simulación guiada. Lo que era pasivo se volvió activo.',
         p2:             'Articulate Storyline gestionaba la lógica de ramificación y el seguimiento de estado; HTML5 y CSS extendían la capa visual con animaciones personalizadas más allá de lo que la plataforma sola podía producir. Los principios de diseño lúdico — progresión, bucles de retroalimentación, pequeñas victorias — estaban embebidos en la estructura desde la etapa de storyboard, no aplicados al final.',
         pipelineCaption:'Pipeline de diseño · del guión fuente al módulo interactivo publicado',
         animCaption:    'Cada curso fue rebranded para el cliente. Prueba los sistemas de paleta más comunes →',
@@ -303,7 +305,7 @@ export const es: Translations = {
       outcomes: {
         items: [
           'Presentaciones pasivas y manuales de procedimientos reemplazados end-to-end con módulos interactivos HTML5 — escenarios ramificados, feedback animado, progresión a ritmo propio — publicados en plataformas LMS para entrega asíncrona.',
-          'Cada módulo construido desde cero por cliente: paleta, sistema de personajes e idioma de interacción alineados a las guías de marca, no adaptados de una plantilla compartida.',
+          'Cada módulo ajustado a la marca del cliente: paleta, sistema de personajes e idioma de interacción según sus propias guías.',
           'Temas cubiertos en los proyectos: salud ocupacional, seguridad de la información, lanzamientos de producto, onboarding corporativo y ergonomía en retail — cada uno requiriendo diseño de interacción específico del dominio, no una estructura de curso reutilizada.',
         ],
         closing: 'Cada proyecto construido alrededor de una marca, dominio y objetivo de aprendizaje específicos — no adaptado de una plantilla compartida.',

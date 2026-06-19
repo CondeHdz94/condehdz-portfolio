@@ -273,7 +273,7 @@ export default function App() {
         </h1>
         <div className="hero-meta">
           <p className="hero-title">{t.hero.title}</p>
-          <p className="hero-bio">{t.hero.bio}</p>
+          <p className="hero-bio">{t.hero.bio}<strong>{t.hero.bioStrong}</strong></p>
           <div className="hero-links">
             {HERO_LINKS.map((link) => (
               <a

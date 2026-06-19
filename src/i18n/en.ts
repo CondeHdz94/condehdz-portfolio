@@ -17,7 +17,8 @@ export const en: Translations = {
   hero: {
     eyebrow:  'Open to new roles · Remote / Cali',
     title:    'Design Engineer',
-    bio:      "I build the parts of a frontend that other people don't want to: form engines, table abstractions, design systems that survive their second team.",
+    bio:       'The usual path into design engineering starts with code and picks up design later. Mine ran the other way, from multimedia engineering. I build what everyone else avoids —form engines, tables, design systems— where ',
+    bioStrong: 'design and engineering are the same decision.',
     emailCta: 'Email me →',
     scroll:   'Scroll',
   },
@@ -51,7 +52,7 @@ export const en: Translations = {
     headline:   "The stack I've earned, ordered by how often it ships. Each row is a tool I'd still pick on a Monday.",
     yearsLabel: 'years',
     categories: {
-      foundations: { title: 'Foundations',       hint: 'Interfaces that survive their second team.' },
+      foundations: { title: 'Foundations',       hint: 'The base everything else is built on.' },
       forms:       { title: 'Forms & State',      hint: "The hard parts other people don't want to write." },
       motion:      { title: 'Motion & Visual',    hint: 'Where the design language is rehearsed.' },
       systems:     { title: 'Systems & Hygiene',  hint: 'Architecture, tests, accessibility.' },
@@ -96,11 +97,11 @@ export const en: Translations = {
       navTitle: 'UNI2 · 2021 – Present',
       eyebrow:  'UNI2 Microcrédito · Sr. Frontend Lead · Founding Engineer, Uni2 SaaS · 2021 – Present',
       headline: 'Banking software for thirty roles, built from the frontend.',
-      subhead:  'Four years on a live banking core. Then a clean start: architecting a composable engine where any credit process assembles from configuration, not code.',
+      subhead:  'Four years building on a live banking core. Then a clean start: architecting a composable engine where any credit process assembles from configuration, not code.',
       context: {
         sectionTitle: 'A live banking platform with daily operations, thirty user roles, and no room for downtime.',
         p1:       'UNI2 is the internal web interface of a Colombian microcredit company — the platform through which every credit operation is originated, approved, disbursed, and tracked. The users are not abstract end users: they are credit officers running loan applications, approvers reviewing risk, portfolio managers monitoring recovery, accountants closing monthly books, and regional directors tracking commercial performance. Thirty-plus roles with distinct menus, permissions, and navigation flows. The system doesn\'t tolerate downtime.',
-        p2:       'This engagement has two connected chapters. The first four-plus years: contributor to an established React + Redux codebase with a complex domain, progressive technical improvements alongside feature delivery, and the kind of learning that only comes from watching the consequences of decisions play out in production. Early 2025: Uni2 SaaS — a separate platform built from the first commit by a single frontend developer, with the explicit goal of getting the architecture right for the team that will eventually join.',
+        p2:       'This engagement has two connected chapters. The first four-plus years: contributor to an established React + Redux codebase with a complex domain, progressive technical improvements alongside feature delivery, and the kind of learning that only comes from watching the consequences of decisions play out in production. Early 2025: Uni2 SaaS — a separate platform that brings credit origination to other companies as a multi-tenant product. Built from the first commit by a single frontend developer, with the explicit goal of getting the architecture right for the team that will eventually join.',
         company:  'UNI2 Microcrédito',
         role:     'Sr. Frontend Lead\nFounding Engineer (Uni2 SaaS)',
         duration: '4 years 6 months · Ongoing',
@@ -108,7 +109,7 @@ export const en: Translations = {
       },
       platform: {
         sectionTitle: 'Four-plus years of continuous delivery on a live banking platform — currently as Frontend Lead.',
-        intro:    "Today the role is Frontend Lead — the technical anchor for the team's frontend work in the credit domain, while continuing to contribute directly to the main platform. Key process designs and implementation decisions are reviewed through me before they ship. Beyond technical oversight, I organized and facilitated the team's hands-on onboarding to AI tooling, translating a company-wide initiative into a structured induction on integrating tools like Claude Code into the day-to-day development workflow.",
+        intro:    "Today my role is Frontend Lead — the technical anchor for the team's frontend work in the credit domain, while continuing to contribute directly to the main platform. Key process designs and implementation decisions are reviewed through me before they ship. Beyond technical oversight, I organized and facilitated the team's hands-on onboarding to AI tooling, translating a company-wide initiative into a structured induction on integrating tools like Claude Code into the day-to-day development workflow.",
         p2:       'The platform runs on React with Redux and Redux-Saga for state management, Material-UI for components, and SCSS with Bootstrap for styling. Each of the 30+ operational roles has its own menu configuration, permission set, and navigation flow — managed through individual role config files. Changes to shared components require tracing all downstream consumers. Contributing to a system at this scale for four years means learning to read the domain before touching the code.',
         stats:    { commits: 'Commits signed', files: 'Files touched', lines: 'Lines added' },
         platformNavAriaLabel: 'Platform highlights',
@@ -121,7 +122,7 @@ export const en: Translations = {
         },
         modal: {
           p1:      'Unified modal pattern — central, lateral, and alert variants with consistent overlay and scroll handling — adopted across all roles.',
-          p2:      'Before this, modals were implemented independently per feature: overlapping z-index conflicts, inconsistent dismiss behavior, no shared scroll lock. A single composable system replaced them all. The shared application summary component, built alongside the modal system, eliminated diverged implementations that had accumulated across years of parallel feature work.',
+          p2:      'Before this, modals were implemented independently per feature: overlapping z-index conflicts, inconsistent dismiss behavior, no shared scroll lock. A single composable system replaced them all, bringing design and structural coherence to every modal. The shared application summary component, built alongside the modal system, eliminated diverged implementations that had accumulated across years of parallel feature work.',
           outcome: 'Adopted as platform standard across all 30+ roles — every module and feature built after the system shipped uses it. Zero per-feature z-index conflicts since.',
         },
         libraries: {
@@ -131,8 +132,8 @@ export const en: Translations = {
       },
       uni2saas: {
         sectionTitle: 'Not a credit form. An engine for assembling any credit origination process — in hours, not sprints.',
-        p1:   'In early 2025, the company started Uni2 SaaS: a separate platform for its services segment. No legacy to inherit — a blank Vite config and a foundational question: what kind of codebase to build. The constraint: one frontend developer, an expectation that others would eventually join, and the responsibility to leave them a foundation worth inheriting.',
-        p2:   "The insight that shaped everything: in financial products, processes change faster than code. New regulation, new product, new partner segment — if every process change requires a sprint of refactoring, you've already lost. The answer is a composable credit origination engine. Not an app. A factory for apps. The steps — pre-approval, client, credit, contact, insurability, OTP signature, documents — are independent pieces. Processes assemble them. A step doesn't know which process it lives in. Five decisions made this possible:",
+        p1:   'In early 2025, the company started Uni2 SaaS: a separate platform to offer credit origination as a product to other companies. No legacy to inherit — a blank Vite config and a foundational question: what kind of codebase to build. The constraint: one frontend developer, an expectation that others would eventually join, and the responsibility to leave them a foundation worth inheriting.',
+        p2:   "The insight that shaped everything: in financial products, processes change faster than code. New regulation, new product, new partner segment — if every process change requires a sprint of refactoring, you've already lost. The answer is a composable credit origination engine. Not an app. A factory for apps. The steps — pre-approval, client, credit, contact, insurability, OTP signature, documents, and whatever the process needs — are independent pieces. Processes assemble them. A step doesn't know which process it lives in. Five decisions made this possible:",
         d1: { title: 'Native dual mode.',     pre: 'The same',                post: 'component renders in edit mode for the client filling out the request and in consult (read-only) mode for the analyst reviewing it from their work queue. One source of truth, two experiences, zero component duplication.' },
         d2: { title: 'Declarative forms.',    pre: 'Fields are described as', post: '. A builder auto-generates the Zod schema with validation messages in Spanish, the responsive grid, and the React Hook Form connection. Adding a field is a single line of config, not a 200-line PR.' },
         d3: { title: 'Agnostic stepper.',     pre: "The stepper orchestrates without knowing what any step does. Each step registers itself via", mid: 'or', ret: 'and returns', post: "An OTP step, a document upload step, and a 40-field form step are identical from the engine's perspective." },
@@ -212,6 +213,7 @@ export const en: Translations = {
       },
       outcomes: {
         items: [
+          'Biometric authorization pipeline that cut approval from days or weeks to minutes — facial capture, electronic signature, and identity validation running end-to-end and fully remote, with no paper or in-person coordination.',
           'Credit origination flow reduced from multi-day manual coordination to a single guided session — operators run applications end-to-end without leaving the platform.',
           "Compliance review moved inside the origination interface — the stepper's dual edit/consult mode eliminated parallel paper forms tracking the same data in two separate systems.",
           'Downstream rejection rates from the banking core reduced — the Zod + RHF validation layer catches field schema mismatches at input, before they reach the core.',
@@ -244,7 +246,7 @@ export const en: Translations = {
         outcome: '~40 operators migrated from daily green-screen sessions to purpose-built web interfaces — zero retraining downtime during cutover.',
       },
       case02: {
-        p1:           'Built a document engine — jointly defined with the COBOL team — that generated banking documents from SQL queries and web service calls. Every parameter (typography, spacing, colors, logo, signature placement) was configurable from a table in AS/400, so any document type could be restyled without touching code. A client-facing layer, exposing that same control through a Presto-modernized interface, was in late stages of development at departure.',
+        p1:           'Built a document engine — jointly defined with the COBOL team — that generated banking documents from SQL queries and web service calls. Every parameter (typography, spacing, colors, logo, signature placement) was configurable from a table in AS/400, so any document type could be restyled without touching code. On top of that, a tool was being built to bring that AS/400 parametrization — until then a technical task — into a friendly interface, so any user could configure their own documents without technical intervention.',
         schemaCaption:'Illustrative example · PDFP001 · columns and data adjusted for clarity · the actual screen was not visible to the end user',
         outcome:      '~200 parametric document types automated through the JsPDF engine, replacing manual drafting in AS/400.',
       },
@@ -275,7 +277,7 @@ export const en: Translations = {
       context: {
         sectionTitle: "When the content exists but the experience doesn't.",
         p1:       'Corporate training at Sistel always started the same way: subject matter experts with deep domain knowledge, and a slide deck — or a Word document — to show for it. The brief was well-intentioned: here\'s the content, make it a course. The gap between that and something a learner would actually complete was the design problem.',
-        p2:       "Working with Articulate Storyline, Flash, and HTML5, each course was rebuilt from script to published module — storyboard first, then interaction design, then the visual layer. The goal wasn't to digitize a presentation: it was to turn passive content into active decisions, using andragogy principles to structure pacing and ludic design to drive engagement.",
+        p2:       "Working with Articulate Storyline, Flash, and HTML5, the work spanned from script to published module — storyboard first, then interaction design, then the visual layer. The goal wasn't to digitize a presentation: it was to turn passive content into active decisions, using andragogy principles to structure pacing and ludic design to drive engagement.",
         company:  'Sistel Ltda.',
         role:     'Web Course Developer',
         duration: '1 year · 5 months',
@@ -295,7 +297,7 @@ export const en: Translations = {
       },
       workflowAriaLabel: 'Design pipeline: source script to interactive module',
       script: {
-        p1:             'Every course started as a content brief — objectives, procedures, regulations — formatted for a classroom or a static presentation. The design process reversed the delivery: identify the decisions the learner needs to make, then build interactions around those decision points. A regulatory compliance module became a branching scenario. A product training became a guided simulation. What was passive became active.',
+        p1:             'Courses usually started as a content brief — objectives, procedures, regulations — formatted for a classroom or a static presentation. The design process reversed the delivery: identify the decisions the learner needs to make, then build interactions around those decision points. A regulatory compliance module became a branching scenario. A product training became a guided simulation. What was passive became active.',
         p2:             'Articulate Storyline handled branching logic and state tracking; HTML5 and CSS extended the visual layer with custom animations beyond what the platform alone could produce. Ludic design principles — progression, feedback loops, small wins — were embedded in the structure from the storyboard stage, not applied at the end.',
         pipelineCaption:'Design pipeline · from source script to published interactive module',
         animCaption:    'Each course was rebranded for the client. Try the most common palette systems →',
@@ -303,7 +305,7 @@ export const en: Translations = {
       outcomes: {
         items: [
           'Passive slide decks and procedure manuals replaced end-to-end with HTML5 interactive modules — branching scenarios, animated feedback, self-paced progression — published to LMS platforms for async delivery.',
-          'Every module built from scratch per client: palette, character system, and interaction language aligned to brand guidelines, not adapted from a shared template.',
+          "Every module tuned to the client's brand: palette, character system, and interaction language following their own guidelines.",
           'Topics covered across engagements: occupational health, information security, product launches, corporate onboarding, and retail ergonomics — each requiring domain-specific interaction design, not a reused course shell.',
         ],
         closing: 'Each engagement built around a specific brand, domain, and learning goal — not adapted from a shared template.',

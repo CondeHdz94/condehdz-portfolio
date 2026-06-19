@@ -25,11 +25,12 @@ export interface Translations {
     toggleLang:  string
   }
   hero: {
-    eyebrow:  string
-    title:    string
-    bio:      string
-    emailCta: string
-    scroll:   string
+    eyebrow:   string
+    title:     string
+    bio:       string
+    bioStrong: string
+    emailCta:  string
+    scroll:    string
   }
   about: {
     quote: string
