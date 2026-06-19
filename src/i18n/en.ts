@@ -193,7 +193,7 @@ export const en: Translations = {
           'info-credit':        'Credit info',
           'info-contact':       'Contact info',
           'insurability':       'Insurability',
-          'data-authorization': 'Data authorization',
+          'data-authorization': 'Authorization',
           'documents':          'Documents',
           'decision':           'Decision',
         },
@@ -231,7 +231,7 @@ export const en: Translations = {
       context: {
         sectionTitle: "The system that couldn't stop.",
         p1:       'The banking core ran on IBM AS/400 hardware with 5250 terminals, a technology stack from the 1980s still processing transactions daily. Operators navigated green-screen menus with keyboard shortcuts memorized over decades. The system worked. That was the problem.',
-        p2:       "Replacing it wasn't viable. Instead, Fresche Solutions' Presto acted as a translation layer — injecting a web rendering engine between the 5250 programs and the browser. The COBOL logic stayed untouched. The surface was rebuilt from scratch.",
+        p2:       "Replacing it wasn't viable. Instead, Fresche Solutions' Presto acted as a translation layer — injecting a web rendering engine between the 5250 programs and the browser. The COBOL logic stayed untouched. The surface was rebuilt entirely on top of it.",
         p3:       'Over the engagement, the role extended beyond implementation. For document processes and new integrations in particular, I became the technical reference — the person other team members consulted before starting anything new in that domain. That meant attending cross-area meetings to align on requirements and, on some occasions, joining client sessions directly to validate goals and constraints.',
         company:  'Taylor & Johnson International',
         role:     'Multimedia Engineer',
@@ -243,7 +243,7 @@ export const en: Translations = {
       sceneLabels: { M1: 'Form', M2: 'Table', M3: 'Detail' },
       case01: {
         p1:      'Translated legacy 5250 terminal screens into responsive web UIs via Presto — every workflow rebuilt in HTML, JavaScript, and CSS while the COBOL business logic underneath stayed untouched. Operators went from memorizing keyboard shortcuts on green-screen menus to navigating purpose-built interfaces with proper hierarchy, feedback, and visual consistency.',
-        outcome: '~40 operators migrated from daily green-screen sessions to purpose-built web interfaces — zero retraining downtime during cutover.',
+        outcome: '~40 operators migrated from daily green-screen sessions to tailored web interfaces — zero retraining downtime during cutover.',
       },
       case02: {
         p1:           'Built a document engine — jointly defined with the COBOL team — that generated banking documents from SQL queries and web service calls. Every parameter (typography, spacing, colors, logo, signature placement) was configurable from a table in AS/400, so any document type could be restyled without touching code. On top of that, a tool was being built to bring that AS/400 parametrization — until then a technical task — into a friendly interface, so any user could configure their own documents without technical intervention.',
@@ -255,15 +255,15 @@ export const en: Translations = {
         outcome: 'Paper-based in-branch signing replaced end-to-end — signature captured on TOPAZ pad, surfaced in Presto, embedded in the document, anchored to the ERP record.',
       },
       case04: {
-        p1:      "Built a Selenium-based automation to migrate records from our system into a third-party client's platform. The process was parameterized against a web service data source, allowing any batch size to be fed programmatically, replacing a manual, error-prone data entry operation for each client integration.",
-        outcome: 'First batch migrated ahead of schedule. Subsequent runs unattended during off-hours — parameterized, repeatable, no manual input per client.',
+        p1:      "Built a Selenium-based automation to migrate records from our system into a third-party client's platform. The process was parameterized against a web service data source, allowing any batch size to be fed programmatically, replacing the manual, error-prone data entry operation that each client integration required.",
+        outcome: 'First batch migrated ahead of schedule. The automation was parameterized to run unattended at any batch size — repeatable, no manual input per client.',
       },
       outcomes: {
         items: [
           '40 operators moved to rebuilt web interfaces — the 5250 green-screen replaced without touching the COBOL core underneath.',
           '200 document types automated through a parametric PDF engine driven by AS/400 table config, not hardcoded templates.',
           'Paper-based signing replaced end-to-end — TOPAZ LCD pads integrated directly into the Presto rendering layer.',
-          'Batch migrations running unattended overnight — four modernization tracks delivered in parallel across nearly three years, zero business logic rewritten.',
+          'Batch migration automation built and proven — four modernization tracks delivered in parallel across nearly three years, zero business logic rewritten.',
         ],
         closing: 'The 40-year-old COBOL core: untouched, still processing, still running. No rewrite, no migration, no business logic touched.',
       },
@@ -301,6 +301,12 @@ export const en: Translations = {
         p2:             'Articulate Storyline handled branching logic and state tracking; HTML5 and CSS extended the visual layer with custom animations beyond what the platform alone could produce. Ludic design principles — progression, feedback loops, small wins — were embedded in the structure from the storyboard stage, not applied at the end.',
         pipelineCaption:'Design pipeline · from source script to published interactive module',
         animCaption:    'Each course was rebranded for the client. Try the most common palette systems →',
+      },
+      controls: {
+        brandColor:     'Brand color',
+        brandColorAria: 'Brand color palette',
+        characterStyle: 'Character style',
+        guides: { geometric: 'Geometric', riso: 'Riso', line: 'Line', mascot: 'Mascot' },
       },
       outcomes: {
         items: [

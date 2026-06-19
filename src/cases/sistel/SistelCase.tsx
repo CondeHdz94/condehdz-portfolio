@@ -19,12 +19,7 @@ const PALETTES = [
   { primary: '#F4B400', accent: '#1F2438', label: 'Ámbar · Medianoche' },
 ]
 
-const GUIDE_OPTIONS: { value: GuideStyle; label: string }[] = [
-  { value: 'geometric', label: 'Geometric' },
-  { value: 'riso',      label: 'Riso'      },
-  { value: 'line',      label: 'Line'      },
-  { value: 'mascot',    label: 'Mascot'    },
-]
+const GUIDE_VALUES: GuideStyle[] = ['geometric', 'riso', 'line', 'mascot']
 
 const CLIENTS = {
   intl:     ['Unilever', 'J&J', 'Nutresa', 'Procaps', 'Syngenta'],
@@ -197,8 +192,8 @@ export default function SistelCase() {
         </p>
         <div className="sistel-tweaks reveal reveal-delay-3">
           <div className="sistel-tweaks-group">
-            <span className="sistel-tweaks-label">Brand color</span>
-            <div className="sistel-tweaks-palettes" role="group" aria-label="Brand color palette">
+            <span className="sistel-tweaks-label">{tc.controls.brandColor}</span>
+            <div className="sistel-tweaks-palettes" role="group" aria-label={tc.controls.brandColorAria}>
               {PALETTES.map((p, i) => (
                 <button
                   key={i}
@@ -213,16 +208,16 @@ export default function SistelCase() {
           </div>
           <div className="sistel-tweaks-sep" aria-hidden="true" />
           <div className="sistel-tweaks-group">
-            <span className="sistel-tweaks-label">Character style</span>
-            <div className="sistel-tweaks-guides" role="group" aria-label="Character style">
-              {GUIDE_OPTIONS.map(({ value, label }) => (
+            <span className="sistel-tweaks-label">{tc.controls.characterStyle}</span>
+            <div className="sistel-tweaks-guides" role="group" aria-label={tc.controls.characterStyle}>
+              {GUIDE_VALUES.map((value) => (
                 <button
                   key={value}
                   className={`sistel-guide-btn${guide === value ? ' is-active' : ''}`}
                   onClick={() => setGuide(value)}
                   aria-pressed={guide === value}
                 >
-                  {label}
+                  {tc.controls.guides[value]}
                 </button>
               ))}
             </div>

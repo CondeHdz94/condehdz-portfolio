@@ -208,6 +208,12 @@ export interface SistelT {
     pipelineCaption:string
     animCaption:    string
   }
+  controls: {
+    brandColor:     string
+    brandColorAria: string
+    characterStyle: string
+    guides: { geometric: string; riso: string; line: string; mascot: string }
+  }
   outcomes: {
     items:   [string, string, string]
     closing: string

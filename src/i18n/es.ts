@@ -2,11 +2,11 @@ import type { Translations } from './types'
 
 export const es: Translations = {
   nav: {
-    about:      'sobre',
+    about:      'sobre mí',
     experience: 'experiencia',
     skills:     'habilidades',
     contact:    'contacto',
-    sectionLabel: { hero: 'inicio', about: 'sobre', experience: 'experiencia', skills: 'habilidades', contact: 'contacto' },
+    sectionLabel: { hero: 'inicio', about: 'sobre mí', experience: 'experiencia', skills: 'habilidades', contact: 'contacto' },
     pillLabel:    { hero: 'Inicio', about: 'Sobre mí', experience: 'Experiencia', skills: 'Habilidades', contact: 'Contacto' },
     ariaLabel:   'Secciones de la página',
     skipLink:    'Saltar al contenido',
@@ -152,10 +152,10 @@ export const es: Translations = {
           kicker:      'uni2 · saas de originación',
           title:       'Originación',
           titleItalic: 'composable.',
-          sub:         'Un motor · piezas reusables.',
+          sub:         'Un motor · piezas reutilizables.',
           addStep:     '+ tu propio paso',
         },
-        steps: ['Pre-aprobación', 'Info cliente', 'Info crédito', 'Info contacto', 'Asegurabilidad', 'Habeas data', 'Documentos', 'Biometría', 'Firma electrónica', 'Listas · KYC', 'Capacidad de pago', 'Referencias', 'Comité', 'Desembolso', 'Decisión'],
+        steps: ['Preaprobación', 'Info cliente', 'Info crédito', 'Info contacto', 'Asegurabilidad', 'Habeas data', 'Documentos', 'Biometría', 'Firma electrónica', 'Listas · KYC', 'Capacidad de pago', 'Referencias', 'Comité', 'Desembolso', 'Decisión'],
         chaptersHeading: 'cómo funciona · 4 piezas',
         pillars: [
           { name: 'Captura declarativa',        line: 'Cada formulario nace de un config. No de código.' },
@@ -188,12 +188,12 @@ export const es: Translations = {
           'solidaridad-microcredito': { name: 'Solidaridad Microcrédito', tagline: 'Microcrédito · Productivo' },
         },
         stepLabels: {
-          'pre-approver':       'Pre-aprobación',
+          'pre-approver':       'Preaprobación',
           'info-client':        'Info cliente',
           'info-credit':        'Info crédito',
           'info-contact':       'Info contacto',
           'insurability':       'Asegurabilidad',
-          'data-authorization': 'Autorización habeas',
+          'data-authorization': 'Autorización',
           'documents':          'Documentos',
           'decision':           'Decisión',
         },
@@ -231,7 +231,7 @@ export const es: Translations = {
       context: {
         sectionTitle: 'El sistema que no podía parar.',
         p1:       'El núcleo bancario corría en hardware IBM AS/400 con terminales 5250, una tecnología de los años 80 que aún procesaba transacciones diariamente. Los operadores navegaban menús de pantalla verde con atajos de teclado memorizados durante décadas. El sistema funcionaba. Ese era el problema.',
-        p2:       'Reemplazarlo no era viable. En cambio, Presto de Fresche Solutions actuó como capa de traducción — inyectando un motor de renderizado web entre los programas 5250 y el browser. La lógica COBOL quedó intacta. La superficie se reconstruyó desde cero.',
+        p2:       'Reemplazarlo no era viable. En cambio, Presto de Fresche Solutions actuó como capa de traducción — inyectando un motor de renderizado web entre los programas 5250 y el navegador. La lógica COBOL quedó intacta. La superficie se reconstruyó por completo sobre esa capa.',
         p3:       'A lo largo del proyecto, el rol se extendió más allá de la implementación. Para procesos de documentos e integraciones nuevas en particular, me convertí en el referente técnico — la persona que los demás miembros del equipo consultaban antes de iniciar algo nuevo en ese dominio. Eso implicó asistir a reuniones entre áreas para alinear requisitos y, en ocasiones, unirse directamente a sesiones con el cliente para validar objetivos y restricciones.',
         company:  'Taylor & Johnson International',
         role:     'Ingeniero Multimedia',
@@ -242,8 +242,8 @@ export const es: Translations = {
       caseLabels:  ['Interfaz', 'Documentos', 'Firma', 'Automatización'],
       sceneLabels: { M1: 'Formulario', M2: 'Tabla', M3: 'Detalle' },
       case01: {
-        p1:      'Traduje las pantallas de terminal 5250 heredadas en interfaces web responsivas via Presto — cada flujo de trabajo reconstruido en HTML, JavaScript y CSS mientras la lógica de negocio COBOL subyacente quedó intacta. Los operadores pasaron de memorizar atajos de teclado en menús de pantalla verde a navegar interfaces diseñadas específicamente con jerarquía, feedback y consistencia visual.',
-        outcome: '~40 operadores migrados de sesiones diarias en pantalla verde a interfaces web diseñadas específicamente — cero tiempo de inactividad por reentrenamiento durante el corte.',
+        p1:      'Traduje las pantallas de terminal 5250 heredadas a interfaces web responsivas vía Presto — cada flujo de trabajo reconstruido en HTML, JavaScript y CSS mientras la lógica de negocio COBOL subyacente quedó intacta. Los operadores pasaron de memorizar atajos de teclado en menús de pantalla verde a navegar interfaces diseñadas específicamente con jerarquía, feedback y consistencia visual.',
+        outcome: '~40 operadores migrados de sesiones diarias en pantalla verde a interfaces web a medida — cero tiempo de inactividad por reentrenamiento durante el corte.',
       },
       case02: {
         p1:           'Construí un motor de documentos — definido conjuntamente con el equipo COBOL — que generaba documentos bancarios desde consultas SQL y llamadas a servicios web. Cada parámetro (tipografía, espaciado, colores, logo, ubicación de firma) era configurable desde una tabla en AS/400, de modo que cualquier tipo de documento podía re-estilizarse sin tocar código. Sobre esa base se estaba habilitando una herramienta para llevar esa parametrización del AS/400 —hasta entonces una tarea técnica— a una interfaz amigable, de modo que cualquier usuario pudiera configurar sus propios documentos sin intervención técnica.',
@@ -255,15 +255,15 @@ export const es: Translations = {
         outcome: 'Firma presencial en papel reemplazada end-to-end — firma capturada en tablet TOPAZ, visible en Presto, embebida en el documento, anclada al registro ERP.',
       },
       case04: {
-        p1:      'Construí una automatización basada en Selenium para migrar registros de nuestro sistema a la plataforma de un cliente externo. El proceso fue parametrizado contra un origen de datos de servicios web, permitiendo alimentar cualquier tamaño de batch de forma programática, reemplazando una operación manual y propensa a errores en cada integración de cliente.',
-        outcome: 'Primer batch migrado antes de lo previsto. Ejecuciones subsecuentes desatendidas durante fuera de horario — parametrizadas, repetibles, sin input manual por cliente.',
+        p1:      'Construí una automatización basada en Selenium para migrar registros de nuestro sistema a la plataforma de un cliente externo. El proceso fue parametrizado contra un origen de datos de servicios web, permitiendo alimentar cualquier tamaño de batch de forma programática, reemplazando la operación manual y propensa a errores que cada integración de cliente requería.',
+        outcome: 'Primer batch migrado antes de lo previsto. La automatización quedó parametrizada para correr desatendida en cualquier tamaño de batch — repetible, sin input manual por cliente.',
       },
       outcomes: {
         items: [
           '40 operadores migrados a interfaces web reconstruidas — la pantalla verde 5250 reemplazada sin tocar el núcleo COBOL subyacente.',
           '200 tipos de documentos automatizados mediante un motor PDF paramétrico impulsado por configuración de tablas AS/400, no por plantillas hardcodeadas.',
           'Firma en papel reemplazada end-to-end — tablets LCD TOPAZ integradas directamente en la capa de renderizado Presto.',
-          'Migraciones en batch corriendo desatendidas de noche — cuatro pistas de modernización entregadas en paralelo durante casi tres años, cero lógica de negocio reescrita.',
+          'Automatización de migración por batch construida y probada — cuatro frentes de modernización entregados en paralelo durante casi tres años, cero lógica de negocio reescrita.',
         ],
         closing: 'El núcleo COBOL de 40 años: intacto, sigue procesando, sigue corriendo. Sin reescritura, sin migración, sin lógica de negocio tocada.',
       },
@@ -301,6 +301,12 @@ export const es: Translations = {
         p2:             'Articulate Storyline gestionaba la lógica de ramificación y el seguimiento de estado; HTML5 y CSS extendían la capa visual con animaciones personalizadas más allá de lo que la plataforma sola podía producir. Los principios de diseño lúdico — progresión, bucles de retroalimentación, pequeñas victorias — estaban embebidos en la estructura desde la etapa de storyboard, no aplicados al final.',
         pipelineCaption:'Pipeline de diseño · del guión fuente al módulo interactivo publicado',
         animCaption:    'Cada curso fue rebranded para el cliente. Prueba los sistemas de paleta más comunes →',
+      },
+      controls: {
+        brandColor:     'Color de marca',
+        brandColorAria: 'Paleta de color de marca',
+        characterStyle: 'Estilo de personaje',
+        guides: { geometric: 'Geométrico', riso: 'Riso', line: 'Línea', mascot: 'Mascota' },
       },
       outcomes: {
         items: [
