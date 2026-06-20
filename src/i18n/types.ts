@@ -142,7 +142,7 @@ export interface Uni2T {
     caption: string
   }
   outcomes: {
-    items:   [string, string, string, string]
+    items:   [string, string, string, string, string]
     closing: string
   }
 }
