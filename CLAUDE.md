@@ -69,10 +69,9 @@ src/
 │       ├── SistelCase.tsx          # Sistel case page (e-learning design)
 │       ├── SistelCase.css          # Imports TJCase.css, overrides orange accent
 │       └── sceneSistel.tsx         # 28s animated scene with palette/guide switcher
-└── assets/                         # (unused — hero assets are in public/hero/)
 ```
 
-Public assets: `public/icons.svg` (SVG sprite), `public/fonts/` (Epilogue woff2), `public/hero/silhouette.svg`.
+Public assets: `public/icons.svg` (SVG sprite), `public/fonts/` (Epilogue woff2).
 
 ## Routing
 

@@ -143,8 +143,8 @@ export default function Uni2Case() {
         <div className="uni2-stats reveal reveal-delay-1">
           {([
             { value: '+3,140', label: tc.platform.stats.commits },
-            { value: '+5,300', label: tc.platform.stats.files   },
-            { value: '+470K',  label: tc.platform.stats.lines   },
+            { value: '4+',     label: tc.platform.stats.years   },
+            { value: '30+',    label: tc.platform.stats.roles   },
           ] as const).map(s => (
             <div key={s.label} className="uni2-stats-item">
               <div className="uni2-stat-value">{s.value}</div>

@@ -34,7 +34,7 @@ export const es: Translations = {
       uni2: {
         desc:      'Cuatro años contribuyendo a una plataforma bancaria de 30 roles (React + Redux) — actualmente como Sr. Frontend Lead e Ingeniero Fundador de Uni2 SaaS: arquitectura FSD, motor declarativo de formularios sobre Zod + RHF, stepper desacoplado con modos dual edición/consulta.',
         caseLabel: 'Uni2 SaaS — Orquestador de crédito',
-        caseMeta:  'FSD · Zod + RHF · +470K líneas',
+        caseMeta:  'FSD · Zod + RHF · plataforma de 30 roles',
       },
       tj: {
         desc:      'Modernicé un núcleo bancario COBOL desde pantallas verdes 5250 hacia la web vía Fresche Presto. Generación paramétrica de documentos, firma digital con TOPAZ y automatización de procesos con Python + Selenium.',
@@ -111,7 +111,7 @@ export const es: Translations = {
         sectionTitle: 'Más de cuatro años de entrega continua en una plataforma bancaria en producción — actualmente como Frontend Lead.',
         intro:    'Hoy mi rol es Frontend Lead — el referente técnico para el trabajo frontend del equipo en el dominio de crédito, mientras sigo contribuyendo directamente a la plataforma principal. Los diseños de proceso y las decisiones de implementación clave pasan por mi revisión antes de salir a producción. Más allá de la supervisión técnica, organicé y facilité la incorporación práctica del equipo a las herramientas de IA, convirtiendo una iniciativa corporativa en una inducción estructurada sobre cómo integrar herramientas como Claude Code en el flujo de desarrollo diario.',
         p2:       'La plataforma corre sobre React con Redux y Redux-Saga para gestión de estado, Material-UI para componentes, y SCSS con Bootstrap para estilos. Cada uno de los más de 30 roles operativos tiene su propia configuración de menú, conjunto de permisos y flujo de navegación — gestionados en archivos de configuración individuales por rol. Los cambios en componentes compartidos requieren rastrear todos los consumidores descendentes. Contribuir a un sistema de esta escala durante cuatro años significa aprender a leer el dominio antes de tocar el código.',
-        stats:    { commits: 'Commits firmados', files: 'Archivos tocados', lines: 'Líneas agregadas' },
+        stats:    { commits: 'Commits firmados', years: 'años en un core vivo', roles: 'roles atendidos' },
         platformNavAriaLabel: 'Highlights de plataforma',
         platformLabels: ['Biométrico', 'Sistema Modal', 'Librerías'],
         stackLabel: 'Stack · plataforma core',

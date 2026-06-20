@@ -34,7 +34,7 @@ export const en: Translations = {
       uni2: {
         desc:      "Four years contributing to a 30-role banking platform (React + Redux) — currently as Sr. Frontend Lead and Founding Engineer on Uni2 SaaS: FSD architecture, declarative form engine over Zod + RHF, decoupled stepper with dual edit/consult modes.",
         caseLabel: 'Uni2 SaaS — Credit orchestrator',
-        caseMeta:  'FSD · Zod + RHF · +470K lines',
+        caseMeta:  'FSD · Zod + RHF · 30-role platform',
       },
       tj: {
         desc:      'Modernized a COBOL banking core from legacy 5250 green-screen to web via Fresche Presto. Parametric document generation, digital signature with TOPAZ, and process automation with Python + Selenium.',
@@ -111,7 +111,7 @@ export const en: Translations = {
         sectionTitle: 'Four-plus years of continuous delivery on a live banking platform — currently as Frontend Lead.',
         intro:    "Today my role is Frontend Lead — the technical anchor for the team's frontend work in the credit domain, while continuing to contribute directly to the main platform. Key process designs and implementation decisions are reviewed through me before they ship. Beyond technical oversight, I organized and facilitated the team's hands-on onboarding to AI tooling, translating a company-wide initiative into a structured induction on integrating tools like Claude Code into the day-to-day development workflow.",
         p2:       'The platform runs on React with Redux and Redux-Saga for state management, Material-UI for components, and SCSS with Bootstrap for styling. Each of the 30+ operational roles has its own menu configuration, permission set, and navigation flow — managed through individual role config files. Changes to shared components require tracing all downstream consumers. Contributing to a system at this scale for four years means learning to read the domain before touching the code.',
-        stats:    { commits: 'Commits signed', files: 'Files touched', lines: 'Lines added' },
+        stats:    { commits: 'Commits signed', years: 'yrs on a live core', roles: 'roles served' },
         platformNavAriaLabel: 'Platform highlights',
         platformLabels: ['Biometric', 'Modal System', 'Libraries'],
         stackLabel: 'Stack · core platform',

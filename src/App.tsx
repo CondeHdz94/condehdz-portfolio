@@ -197,7 +197,6 @@ export default function App() {
           className="pill-trigger"
           onClick={() => setPillOpen(o => !o)}
           aria-expanded={pillOpen}
-          aria-haspopup="true"
           aria-controls="pill-menu"
           aria-label={t.nav.ariaLabel}
         >

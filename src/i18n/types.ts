@@ -86,7 +86,7 @@ export interface Uni2T {
     sectionTitle: string
     intro:   string
     p2:      string
-    stats: { commits: string; files: string; lines: string }
+    stats: { commits: string; years: string; roles: string }
     platformNavAriaLabel: string
     platformLabels: [string, string, string]
     stackLabel: string
