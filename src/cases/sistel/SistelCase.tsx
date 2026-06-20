@@ -174,7 +174,7 @@ export default function SistelCase() {
           <Stage
             width={1920}
             height={1080}
-            duration={28}
+            duration={32}
             background="#F8F3E6"
             persistKey="sistel-anim"
             initialTime={0}

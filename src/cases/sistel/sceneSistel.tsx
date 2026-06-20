@@ -82,8 +82,8 @@ const CAPTION_TIMES = [
   { t: 8.5,  end: 11.0 },
   { t: 11.5, end: 16.0 },
   { t: 16.5, end: 20.5 },
-  { t: 20.5, end: 25.0 },
-  { t: 25.0, end: 28.0 },
+  { t: 20.5, end: 29.0 },
+  { t: 29.0, end: 32.0 },
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -822,13 +822,13 @@ function BeatPublishedReveal() {
 
 function BeatFeatureMontage() {
   const SLOTS = [
-    { t0: 0.0, t1: 1.1, kind: 'quiz'   as const },
-    { t0: 1.0, t1: 2.1, kind: 'drag'   as const },
-    { t0: 2.0, t1: 3.1, kind: 'branch' as const },
-    { t0: 3.0, t1: 4.6, kind: 'cert'   as const },
+    { t0: 0.0, t1: 2.1, kind: 'quiz'   as const },
+    { t0: 2.0, t1: 4.1, kind: 'drag'   as const },
+    { t0: 4.0, t1: 6.1, kind: 'branch' as const },
+    { t0: 6.0, t1: 8.6, kind: 'cert'   as const },
   ]
   return (
-    <Sprite start={20.4} end={25.0}>
+    <Sprite start={20.4} end={29.0}>
       {({ localTime }) => (
         <>
           {SLOTS.map((s, i) => {
@@ -851,7 +851,7 @@ function BeatFeatureMontage() {
 function BeatFinal() {
   const c = useCopy().final
   return (
-    <Sprite start={24.7} end={28}>
+    <Sprite start={28.7} end={32}>
       {({ localTime }) => {
         const e  = Easing.easeOutCubic(clamp(localTime / 0.6, 0, 1))
         const kb = 1 + 0.04 * Easing.easeOutCubic(clamp(localTime / 3.0, 0, 1))
