@@ -282,7 +282,12 @@ export default function App() {
                 className={`hero-link${'primary' in link ? ' hero-link--primary' : ''}`}
                 {...('external' in link ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
-                {'primary' in link ? t.hero.emailCta : link.label}
+                {'primary' in link ? (
+                  <>
+                    {t.hero.emailCta}
+                    <span className="hero-link-arrow" aria-hidden="true">→</span>
+                  </>
+                ) : link.label}
               </a>
             ))}
           </div>

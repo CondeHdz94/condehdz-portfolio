@@ -19,7 +19,7 @@ export const es: Translations = {
     title:    'Design Engineer',
     bio:       'El camino habitual al Design Engineering empieza en el código y suma diseño después. El mío fue al revés, desde la ingeniería multimedia. Construyo lo que el resto evita —form engines, tablas, design systems— donde ',
     bioStrong: 'diseño e ingeniería son la misma decisión.',
-    emailCta: 'Escríbeme →',
+    emailCta: 'Escríbeme',
     scroll:   'Desplaza',
   },
   about: {

@@ -469,6 +469,9 @@
 }
 
 .hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
   padding: 13px 24px 11px;
   border: 1px solid var(--border);
   border-radius: 100px;
@@ -483,6 +486,15 @@
 .hero-link:hover {
   border-color: var(--text-strong);
   color: var(--text-strong);
+}
+
+/* The → glyph (fallback font) sits low in its box; lift it up so it reads
+   centered against "Email me". */
+.hero-link-arrow {
+  display: inline-block;
+  font-size: 1.2em;
+  /* translateY in the arrow's own em keeps the optical nudge stable as it scales */
+  transform: translateY(-0.14em);
 }
 
 .hero-link--primary {
