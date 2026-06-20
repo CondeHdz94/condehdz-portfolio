@@ -1,9 +1,12 @@
 import React from 'react'
 import { Sprite, useTime, clamp, Easing } from '../../components/animation'
+import type { Translations } from '../../i18n/types'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export type GuideStyle = 'geometric' | 'riso' | 'line' | 'mascot'
+
+type SceneCopy = Translations['cases']['sistel']['scene']
 
 interface AnimTheme {
   primary: string
@@ -16,6 +19,15 @@ interface AnimTheme {
 const DEFAULTS: AnimTheme = { primary: '#E63946', accent: '#1D3557', guide: 'geometric' }
 const ThemeCtx = React.createContext<AnimTheme>(DEFAULTS)
 const useTheme = () => React.useContext(ThemeCtx)
+
+// ── Copy context (i18n strings for the scene) ─────────────────────────────────
+
+const CopyCtx = React.createContext<SceneCopy | null>(null)
+function useCopy(): SceneCopy {
+  const c = React.useContext(CopyCtx)
+  if (!c) throw new Error('SceneSistel must be rendered inside its CopyCtx provider')
+  return c
+}
 
 // ── Static brand values (non-themeable) ───────────────────────────────────────
 
@@ -64,14 +76,14 @@ const THUMBS = [
   { angle: 340, dist: 720, rot:  22, delay: 0.16 },
 ]
 
-const CAPTIONS = [
-  { t: 0.6,  end: 4.0,  kicker: '01 · Llega',       text: 'Un guión PowerPoint.' },
-  { t: 4.5,  end: 7.5,  kicker: '02 · Realidad',    text: 'Plano. Denso. Sin alma.' },
-  { t: 8.5,  end: 11.0, kicker: '03 · Transforma',  text: 'Articulate Storyline 360.' },
-  { t: 11.5, end: 16.0, kicker: '04 · Construir',   text: 'Capas, disparadores, ritmo.' },
-  { t: 16.5, end: 20.5, kicker: '05 · Publicar',    text: 'Hola, Acme Corp.' },
-  { t: 20.5, end: 25.0, kicker: '06 · Interactivo', text: 'Quiz · Drag · Escenarios · Certificado.' },
-  { t: 25.0, end: 28.0, kicker: 'Sistel',           text: 'De guión a experiencia.' },
+const CAPTION_TIMES = [
+  { t: 0.6,  end: 4.0  },
+  { t: 4.5,  end: 7.5  },
+  { t: 8.5,  end: 11.0 },
+  { t: 11.5, end: 16.0 },
+  { t: 16.5, end: 20.5 },
+  { t: 20.5, end: 25.0 },
+  { t: 25.0, end: 28.0 },
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -98,22 +110,15 @@ function AcmeLogo({ size = 28, color: colorProp }: { size?: number; color?: stri
 }
 
 interface PptSlideProps {
-  width?: number; height?: number; title?: string; bullets?: string[]
+  width?: number; height?: number
   slideNum?: number; totalSlides?: number; shadow?: boolean; shake?: number
 }
 
 function PptSlide({
   width = 880, height = 560,
-  title = 'MÓDULO 1 — BIENVENIDA A ACME CORP',
-  bullets = [
-    'Acme Corp fue fundada en 1985 con el objetivo de ser líder en logística.',
-    'Contamos con más de 5.000 colaboradores en 12 países de Latinoamérica.',
-    'Nuestros valores son: integridad, innovación, servicio al cliente y trabajo en equipo.',
-    'El proceso de inducción tiene una duración estimada de 2 horas y 30 minutos.',
-    'Al finalizar deberá completar la evaluación con un mínimo del 80% para aprobar.',
-  ],
   slideNum = 3, totalSlides = 47, shadow = true, shake = 0,
 }: PptSlideProps) {
+  const { title, bullets, confidential } = useCopy().ppt
   const sx = shake > 0
     ? `translate(${(Math.random() - 0.5) * shake * 6}px,${(Math.random() - 0.5) * shake * 6}px) rotate(${(Math.random() - 0.5) * shake * 1.5}deg)`
     : undefined
@@ -137,7 +142,7 @@ function PptSlide({
         ))}
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 38px', borderTop: '1px solid #E0DACA', fontSize: 13, color: '#8C857A' }}>
-        <span style={{ letterSpacing: '0.05em' }}>ACME CORP — CONFIDENCIAL</span>
+        <span style={{ letterSpacing: '0.05em' }}>{confidential}</span>
         <span style={{ fontVariantNumeric: 'tabular-nums' }}>{slideNum} / {totalSlides}</span>
       </div>
     </div>
@@ -285,6 +290,7 @@ function StorylineCanvasContent({ build, titleEntry, charEntry, textEntry, btnEn
   build: number; titleEntry: number; charEntry: number; textEntry: number; btnEntry: number
 }) {
   const { primary, accent } = useTheme()
+  const c = useCopy().welcome
   return (
     <div style={{ width: 920, height: 520, background: CREAM, borderRadius: 4, position: 'relative', overflow: 'hidden', boxShadow: '0 12px 32px rgba(0,0,0,0.18)', border: '1px solid rgba(0,0,0,0.06)' }}>
       <div style={{ height: 50, background: 'rgba(255,255,255,0.7)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', opacity: titleEntry }}>
@@ -294,17 +300,17 @@ function StorylineCanvasContent({ build, titleEntry, charEntry, textEntry, btnEn
       <div style={{ padding: '32px 40px', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 20, height: 'calc(100% - 50px)', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div style={{ opacity: titleEntry, transform: `translateY(${(1 - titleEntry) * 14}px)` }}>
-            <div style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, fontWeight: 600, marginBottom: 6, fontFamily: F_UI }}>Bienvenida</div>
+            <div style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, fontWeight: 600, marginBottom: 6, fontFamily: F_UI }}>{c.eyebrow}</div>
             <div style={{ fontFamily: F_DISPLAY, fontSize: 46, lineHeight: 1.02, color: accent, fontWeight: 500, letterSpacing: '-0.02em' }}>
-              Bienvenido a <span style={{ fontStyle: 'italic', color: primary }}>Acme Corp</span>.
+              {c.titlePre} <span style={{ fontStyle: 'italic', color: primary }}>Acme Corp</span>.
             </div>
           </div>
           <div style={{ opacity: textEntry, transform: `translateY(${(1 - textEntry) * 12}px)`, fontSize: 15, color: '#34495E', lineHeight: 1.4, maxWidth: 380, fontFamily: F_UI }}>
-            Una experiencia interactiva diseñada para acompañarte en tu primer día.
+            {c.body}
           </div>
           <div style={{ opacity: btnEntry, transform: `translateY(${(1 - btnEntry) * 10}px) scale(${0.94 + 0.06 * btnEntry})`, display: 'flex', gap: 10, marginTop: 6 }}>
-            <div style={{ padding: '10px 18px', background: primary, color: '#fff', borderRadius: 999, fontSize: 12, fontWeight: 600, fontFamily: F_UI, boxShadow: `0 6px 14px ${hexAlpha(primary, 0.25)}` }}>Comenzar →</div>
-            <div style={{ padding: '10px 16px', background: 'transparent', color: accent, border: '1.2px solid rgba(29,53,87,0.25)', borderRadius: 999, fontSize: 12, fontWeight: 500, fontFamily: F_UI }}>Ver contenido</div>
+            <div style={{ padding: '10px 18px', background: primary, color: '#fff', borderRadius: 999, fontSize: 12, fontWeight: 600, fontFamily: F_UI, boxShadow: `0 6px 14px ${hexAlpha(primary, 0.25)}` }}>{c.cta}</div>
+            <div style={{ padding: '10px 16px', background: 'transparent', color: accent, border: '1.2px solid rgba(29,53,87,0.25)', borderRadius: 999, fontSize: 12, fontWeight: 500, fontFamily: F_UI }}>{c.secondary}</div>
           </div>
         </div>
         <div style={{ opacity: charEntry, transform: `translateY(${(1 - charEntry) * 20}px) scale(${0.9 + 0.1 * charEntry})`, display: 'flex', justifyContent: 'center' }}>
@@ -324,18 +330,19 @@ function StorylineCanvasContent({ build, titleEntry, charEntry, textEntry, btnEn
 
 // ── Published slide ───────────────────────────────────────────────────────────
 
-function PublishedSlide({ subtitle = 'Una experiencia interactiva para tu inducción.', progress = 0.18, width = 1280, height = 720, titleEntry = 1, characterEntry = 1, ctaEntry = 1 }: {
-  subtitle?: string; progress?: number; width?: number; height?: number
+function PublishedSlide({ progress = 0.18, width = 1280, height = 720, titleEntry = 1, characterEntry = 1, ctaEntry = 1 }: {
+  progress?: number; width?: number; height?: number
   titleEntry?: number; characterEntry?: number; ctaEntry?: number
 }) {
   const { primary, accent } = useTheme()
+  const c = useCopy().published
   const HEADER_H = 78
   return (
     <div style={{ width, height, background: CREAM, borderRadius: 14, overflow: 'hidden', position: 'relative', boxShadow: '0 30px 80px rgba(0,0,0,0.25),0 8px 20px rgba(0,0,0,0.10)', fontFamily: F_UI, color: '#1A1714' }}>
       <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: HEADER_H, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 36px', borderBottom: '1px solid rgba(0,0,0,0.06)', background: 'rgba(255,255,255,0.55)' }}>
         <AcmeLogo size={22} />
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ fontSize: 12, color: accent, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>Módulo 1 / 7</div>
+          <div style={{ fontSize: 12, color: accent, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>{c.module}</div>
           <div style={{ width: 160, height: 6, background: 'rgba(29,53,87,0.12)', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ width: `${progress * 100}%`, height: '100%', background: primary }} />
           </div>
@@ -344,22 +351,22 @@ function PublishedSlide({ subtitle = 'Una experiencia interactiva para tu inducc
       <div style={{ position: 'absolute', left: 56, top: HEADER_H + 90, width: 640, opacity: titleEntry, transform: `translateY(${(1 - titleEntry) * 24}px)` }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', color: accent, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 18 }}>
           <span style={{ width: 28, height: 2, background: primary, display: 'inline-block' }} />
-          <span>Bienvenida</span>
+          <span>{c.eyebrow}</span>
         </div>
         <h1 style={{ margin: 0, fontFamily: F_DISPLAY, fontSize: 66, lineHeight: 1.05, color: accent, fontWeight: 500, letterSpacing: '-0.025em' }}>
-          Bienvenido a <span style={{ fontStyle: 'italic', color: primary }}>Acme Corp</span>.
+          {c.titlePre} <span style={{ fontStyle: 'italic', color: primary }}>Acme Corp</span>.
         </h1>
-        <p style={{ margin: '22px 0 0 0', fontSize: 21, lineHeight: 1.4, color: '#34495E', maxWidth: 520 }}>{subtitle}</p>
+        <p style={{ margin: '22px 0 0 0', fontSize: 21, lineHeight: 1.4, color: '#34495E', maxWidth: 520 }}>{c.subtitle}</p>
         <div style={{ display: 'flex', gap: 12, marginTop: 28, opacity: ctaEntry, transform: `translateY(${(1 - ctaEntry) * 16}px)` }}>
-          <div style={{ padding: '14px 26px', background: primary, color: '#fff', borderRadius: 999, fontSize: 16, fontWeight: 600, boxShadow: `0 8px 20px ${hexAlpha(primary, 0.28)}` }}>Comenzar inducción →</div>
-          <div style={{ padding: '14px 22px', background: 'transparent', color: accent, border: '1.5px solid rgba(29,53,87,0.25)', borderRadius: 999, fontSize: 16, fontWeight: 500 }}>Ver contenido</div>
+          <div style={{ padding: '14px 26px', background: primary, color: '#fff', borderRadius: 999, fontSize: 16, fontWeight: 600, boxShadow: `0 8px 20px ${hexAlpha(primary, 0.28)}` }}>{c.cta}</div>
+          <div style={{ padding: '14px 22px', background: 'transparent', color: accent, border: '1.5px solid rgba(29,53,87,0.25)', borderRadius: 999, fontSize: 16, fontWeight: 500 }}>{c.secondary}</div>
         </div>
       </div>
       <div style={{ position: 'absolute', right: 80, top: HEADER_H + 40, width: 360, height: height - HEADER_H - 80, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: characterEntry, transform: `scale(${0.92 + 0.08 * characterEntry})`, transformOrigin: 'center' }}>
         <div style={{ position: 'relative' }}>
           <CharacterAvatar size={340} />
           <div style={{ position: 'absolute', top: 10, left: -30, background: '#fff', padding: '12px 18px', borderRadius: 16, fontSize: 14, color: accent, fontWeight: 500, maxWidth: 210, boxShadow: '0 8px 22px rgba(0,0,0,0.10)', lineHeight: 1.35 }}>
-            ¡Hola! Soy Sofía, tu guía.
+            {c.bubble}
             <div style={{ position: 'absolute', bottom: -6, left: 28, width: 12, height: 12, background: '#fff', transform: 'rotate(45deg)' }} />
           </div>
         </div>
@@ -569,17 +576,18 @@ function FeatureHeader({ label, tag }: { label: string; tag: string }) {
 
 function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
   const { primary, accent } = useTheme()
+  const c = useCopy()
   const BASE: React.CSSProperties = { width: 1100, height: 640, background: '#fff', borderRadius: 18, boxShadow: '0 30px 80px rgba(0,0,0,0.22)', fontFamily: F_UI, overflow: 'hidden', position: 'relative' }
 
   if (kind === 'quiz') return (
     <div style={BASE}>
-      <FeatureHeader label="Quiz · Pregunta 3 / 8" tag="Interactivo" />
+      <FeatureHeader label={c.quiz.header} tag={c.quiz.tag} />
       <div style={{ padding: '48px 60px', display: 'flex', flexDirection: 'column', gap: 28 }}>
         <h2 style={{ margin: 0, fontFamily: F_DISPLAY, fontSize: 40, color: accent, fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-          ¿Cuál es <span style={{ fontStyle: 'italic', color: primary }}>uno</span> de los valores de Acme Corp?
+          {c.quiz.qPre}<span style={{ fontStyle: 'italic', color: primary }}>{c.quiz.qEm}</span>{c.quiz.qPost}
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-          {[{ t: 'Innovación', correct: true },{ t: 'Velocidad' },{ t: 'Exclusividad' },{ t: 'Sigilo' }].map((o, i) => (
+          {c.quiz.options.map((t, i) => ({ t, correct: i === 0 })).map((o, i) => (
             <div key={i} style={{ padding: '18px 22px', borderRadius: 12, border: o.correct ? `2px solid ${primary}` : '1.5px solid rgba(0,0,0,0.10)', background: o.correct ? hexAlpha(primary, 0.06) : '#FAF8F3', fontSize: 18, color: accent, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span>{o.t}</span>
               {o.correct && <span style={{ width: 26, height: 26, background: primary, color: '#fff', borderRadius: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700 }}>✓</span>}
@@ -587,7 +595,7 @@ function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
           ))}
         </div>
         <div style={{ padding: '14px 18px', background: 'rgba(0,184,148,0.10)', borderLeft: `3px solid ${primary}`, borderRadius: 6, fontSize: 14, color: accent }}>
-          <strong>¡Correcto!</strong> La innovación es uno de los cuatro pilares de Acme.
+          <strong>{c.quiz.feedbackStrong}</strong> {c.quiz.feedback}
         </div>
       </div>
     </div>
@@ -595,19 +603,19 @@ function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
 
   if (kind === 'drag') return (
     <div style={BASE}>
-      <FeatureHeader label="Arrastra y suelta" tag="Drag & Drop" />
+      <FeatureHeader label={c.drag.header} tag={c.drag.tag} />
       <div style={{ position: 'absolute', left: 60, right: 60, top: 110 }}>
-        <div style={{ fontFamily: F_DISPLAY, fontSize: 30, color: accent, fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.1, marginBottom: 28 }}>Arrastra cada valor a su definición.</div>
+        <div style={{ fontFamily: F_DISPLAY, fontSize: 30, color: accent, fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.1, marginBottom: 28 }}>{c.drag.prompt}</div>
         <div style={{ display: 'flex', gap: 36 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 240 }}>
-            {['Integridad','Innovación','Servicio'].map((p, i) => (
+            {c.drag.values.map((p, i) => (
               <div key={i} style={{ padding: '14px 20px', background: '#fff', border: `1.5px solid ${i === 1 ? primary : 'rgba(0,0,0,0.10)'}`, borderRadius: 10, fontSize: 16, fontWeight: 600, color: accent, boxShadow: i === 1 ? `0 12px 24px ${hexAlpha(primary, 0.25)}` : '0 2px 6px rgba(0,0,0,0.06)', transform: i === 1 ? 'rotate(-3deg) translateX(20px) scale(1.04)' : 'none', position: 'relative', zIndex: i === 1 ? 2 : 1 }}>
                 <span style={{ color: primary, marginRight: 8 }}>⋮⋮</span>{p}
               </div>
             ))}
           </div>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {[{ label: 'Buscar siempre nuevas formas de hacer mejor las cosas.', filled: true },{ label: 'Actuar con coherencia entre lo que decimos y hacemos.' },{ label: 'Anticipar las necesidades del cliente.' }].map((tg, i) => (
+            {c.drag.definitions.map((label, i) => ({ label, filled: i === 0 })).map((tg, i) => (
               <div key={i} style={{ padding: '14px 20px', border: `2px dashed ${tg.filled ? primary : 'rgba(0,0,0,0.20)'}`, borderRadius: 10, fontSize: 14, color: '#34495E', minHeight: 50, display: 'flex', alignItems: 'center', background: tg.filled ? hexAlpha(primary, 0.06) : 'transparent' }}>{tg.label}</div>
             ))}
           </div>
@@ -618,24 +626,24 @@ function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
 
   if (kind === 'branch') return (
     <div style={BASE}>
-      <FeatureHeader label="Escenario · Decisión 2" tag="Ramificación" />
+      <FeatureHeader label={c.branch.header} tag={c.branch.tag} />
       <div style={{ position: 'absolute', left: 56, top: 100, width: 380 }}>
         <CharacterAvatar size={200} />
         <div style={{ marginTop: 16, background: CREAM, padding: '14px 18px', borderRadius: 14, fontSize: 14, color: accent, lineHeight: 1.4, border: '1px solid rgba(0,0,0,0.05)' }}>
-          <strong>Un cliente llama enojado.</strong> Es tu primer día. ¿Qué haces?
+          <strong>{c.branch.promptStrong}</strong> {c.branch.prompt}
         </div>
       </div>
       <div style={{ position: 'absolute', right: 56, top: 116, width: 560, display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {[{ t: 'Lo escucho con calma y tomo nota.', good: true, letter: 'A' },{ t: 'Le digo que llame mañana.', letter: 'B' },{ t: 'Transfiero la llamada de inmediato.', letter: 'C' }].map((opt, i) => (
+        {c.branch.options.map((t, i) => ({ t, good: i === 0, letter: ['A', 'B', 'C'][i] })).map((opt, i) => (
           <div key={i} style={{ padding: '16px 22px', background: '#fff', border: opt.good ? `2px solid ${primary}` : '1.5px solid rgba(0,0,0,0.12)', borderRadius: 12, fontSize: 16, color: accent, display: 'flex', alignItems: 'center', gap: 16, boxShadow: opt.good ? `0 8px 18px ${hexAlpha(primary, 0.18)}` : 'none' }}>
             <div style={{ width: 26, height: 26, borderRadius: 13, background: opt.good ? primary : 'transparent', border: opt.good ? 'none' : '1.5px solid rgba(0,0,0,0.30)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: opt.good ? '#fff' : accent, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{opt.letter}</div>
             <span>{opt.t}</span>
           </div>
         ))}
         <div style={{ marginTop: 16, display: 'flex', gap: 16, alignItems: 'center', fontSize: 11, color: '#7A7263', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          <span>Camino →</span>
+          <span>{c.branch.pathLabel}</span>
           <svg width="120" height="20"><path d="M0 10 Q 30 10, 50 4 T 120 10" stroke={primary} strokeWidth="2" fill="none"/><circle cx="120" cy="10" r="3.5" fill={primary}/></svg>
-          <span style={{ color: primary, fontWeight: 600 }}>Resolución exitosa</span>
+          <span style={{ color: primary, fontWeight: 600 }}>{c.branch.pathResult}</span>
         </div>
       </div>
     </div>
@@ -643,7 +651,7 @@ function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
 
   if (kind === 'cert') return (
     <div style={{ ...BASE, background: `radial-gradient(120% 80% at 20% 0%,${CREAM} 0%,#FFFFFF 60%,#FFFFFF 100%)` }}>
-      <FeatureHeader label="Certificación" tag="100% completado" />
+      <FeatureHeader label={c.cert.header} tag={c.cert.tag} />
       <Rosette x={-60} y={-60} size={220} color={primary} opacity={0.06} />
       <Rosette x={920} y={420} size={260} color={accent}  opacity={0.05} />
       <div style={{ position: 'absolute', left: -20, top: 220, width: 360, height: 10, background: `linear-gradient(90deg,${primary} 0%,transparent 100%)`, opacity: 0.18, transform: 'rotate(-8deg)', transformOrigin: 'left center' }} />
@@ -656,10 +664,10 @@ function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
       </div>
       <div style={{ position: 'absolute', left: 480, top: 130, right: 56 }}>
         <div style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: primary, fontWeight: 700, marginBottom: 12, fontFamily: F_UI }}>Acme Corp · {new Date().getFullYear()}</div>
-        <h2 style={{ margin: 0, fontFamily: F_DISPLAY, fontSize: 56, lineHeight: 1.0, color: accent, fontWeight: 400, letterSpacing: '-0.03em' }}>Inducción <span style={{ fontStyle: 'italic', color: primary }}>completada</span>.</h2>
-        <div style={{ fontSize: 16, color: '#475569', lineHeight: 1.5, marginTop: 18, maxWidth: 460, fontFamily: F_UI }}>Felicitaciones. Has finalizado el módulo con una nota sobresaliente.</div>
+        <h2 style={{ margin: 0, fontFamily: F_DISPLAY, fontSize: 56, lineHeight: 1.0, color: accent, fontWeight: 400, letterSpacing: '-0.03em' }}>{c.cert.titlePre} <span style={{ fontStyle: 'italic', color: primary }}>{c.cert.titleEm}</span>.</h2>
+        <div style={{ fontSize: 16, color: '#475569', lineHeight: 1.5, marginTop: 18, maxWidth: 460, fontFamily: F_UI }}>{c.cert.body}</div>
         <div style={{ display: 'flex', gap: 0, marginTop: 24, borderTop: `1px solid rgba(29,53,87,0.12)`, borderBottom: `1px solid rgba(29,53,87,0.12)`, padding: '14px 0' }}>
-          {[{ k: 'Participante', v: 'María Restrepo' },{ k: 'Duración', v: '2h 38m' },{ k: 'Puntuación', v: '96 / 100' }].map((s, i) => (
+          {c.cert.statLabels.map((k, i) => ({ k, v: ['María Restrepo', '2h 38m', '96 / 100'][i] })).map((s, i) => (
             <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 20, borderLeft: i === 0 ? 'none' : '1px solid rgba(29,53,87,0.10)' }}>
               <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8E867A', fontWeight: 600, marginBottom: 4, fontFamily: F_UI }}>{s.k}</div>
               <div style={{ fontFamily: F_DISPLAY, fontSize: 20, color: accent, fontWeight: 500, letterSpacing: '-0.01em' }}>{s.v}</div>
@@ -669,16 +677,16 @@ function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
         <div style={{ display: 'flex', gap: 12, marginTop: 22 }}>
           <div style={{ padding: '13px 22px', background: primary, color: '#fff', borderRadius: 999, fontSize: 14, fontWeight: 600, fontFamily: F_UI, boxShadow: `0 10px 22px ${hexAlpha(primary, 0.28)}`, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 1v9M4 6l4 4 4-4M2 14h12" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            Descargar certificado
+            {c.cert.download}
           </div>
           <div style={{ padding: '13px 22px', background: 'transparent', color: accent, border: `1.5px solid ${hexAlpha(accent, 0.22)}`, borderRadius: 999, fontSize: 14, fontWeight: 500, fontFamily: F_UI, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <svg width="14" height="14" viewBox="0 0 16 16"><circle cx="4" cy="8" r="2" stroke={accent} strokeWidth="1.5" fill="none"/><circle cx="12" cy="3" r="2" stroke={accent} strokeWidth="1.5" fill="none"/><circle cx="12" cy="13" r="2" stroke={accent} strokeWidth="1.5" fill="none"/><path d="M5.5 7L10.5 4M5.5 9L10.5 12" stroke={accent} strokeWidth="1.5"/></svg>
-            Compartir
+            {c.cert.share}
           </div>
         </div>
         <div style={{ marginTop: 26, display: 'flex', alignItems: 'center', gap: 14, fontSize: 11, color: '#8E867A', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600, fontFamily: F_UI }}>
           <div style={{ width: 24, height: 1.5, background: hexAlpha(accent, 0.25) }} />
-          <span>Emitido por Acme Corp · Sistel e-Learning</span>
+          <span>{c.cert.issued}</span>
         </div>
       </div>
     </div>
@@ -841,6 +849,7 @@ function BeatFeatureMontage() {
 }
 
 function BeatFinal() {
+  const c = useCopy().final
   return (
     <Sprite start={24.7} end={28}>
       {({ localTime }) => {
@@ -852,10 +861,10 @@ function BeatFinal() {
             <div style={{ position: 'relative', textAlign: 'center', opacity: e, transform: `scale(${0.97 + 0.03 * e * kb})`, maxWidth: 1500 }}>
               <div style={{ fontSize: 13, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 24, fontWeight: 600, fontFamily: F_UI }}>Articulate Storyline 360 · Sistel</div>
               <div style={{ fontFamily: F_DISPLAY, fontSize: 130, color: '#FFFFFF', fontWeight: 400, letterSpacing: '-0.04em', lineHeight: 1.0, whiteSpace: 'nowrap' }}>
-                De guión,{' '}<span style={{ fontStyle: 'italic', color: '#FF6033' }}>a experiencia</span>.
+                {c.titlePre}{' '}<span style={{ fontStyle: 'italic', color: '#FF6033' }}>{c.titleEm}</span>.
               </div>
               <div style={{ marginTop: 44, fontSize: 22, color: 'rgba(255,255,255,0.7)', fontFamily: F_UI, letterSpacing: '0.01em' }}>
-                Inducciones y proyectos e-learning estilizados, interactivos, hechos a tu medida.
+                {c.tagline}
               </div>
             </div>
           </div>
@@ -867,13 +876,16 @@ function BeatFinal() {
 
 function ProgressCaption() {
   const time = useTime()
-  const c = CAPTIONS.find(c => time >= c.t && time <= c.end)
-  if (!c) return null
-  const localIn = clamp((time - c.t) / 0.4, 0, 1)
-  const op = Math.min(localIn, clamp((c.end - time) / 0.4, 0, 1))
+  const copy = useCopy()
+  const idx = CAPTION_TIMES.findIndex(ct => time >= ct.t && time <= ct.end)
+  if (idx === -1) return null
+  const ct = CAPTION_TIMES[idx]
+  const cap = copy.captions[idx]
+  const localIn = clamp((time - ct.t) / 0.4, 0, 1)
+  const op = Math.min(localIn, clamp((ct.end - time) / 0.4, 0, 1))
   return (
     <div style={{ position: 'absolute', left: 80, bottom: 70, opacity: op, transform: `translateY(${(1 - localIn) * 8}px)` }}>
-      <Caption kicker={c.kicker}>{c.text}</Caption>
+      <Caption kicker={cap.kicker}>{cap.text}</Caption>
     </div>
   )
 }
@@ -886,20 +898,23 @@ export interface SceneSistelProps {
   primary?: string
   accent?:  string
   guide?:   GuideStyle
+  copy:     SceneCopy
 }
 
-export function SceneSistel({ primary = DEFAULTS.primary, accent = DEFAULTS.accent, guide = DEFAULTS.guide }: SceneSistelProps) {
+export function SceneSistel({ primary = DEFAULTS.primary, accent = DEFAULTS.accent, guide = DEFAULTS.guide, copy }: SceneSistelProps) {
   const theme = React.useMemo<AnimTheme>(() => ({ primary, accent, guide }), [primary, accent, guide])
   return (
     <ThemeCtx.Provider value={theme}>
-      <BgSequential />
-      <BeatPptArrives />
-      <BeatTransform />
-      <BeatStorylineAssemble />
-      <BeatPublishedReveal />
-      <BeatFeatureMontage />
-      <BeatFinal />
-      <ProgressCaption />
+      <CopyCtx.Provider value={copy}>
+        <BgSequential />
+        <BeatPptArrives />
+        <BeatTransform />
+        <BeatStorylineAssemble />
+        <BeatPublishedReveal />
+        <BeatFeatureMontage />
+        <BeatFinal />
+        <ProgressCaption />
+      </CopyCtx.Provider>
     </ThemeCtx.Provider>
   )
 }

@@ -214,6 +214,17 @@ export interface SistelT {
     characterStyle: string
     guides: { geometric: string; riso: string; line: string; mascot: string }
   }
+  scene: {
+    captions:  { kicker: string; text: string }[]
+    ppt:       { title: string; bullets: [string, string, string, string, string]; confidential: string }
+    welcome:   { eyebrow: string; titlePre: string; body: string; cta: string; secondary: string }
+    published: { module: string; eyebrow: string; titlePre: string; subtitle: string; cta: string; secondary: string; bubble: string }
+    quiz:      { header: string; tag: string; qPre: string; qEm: string; qPost: string; options: [string, string, string, string]; feedbackStrong: string; feedback: string }
+    drag:      { header: string; tag: string; prompt: string; values: [string, string, string]; definitions: [string, string, string] }
+    branch:    { header: string; tag: string; promptStrong: string; prompt: string; options: [string, string, string]; pathLabel: string; pathResult: string }
+    cert:      { header: string; tag: string; titlePre: string; titleEm: string; body: string; statLabels: [string, string, string]; download: string; share: string; issued: string }
+    final:     { titlePre: string; titleEm: string; tagline: string }
+  }
   outcomes: {
     items:   [string, string, string]
     closing: string

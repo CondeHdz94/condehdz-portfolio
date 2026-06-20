@@ -183,6 +183,7 @@ export default function SistelCase() {
               primary={PALETTES[paletteIdx].primary}
               accent={PALETTES[paletteIdx].accent}
               guide={guide}
+              copy={tc.scene}
             />
           </Stage>
         </div>
