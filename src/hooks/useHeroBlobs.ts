@@ -103,6 +103,10 @@ export function useHeroBlobs(
 
     const blobCtx  = blobCanvas.getContext('2d')!
     const glassCtx = glassCanvas.getContext('2d')!
+    // NB-03: buffer de media resolución solo para el blur (lo costoso). El clip del CC
+    // se hace a full res sobre el canvas visible, así el borde de las letras queda nítido.
+    const blurCanvas = document.createElement('canvas')
+    const blurCtx = blurCanvas.getContext('2d')!
 
     const blobs: Blob[] = BLUEPRINTS.map(b => ({
       ...b,
@@ -116,12 +120,26 @@ export function useHeroBlobs(
     let mouseNX = 0.5, mouseNY = 0.35
     let rafId: number
     let isVisible = true
+    let frame = 0
+
+    // NB-03: el glass se rasteriza a media resolución — el blur posterior esconde la
+    // pérdida y corta el coste del pass a ~25%.
+    const GLASS_SCALE = 0.5
+    // ctx.filter no existe en Safari < 18; detectamos para no hacer un drawImage inútil.
+    const supportsFilter = (() => {
+      const c = document.createElement('canvas').getContext('2d')
+      if (!c) return false
+      c.filter = 'blur(1px)'
+      return c.filter === 'blur(1px)'
+    })()
 
     function resize() {
       const w = blobCanvas.offsetWidth
       const h = blobCanvas.offsetHeight
-      blobCanvas.width  = w; blobCanvas.height  = h
-      glassCanvas.width = w; glassCanvas.height = h
+      blobCanvas.width   = w; blobCanvas.height   = h
+      glassCanvas.width  = w; glassCanvas.height  = h
+      blurCanvas.width   = Math.round(w * GLASS_SCALE)
+      blurCanvas.height  = Math.round(h * GLASS_SCALE)
     }
 
     // Medido cada frame para seguir el parallax del span
@@ -135,15 +153,16 @@ export function useHeroBlobs(
       }
     }
 
-    function clipToCC(ctx: ExtCtx) {
+    function clipToCC(ctx: ExtCtx, scale: number) {
       const { cx, cy, fs } = getCCBounds()
-      ctx.font         = `900 ${fs}px system-ui, sans-serif`
+      const sx = cx * scale, sy = cy * scale, sfs = fs * scale
+      ctx.font         = `900 ${sfs}px system-ui, sans-serif`
       ctx.textAlign    = 'center'
       ctx.textBaseline = 'middle'
-      ctx.letterSpacing = `${(fs * -0.08).toFixed(0)}px`
+      ctx.letterSpacing = `${(sfs * -0.08).toFixed(0)}px`
       ctx.globalCompositeOperation = 'destination-in'
       ctx.fillStyle = 'white'
-      ctx.fillText('CC', cx, cy)
+      ctx.fillText('CC', sx, sy)
       ctx.globalCompositeOperation = 'source-over'
       ctx.letterSpacing = '0px'
     }
@@ -236,19 +255,24 @@ export function useHeroBlobs(
 
     function drawGlass() {
       const W = glassCanvas.width, H = glassCanvas.height
+      const bw = blurCanvas.width, bh = blurCanvas.height
       const dark = document.documentElement.classList.contains('dark')
+
+      // 1. Blobs + blur en el buffer de media resolución (el pass caro)
+      blurCtx.clearRect(0, 0, bw, bh)
+      drawBlobsGlass(blurCtx, bw, bh, dark ? 0.40 : 0.34, 1.18)
+      if (supportsFilter) {
+        ;(blurCtx as ExtCtx).filter = `blur(${16 * GLASS_SCALE}px) saturate(1.1)`
+        blurCtx.drawImage(blurCanvas, 0, 0)
+        ;(blurCtx as ExtCtx).filter = 'none'
+      }
+
+      // 2. Subir el buffer a full res sobre el cristal visible
       glassCtx.clearRect(0, 0, W, H)
+      glassCtx.drawImage(blurCanvas, 0, 0, bw, bh, 0, 0, W, H)
 
-      // Blobs — tinta del cristal
-      drawBlobsGlass(glassCtx as CanvasRenderingContext2D, W, H, dark ? 0.40 : 0.34, 1.18)
-
-      // Blur antes del clip
-      ;(glassCtx as ExtCtx).filter = 'blur(16px) saturate(1.1)'
-      glassCtx.drawImage(glassCanvas, 0, 0)
-      ;(glassCtx as ExtCtx).filter = 'none'
-
-      // Clip a la forma CC
-      clipToCC(glassCtx as ExtCtx)
+      // 3. Clip nítido a la forma CC — a full res, el borde no se pixela
+      clipToCC(glassCtx as ExtCtx, 1)
 
       // Tratamiento de cristal — source-atop: solo afecta donde hay blob, nunca crea silueta propia
       // El blob por dentro del CC se ve diferente al de afuera:
@@ -288,8 +312,12 @@ export function useHeroBlobs(
 
       const maxBlobAlpha = Math.max(...blobs.map(b => b.alpha))
       glassCanvas.style.opacity = Math.min(1, maxBlobAlpha * 2.2).toFixed(3)
-      if (maxBlobAlpha > 0.001) drawGlass()
-      else glassCtx.clearRect(0, 0, glassCanvas.width, glassCanvas.height)
+      if (maxBlobAlpha > 0.001) {
+        if (frame % 2 === 0) drawGlass()   // NB-03: cristal a 30fps, blobs a 60
+      } else {
+        glassCtx.clearRect(0, 0, glassCanvas.width, glassCanvas.height)
+      }
+      frame++
     }
 
     const heroSection = blobCanvas.closest('[data-section="hero"]')
