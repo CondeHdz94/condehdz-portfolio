@@ -2,10 +2,11 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Stage, Sprite } from '../../components/animation'
 import { SceneM1, SceneM2, SceneM3 } from './scenes'
-import { SceneAS400toPDF, SchemaAS400 } from './scenesCase02'
 
-const SceneTopaz    = lazy(() => import('./scenesCase03'))
-const SceneSelenium = lazy(() => import('./scenesCase04'))
+const SceneAS400toPDF = lazy(() => import('./scenesCase02').then(m => ({ default: m.SceneAS400toPDF })))
+const SchemaAS400     = lazy(() => import('./scenesCase02').then(m => ({ default: m.SchemaAS400 })))
+const SceneTopaz      = lazy(() => import('./scenesCase03'))
+const SceneSelenium   = lazy(() => import('./scenesCase04'))
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { useLenis } from '../../hooks/useLenis'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
@@ -188,7 +189,9 @@ export default function TJCase() {
           <CaseLabel num="02">{tc.caseLabels[1]}</CaseLabel>
           <p className="case-body reveal reveal-delay-1">{tc.case02.p1}</p>
           <div className="case-schema-wrap reveal reveal-delay-2">
-            <SchemaAS400 />
+            <Suspense fallback={null}>
+              <SchemaAS400 />
+            </Suspense>
           </div>
           <p className="case-caption reveal reveal-delay-2">{tc.case02.schemaCaption}</p>
           <div className="case-stage-wrap reveal reveal-delay-3">
@@ -202,7 +205,9 @@ export default function TJCase() {
               forcePlay={activeCaseIdx === 1}
             >
               <Sprite start={0} end={19.5} keepMounted={activeCaseIdx === 1}>
-                <SceneAS400toPDF />
+                <Suspense fallback={null}>
+                  <SceneAS400toPDF />
+                </Suspense>
               </Sprite>
             </Stage>
           </div>

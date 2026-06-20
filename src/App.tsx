@@ -56,9 +56,20 @@ function useSectionColor() {
       setActiveSection(active)
     }
 
-    window.addEventListener('scroll', update, { passive: true })
+    let pending = false
+    let rafId = 0
+    const onScroll = () => {
+      if (pending) return
+      pending = true
+      rafId = requestAnimationFrame(() => {
+        update()
+        pending = false
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
     update()
-    return () => window.removeEventListener('scroll', update)
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(rafId) }
   }, [])
 
   return activeSection

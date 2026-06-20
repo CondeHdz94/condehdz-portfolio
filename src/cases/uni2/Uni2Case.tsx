@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Stage } from '../../components/animation'
 import { useDarkMode } from '../../hooks/useDarkMode'
@@ -7,7 +7,7 @@ import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { useBloomFollow } from '../../hooks/useBloomFollow'
 import { useLang } from '../../i18n/LangContext'
 import { CaseSection, CaseLabel, SkillTags, CaseFooterNav } from '../CaseLayout'
-import { Uni2SaaSReel } from './saasReel/Uni2SaaSReel'
+const Uni2SaaSReel = lazy(() => import('./saasReel/Uni2SaaSReel').then(m => ({ default: m.Uni2SaaSReel })))
 import './Uni2Case.css'
 
 const FSD_LAYER_NAMES = ['pages', 'processes', 'steps', 'features', 'domains', 'components'] as const
@@ -311,7 +311,9 @@ export default function Uni2Case() {
             persistKey="uni2-saas-overview"
             initialTime={0}
           >
-            <Uni2SaaSReel />
+            <Suspense fallback={null}>
+              <Uni2SaaSReel />
+            </Suspense>
           </Stage>
         </div>
         <p className="case-caption reveal reveal-delay-3">{tc.uni2saas.animCaption}</p>
