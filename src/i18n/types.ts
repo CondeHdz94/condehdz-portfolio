@@ -222,8 +222,18 @@ export interface SistelT {
     quiz:      { header: string; tag: string; qPre: string; qEm: string; qPost: string; options: [string, string, string, string]; feedbackStrong: string; feedback: string }
     drag:      { header: string; tag: string; prompt: string; values: [string, string, string]; definitions: [string, string, string] }
     branch:    { header: string; tag: string; promptStrong: string; prompt: string; options: [string, string, string]; pathLabel: string; pathResult: string }
-    cert:      { header: string; tag: string; titlePre: string; titleEm: string; body: string; statLabels: [string, string, string]; download: string; share: string; issued: string }
+    cert:      { header: string; tag: string; titlePre: string; titleEm: string; body: string; statLabels: [string, string, string]; download: string; share: string; issued: string; approved: string }
     final:     { titlePre: string; titleEm: string; tagline: string }
+    editor: {
+      file:           string
+      ribbon:         { tab: string; items: string[] }[]
+      scenesLabel:    string
+      scenes:         string[]
+      triggersLabel:  string
+      triggers:       [string, string, string][]
+      timelineLabel:  string
+      timelineTracks: string[]
+    }
   }
   outcomes: {
     items:   [string, string, string]

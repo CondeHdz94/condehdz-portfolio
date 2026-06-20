@@ -197,6 +197,7 @@ function Caption({ children, kicker }: { children: React.ReactNode; kicker?: str
 function StorylineEditor({ width = 1520, height = 900, build = 1, children }: {
   width?: number; height?: number; build?: number; children?: React.ReactNode
 }) {
+  const ed = useCopy().editor
   const ribbonOp   = Math.min(1, build * 1.4)
   const leftOp     = Math.max(0, Math.min(1, (build - 0.20) * 1.4))
   const rightOp    = Math.max(0, Math.min(1, (build - 0.35) * 1.4))
@@ -212,16 +213,12 @@ function StorylineEditor({ width = 1520, height = 900, build = 1, children }: {
           ))}
         </div>
         <div style={{ flex: 1, textAlign: 'center', fontFamily: F_UI, fontSize: 11.5, color: '#9AA0A6' }}>
-          Articulate Storyline 360 · Induccion_AcmeCorp.story
+          Articulate Storyline 360 · {ed.file}
         </div>
       </div>
       {/* Ribbon */}
       <div style={{ height: 78, background: '#FAF8F3', borderBottom: '1px solid #D6D0BF', display: 'flex', padding: '8px 16px', gap: 22, opacity: ribbonOp }}>
-        {[
-          { tab: 'Inicio',   items: ['Diapositiva','Texto','Botón','Forma','Imagen','Video'] },
-          { tab: 'Insertar', items: ['Personaje','Animación','Disparador','Variable','Layer'] },
-          { tab: 'Diseño',   items: ['Tema','Fondo','Color'] },
-        ].map((group) => (
+        {ed.ribbon.map((group) => (
           <div key={group.tab} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', gap: 8, marginBottom: 6 }}>
               {group.items.map(it => (
@@ -238,8 +235,8 @@ function StorylineEditor({ width = 1520, height = 900, build = 1, children }: {
       {/* Body */}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <div style={{ width: 200, background: '#EEEAE0', borderRight: '1px solid #D6D0BF', padding: '12px 10px', display: 'flex', flexDirection: 'column', gap: 8, opacity: leftOp }}>
-          <div style={{ fontSize: 10, color: '#7A7263', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>Escenas</div>
-          {['Bienvenida','Misión y valores','Quiz · valores','Procesos','Drag & drop','Escenario','Certificado'].map((s, i) => (
+          <div style={{ fontSize: 10, color: '#7A7263', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>{ed.scenesLabel}</div>
+          {ed.scenes.map((s, i) => (
             <div key={i} style={{ padding: '6px 8px', borderRadius: 4, background: i === 0 ? '#2E3FFF' : 'transparent', color: i === 0 ? '#fff' : '#3A342A', fontSize: 11, fontWeight: i === 0 ? 600 : 400, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{i + 1}. {s}</span>
               {i === 0 && <span style={{ fontSize: 9, opacity: 0.8 }}>●</span>}
@@ -250,8 +247,8 @@ function StorylineEditor({ width = 1520, height = 900, build = 1, children }: {
           {children}
         </div>
         <div style={{ width: 240, background: '#EEEAE0', borderLeft: '1px solid #D6D0BF', padding: '12px 12px', display: 'flex', flexDirection: 'column', gap: 10, opacity: rightOp }}>
-          <div style={{ fontSize: 10, color: '#7A7263', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>Disparadores</div>
-          {[['Al hacer clic','Botón_Inicio','Mostrar capa "Intro"'],['Cuando inicia','Diapositiva','Reproducir animación'],['Al soltar','Pieza_Valor','Verificar zona'],['Al responder','Quiz','Mostrar feedback']].map((t, i) => (
+          <div style={{ fontSize: 10, color: '#7A7263', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>{ed.triggersLabel}</div>
+          {ed.triggers.map((t, i) => (
             <div key={i} style={{ background: '#FFFFFF', border: '1px solid #DBD4C2', borderRadius: 4, padding: '8px 10px', fontSize: 10.5, lineHeight: 1.35 }}>
               <div style={{ color: '#2E3FFF', fontWeight: 600, marginBottom: 2 }}>{t[0]}</div>
               <div style={{ color: '#3A342A' }}>{t[1]}</div>
@@ -263,14 +260,14 @@ function StorylineEditor({ width = 1520, height = 900, build = 1, children }: {
       {/* Timeline */}
       <div style={{ height: 88, background: '#FAF8F3', borderTop: '1px solid #D6D0BF', padding: '8px 16px', display: 'flex', flexDirection: 'column', gap: 6, opacity: timelineOp }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#7A7263', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-          <span>Línea de tiempo</span>
+          <span>{ed.timelineLabel}</span>
           <span style={{ fontFamily: F_MONO }}>00:00 / 00:08</span>
         </div>
         {[
-          { label: 'Título',    color: '#2E3FFF', x: 0,    w: 0.55 },
-          { label: 'Personaje', color: '#FF6033', x: 0.15, w: 0.65 },
-          { label: 'Texto',     color: '#6B46E5', x: 0.25, w: 0.50 },
-          { label: 'Botón',     color: '#00B894', x: 0.60, w: 0.30 },
+          { label: ed.timelineTracks[0], color: '#2E3FFF', x: 0,    w: 0.55 },
+          { label: ed.timelineTracks[1], color: '#FF6033', x: 0.15, w: 0.65 },
+          { label: ed.timelineTracks[2], color: '#6B46E5', x: 0.25, w: 0.50 },
+          { label: ed.timelineTracks[3], color: '#00B894', x: 0.60, w: 0.30 },
         ].map(tr => (
           <div key={tr.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 60, fontSize: 9.5, color: '#5C564B', textAlign: 'right' }}>{tr.label}</div>
@@ -528,7 +525,7 @@ function Confetti({ x, y, color, angle = 0, size = 14 }: { x: number; y: number;
   return <div style={{ position: 'absolute', left: x, top: y, width: size, height: size * 0.32, background: color, transform: `rotate(${angle}deg)`, borderRadius: 1, boxShadow: '0 2px 4px rgba(0,0,0,0.08)' }} />
 }
 
-function CertSeal({ primary, accent }: { primary: string; accent: string }) {
+function CertSeal({ primary, accent, approved }: { primary: string; accent: string; approved: string }) {
   const teeth = 28, cx = 160, cy = 160, rOuter = 150, rInner = 138
   const pts: string[] = []
   for (let i = 0; i < teeth * 2; i++) {
@@ -553,7 +550,7 @@ function CertSeal({ primary, accent }: { primary: string; accent: string }) {
         return <path key={i} d={`M ${sx} ${sy-5} L ${sx+1.5} ${sy-1.5} L ${sx+5} ${sy} L ${sx+1.5} ${sy+1.5} L ${sx} ${sy+5} L ${sx-1.5} ${sy+1.5} L ${sx-5} ${sy} L ${sx-1.5} ${sy-1.5} Z`} fill={primary} opacity="0.5" />
       })}
       <text x={cx} y={cy+4}  textAnchor="middle" fontFamily={F_DISPLAY} fontStyle="italic" fontSize="86" fontWeight="500" fill={accent} letterSpacing="-3">100</text>
-      <text x={cx} y={cy+32} textAnchor="middle" fontFamily={F_UI}      fontSize="11" letterSpacing="0.32em" fontWeight="700" fill={primary}>APROBADO</text>
+      <text x={cx} y={cy+32} textAnchor="middle" fontFamily={F_UI}      fontSize="11" letterSpacing="0.32em" fontWeight="700" fill={primary}>{approved}</text>
       <path d={`M ${cx-36} ${cy+142} L ${cx-22} ${cy+188} L ${cx-8} ${cy+168} L ${cx+8} ${cy+168} L ${cx+22} ${cy+188} L ${cx+36} ${cy+142} Z`} fill={primary} opacity="0.9" />
       <path d={`M ${cx-36} ${cy+142} L ${cx-22} ${cy+188} L ${cx-14} ${cy+168} L ${cx-8} ${cy+142} Z`} fill={primary} />
       <path d={`M ${cx+36} ${cy+142} L ${cx+22} ${cy+188} L ${cx+14} ${cy+168} L ${cx+8} ${cy+142} Z`} fill={primary} />
@@ -656,7 +653,7 @@ function FeatureCard({ kind }: { kind: 'quiz' | 'drag' | 'branch' | 'cert' }) {
       <Rosette x={920} y={420} size={260} color={accent}  opacity={0.05} />
       <div style={{ position: 'absolute', left: -20, top: 220, width: 360, height: 10, background: `linear-gradient(90deg,${primary} 0%,transparent 100%)`, opacity: 0.18, transform: 'rotate(-8deg)', transformOrigin: 'left center' }} />
       <div style={{ position: 'absolute', left: 80, top: 140, width: 320, height: 320 }}>
-        <CertSeal primary={primary} accent={accent} />
+        <CertSeal primary={primary} accent={accent} approved={c.cert.approved} />
         <Confetti x={-20} y={-10}  color={primary}   angle={-18} />
         <Confetti x={280} y={20}   color="#F4B400"   angle={24}  />
         <Confetti x={310} y={280}  color="#00B894"   angle={-12} />

@@ -389,11 +389,31 @@ export const es: Translations = {
           download:   'Descargar certificado',
           share:      'Compartir',
           issued:     'Emitido por Acme Corp · Sistel e-Learning',
+          approved:   'APROBADO',
         },
         final: {
           titlePre: 'De guión,',
           titleEm:  'a experiencia',
           tagline:  'Inducciones y proyectos e-learning estilizados, interactivos, hechos a tu medida.',
+        },
+        editor: {
+          file: 'Induccion_AcmeCorp.story',
+          ribbon: [
+            { tab: 'Inicio',   items: ['Diapositiva', 'Texto', 'Botón', 'Forma', 'Imagen', 'Video'] },
+            { tab: 'Insertar', items: ['Personaje', 'Animación', 'Disparador', 'Variable', 'Capa'] },
+            { tab: 'Diseño',   items: ['Tema', 'Fondo', 'Color'] },
+          ],
+          scenesLabel: 'Escenas',
+          scenes: ['Bienvenida', 'Misión y valores', 'Quiz · valores', 'Procesos', 'Drag & drop', 'Escenario', 'Certificado'],
+          triggersLabel: 'Disparadores',
+          triggers: [
+            ['Al hacer clic', 'Botón_Inicio', 'Mostrar capa "Intro"'],
+            ['Cuando inicia', 'Diapositiva',  'Reproducir animación'],
+            ['Al soltar',     'Pieza_Valor',  'Verificar zona'],
+            ['Al responder',  'Quiz',         'Mostrar feedback'],
+          ],
+          timelineLabel: 'Línea de tiempo',
+          timelineTracks: ['Título', 'Personaje', 'Texto', 'Botón'],
         },
       },
       outcomes: {

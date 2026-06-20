@@ -389,11 +389,31 @@ export const en: Translations = {
           download:   'Download certificate',
           share:      'Share',
           issued:     'Issued by Acme Corp · Sistel e-Learning',
+          approved:   'PASSED',
         },
         final: {
           titlePre: 'From script,',
           titleEm:  'to experience',
           tagline:  'Stylized, interactive e-learning onboarding and projects, tailored to you.',
+        },
+        editor: {
+          file: 'Onboarding_AcmeCorp.story',
+          ribbon: [
+            { tab: 'Home',   items: ['Slide', 'Text', 'Button', 'Shape', 'Image', 'Video'] },
+            { tab: 'Insert', items: ['Character', 'Animation', 'Trigger', 'Variable', 'Layer'] },
+            { tab: 'Design', items: ['Theme', 'Background', 'Color'] },
+          ],
+          scenesLabel: 'Scenes',
+          scenes: ['Welcome', 'Mission & values', 'Quiz · values', 'Processes', 'Drag & drop', 'Scenario', 'Certificate'],
+          triggersLabel: 'Triggers',
+          triggers: [
+            ['On click',    'Start_Button', 'Show layer "Intro"'],
+            ['On start',    'Slide',        'Play animation'],
+            ['On drop',     'Value_Piece',  'Check zone'],
+            ['On answer',   'Quiz',         'Show feedback'],
+          ],
+          timelineLabel: 'Timeline',
+          timelineTracks: ['Title', 'Character', 'Text', 'Button'],
         },
       },
       outcomes: {
